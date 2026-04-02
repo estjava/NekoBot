@@ -1,0 +1,276 @@
+Bot
+Administration
+Music
+Util
+
+
+===========================================
+Bot:
+===========================================
+
+/dashboard
+Get links of FlaviBot's dashboard
+
+/experiments
+See enabled experiments
+
+/friend
+Manage friends: add, remove, accept, reject, block.
+
+/help
+Show all of FlaviBot's commands
+
+/ping
+See the bot's ping
+
+/stats
+See the bot's stats
+
+/support
+Get the invitation from the support server
+
+
+===========================================
+Administration:
+===========================================
+
+/clear
+Clear messages from a channel
+
+/language
+Change the bot's language on this server
+
+/mass-role
+Add a role to every member of the server
+
+/prefix
+Change the prefix of the bot
+
+/premium
+Shows information about FlaviBot premium.
+
+/settings
+View and manage bot settings
+
+/suggestion
+Submit suggestions using configured panels
+
+/tcreate
+Create a ticket for an user
+
+/ticket
+Manage ticket members: add or remove users and roles
+
+
+===========================================
+Music
+===========================================
+/bassboost
+Toggles the bassboost audio filter on/off
+
+/filter
+Manage audio filters
+
+/pitch
+Change the pitch of the song
+
+/speed
+Change the speed of the song
+
+/autoplay
+Toggle auto play mode (Play recommended music)
+
+/debug
+Return some debug information. (useful for support)
+
+/fastforward
+Fast forwards the player by your specified amount; The default is 10 seconds
+
+/grab
+Send the current music information to your dm.
+
+/join
+Makes the bot join your voice channel
+
+/jump
+Jump to the specified track in the queue
+
+/leavecleanup
+Remove song(s) added by members who have left the voice channel
+
+/loop
+Toggle loop song
+
+/lyrics
+Get song lyrics from the current playing music.
+
+
+/music-panel
+Get link of the online music panel
+
+/nowplaying
+Show which music is currently playing in the voice channel with a beautiful image.
+
+/pause
+Pause music
+
+/play-file
+Play a song from a file
+
+
+/play
+Play a song in a voice channel from a link or a search query.
+
+/previous
+Play the previous song in the queue.
+
+/queue
+Shows the queue
+
+/removedupes
+Remove duplicate song in the queue
+
+/resume
+Resume the player if it is paused.
+
+/rewind
+Rewind the player by your specified amount; The default is 10 seconds
+
+/seek
+Skips to the specified timestamp in the currently playing track format: H:M:S
+
+/shuffle
+Shuffles the queue
+
+/skip
+Skip current song and start the next one or start a vote to skip
+
+/top-songs
+Show most played songs on [Nama Bot] with a beautiful image.
+
+/tts
+Text to speach in voice channel
+
+/volume
+Change [Nama Bot]'s audio volume
+
+/24-7
+Toggle 24/7 mode for the bot. If enabled, the bot will stay in the voice channel forever.
+
+/announcechannel
+Set the channel where the music is announced
+
+/controller
+Setup controller
+
+/defaultplaylist
+Set the default playlist
+
+/djmode
+Configure DJ Mode for music commands
+
+/moveannouncechannel
+Move the channel where the music is announced
+
+/setvc
+Restrict the bot to only join specific voice channels.
+
+/pl-add-queue
+Add current queue tracks to your playlist
+
+/pl-add-song
+Add songs to your playlist
+
+/pl-create
+Create a [Nama Bot] playlist
+
+/pl-delete
+Delete a [Nama Bot] playlist
+
+/pl-list
+List your [Nama Bot] playlists
+
+/pl-play
+Play your [Nama Bot] playlist
+
+/pl-remove-song
+Remove a song in your [Nama Bot] playlist
+
+/pl-shuffle
+Shuffle your playlist
+
+/pl-spotify
+See your Spotify playlists
+
+/pl-view
+View your [Nama Bot] playlists
+
+/pl-visibility
+Change the visibility of a playlist
+
+/check-vote
+Show if you have voted or not.
+
+/clearqueue
+Clear the queue.
+
+/disconnect
+Delete queue and disconnect the bot from voice channel
+
+/fix
+Change the voice region of the voice channel to fix the connection issue.
+
+/history
+Show the last songs you listened to.
+
+/move
+Move song in the queue
+
+/music-guesser
+Music guesser game
+
+/music-info
+Searches for and displays information about a song.
+
+/music-logs
+See the logs of music actions.
+
+/radios
+Radios system of [Nama Bot]
+
+/remove
+Remove a song from the queue
+
+/spotify
+Spotify integration
+
+/start
+Start an interactive music panel to easily play music by genre
+
+/stop
+Stop the current music and clear the queue.
+
+===========================================
+Util
+===========================================
+
+/badge-count
+Show the number of members with a specific badge.
+
+/leaderboard
+View leveling leaderboard
+
+/profil
+Shows users profil.
+
+/rank
+View your rank
+
+/server-info
+Shows a guild's information
+
+/snake
+Snake game
+
+/user-info
+Show a user's information
