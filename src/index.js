@@ -1,9 +1,7 @@
 // Require the necessary discord.js classes
-// const { DISCORD_TOKEN } = require('../config.json');
 require('dotenv').config();
 const { Client, Events, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('node:fs');
-const path = require('node:path');
 
 // Create a new client instance
 const client = new Client({
@@ -16,19 +14,27 @@ const client = new Client({
   ]
 });
 
-// Bot Login Console Log
-client.once(Events.ClientReady, (readyClient) => {
-	console.log(`Ready! Login as ${readyClient.user.tag}`);
-});
-
 // Collections untuk menyimpan commands
 client.commands = new Collection();
 client.config = require('../config.json');
 
+// Prefix database
+client.prefixes = new Map();
+const prefixData = JSON.parse(fs.readFileSync('./database/prefixes.json', 'utf8'));
+Object.keys(prefixData).forEach(key => {
+    client.prefixes.set(key, prefixData[key]);
+});
+
+// Function to save prefixes
+client.savePrefix = (guildId, prefix) => {
+    client.prefixes.set(guildId, prefix);
+    const data = Object.fromEntries(client.prefixes);
+    fs.writeFileSync('./database/prefixes.json', JSON.stringify(data, null, 2));
+};
+
 // Load handlers
-
-
+require('./handlers/commandHandler')(client);
+require('./handlers/eventHandler')(client);
 
 // Bot Login Token
-// client.login(DISCORD_TOKEN);
 client.login(process.env.DISCORD_TOKEN);

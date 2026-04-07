@@ -1,4 +1,5 @@
-const { getVoiceConnection } = require('@discordjs/voice');
+// const { getVoiceConnection } = require('@discordjs/voice');
+const { getVoiceConnection} = require('discord.js');
 
 module.exports = {
   name: 'leave',
