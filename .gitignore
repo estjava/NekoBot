@@ -1,4 +1,4 @@
-# Ignore node_modules and environment files
+# Ignore node modules and environment files
 node_modules
 .env
 config.json
