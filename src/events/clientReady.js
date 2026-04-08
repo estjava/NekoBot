@@ -7,7 +7,7 @@ module.exports = {
         
         // Set status
         client.user.setPresence({
-            activities: [{ name: '!help untuk bantuan', type: 0 }],
+            activities: [{ name: `Serving ${client.guilds.cache.size} servers`, type: 0 }],
             status: 'online'
         });
     }

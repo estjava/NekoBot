@@ -9,14 +9,15 @@ const client = new Client({
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
-    GatewayIntentBits.GuildVoiceStates,
     GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildVoiceStates
   ]
 });
 
 // Collections untuk menyimpan commands
 client.commands = new Collection();
 client.config = require('../config.json');
+client.queue = new Map();
 
 // Prefix database
 client.prefixes = new Map();

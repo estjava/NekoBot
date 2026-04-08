@@ -1,11 +1,16 @@
 # NekoBot
-![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)
+![Node.js Version](https://img.shields.io/badge/node-v24.14.1-brightgreen)
 ![Discord.js](https://img.shields.io/badge/discord.js-v14-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-active-success)
 Discord bot dengan fitur music player dan modular commands.
 
 ## 🔧 Dependencies
+- discord.js - Discord API wrapper
+- @discordjs/voice - Voice connection
+- @discordjs/opus - Audio encoding
+- ytdl-core - YouTube downloader
+- play-dl - Multi-platform music player
 
 ## 📦 Installation
 git clone https://github.com/estjava/NekoBot.git
@@ -24,20 +29,3 @@ npm start
 # atau
 node src/index.js
 
-## 📁 Project Structure
-NekoBot/
-├── src/
-│   ├── commands/
-│   │   ├── music/        # Music commands
-│   │   ├── utility/      # Utility commands
-│   │   └── moderation/   # Moderation commands
-│   ├── events/           # Event handlers
-│   ├── handlers/         # Command & event loaders
-│   └── index.js          # Entry point
-├── database/             # Database files
-├── .env                  # Environment variables
-└── package.json
-
-## 📝 License
-
-## 🤝 Contributing
