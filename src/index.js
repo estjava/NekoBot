@@ -1,6 +1,6 @@
 // Require the necessary discord.js classes
 require('dotenv').config();
-const { Client, Events, Collection, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('node:fs');
 
 // Create a new client instance
