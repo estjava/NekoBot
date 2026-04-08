@@ -15,6 +15,7 @@
     "discord.js": "^14.26.0",
     "dotenv": "^17.4.1",
     "libsodium-wrappers": "^0.8.2",
+    "opusscript": "^0.0.8",
     "play-dl": "^1.9.7"
   }
 }
