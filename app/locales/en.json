@@ -1,0 +1,119 @@
+{
+    "ping": {
+        "pinging": "🏓 Pinging...",
+        "pong": "🏓 Pong!\n📡 Latency: {latency}ms\n💓 API Latency: {apiLatency}ms"
+    },
+    "prefix": {
+        "title": "⚙️ Bot Prefix",
+        "current": "Current prefix: **`{prefix}`**",
+        "howToChange": "How to Change",
+        "howToChangeValue": "Use `{prefix}prefix <new_prefix>`\nExample: `{prefix}prefix ?`",
+        "server": "Server: {guild}",
+        "tooLong": "❌ Prefix cannot be more than 5 characters!",
+        "hasSpace": "❌ Prefix cannot contain spaces!",
+        "changed": "✅ Prefix Changed!",
+        "oldPrefix": "Old prefix: **`{old}`**\nNew prefix: **`{new}`**",
+        "example": "Example Usage",
+        "changedBy": "Changed by {user}"
+    },
+    "userinfo": {
+        "title": "📋 User Info: {tag}",
+        "userId": "User ID",
+        "accountCreated": "Account Created",
+        "joinedServer": "Joined Server",
+        "notInServer": "Not in server",
+        "roles": "Roles",
+        "noRoles": "None",
+        "requestedBy": "Requested by {user}"
+    },
+    "kick": {
+        "noMention": "❌ Mention the user you want to kick!",
+        "notKickable": "❌ I cannot kick this user!",
+        "success": "✅ {tag} has been kicked!\nReason: {reason}"
+    },
+    "ban": {
+        "noMention": "❌ Mention the user you want to ban!",
+        "notBannable": "❌ I cannot ban this user! (Role too high or server owner)",
+        "selfBan": "❌ You cannot ban yourself!",
+        "botBan": "❌ You cannot ban me! 😢",
+        "title": "🔨 Member Banned!",
+        "user": "👤 User",
+        "moderator": "🛡️ Moderator",
+        "deleteMsg": "📅 Delete Messages",
+        "days": "{days} days",
+        "reason": "📝 Reason",
+        "footer": "Banned by {user}",
+        "failed": "❌ Failed to ban user! Check bot permissions."
+    },
+    "unban": {
+        "noId": "❌ Enter the ID of the user to unban!\nExample: `!unban 123456789012345678`",
+        "invalidId": "❌ Invalid user ID! Discord IDs consist of 17-19 digits.",
+        "notBanned": "❌ This user is not in the ban list!",
+        "title": "✅ User Unbanned!",
+        "user": "👤 User",
+        "moderator": "🛡️ Moderator",
+        "reason": "📝 Reason",
+        "footer": "Unbanned by {user}",
+        "failed": "❌ Failed to unban user! Check bot permissions."
+    },
+    "mute": {
+        "noMention": "❌ Mention the user you want to mute!\nExample: `!mute @user 10m spam`",
+        "selfMute": "❌ You cannot mute yourself!",
+        "botMute": "❌ You cannot mute me! 😢",
+        "notModeratable": "❌ I cannot mute this user! (Role too high)",
+        "noDuration": "❌ Specify mute duration!\nExample: `!mute @user 10m`, `!mute @user 1h`, `!mute @user 2d`",
+        "invalidDuration": "❌ Invalid duration format!\nUse: `10s`, `5m`, `2h`, `1d`",
+        "maxDuration": "❌ Maximum mute duration is **28 days**!",
+        "title": "🔇 Member Muted!",
+        "user": "👤 User",
+        "moderator": "🛡️ Moderator",
+        "duration": "⏱️ Duration",
+        "ends": "🔓 Ends",
+        "reason": "📝 Reason",
+        "footer": "Muted by {user}",
+        "failed": "❌ Failed to mute user! Check bot permissions."
+    },
+    "unmute": {
+        "noMention": "❌ Mention the user you want to unmute!",
+        "notMuted": "❌ This user is not muted!",
+        "title": "🔊 Member Unmuted!",
+        "user": "👤 User",
+        "moderator": "🛡️ Moderator",
+        "reason": "📝 Reason",
+        "footer": "Unmuted by {user}",
+        "failed": "❌ Failed to unmute user! Check bot permissions."
+    },
+    "warn": {
+        "noMention": "❌ Mention the user you want to warn!\nExample: `!warn @user spam`",
+        "selfWarn": "❌ You cannot warn yourself!",
+        "botWarn": "❌ You cannot warn a bot!",
+        "title": "⚠️ Member Warned!",
+        "user": "👤 User",
+        "moderator": "🛡️ Moderator",
+        "totalWarns": "📊 Total Warns",
+        "warnsCount": "{count} warns",
+        "reason": "📝 Reason",
+        "footer": "Warn #{count}",
+        "dmTitle": "⚠️ You received a warning in {guild}",
+        "failed": "❌ Failed to warn user!"
+    },
+    "warnings": {
+        "noWarns": "✅ **{tag}** has no warnings in this server!",
+        "title": "⚠️ Warning List: {tag}",
+        "entry": "**#{num}** — {reason}\n> By: {mod} • {time}",
+        "footer": "Total: {count} warns"
+    },
+    "language": {
+        "noPermission": "❌ You don't have permission to change the bot language!",
+        "current": "🌐 Current language: **{lang}**",
+        "invalid": "❌ Language not supported!\nAvailable: `en` (English), `id` (Indonesian)",
+        "changed": "✅ Language changed to **{lang}**!",
+        "title": "🌐 Bot Language",
+        "footer": "Changed by {user}"
+    },
+    "common": {
+        "noPermission": "❌ You don't have permission to use this command!",
+        "ownerOnly": "❌ This command is only for the bot owner!",
+        "error": "❌ An error occurred while running this command!"
+    }
+}

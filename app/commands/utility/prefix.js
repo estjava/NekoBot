@@ -1,59 +1,56 @@
 const { PermissionFlagsBits, EmbedBuilder } = require('discord.js');
+const { t } = require('../../utils/locale');
 
 module.exports = {
     name: 'prefix',
     description: 'Lihat atau ubah prefix bot',
     category: 'Utility',
-    permissions: [PermissionFlagsBits.ManageGuild],
+    permissions: PermissionFlagsBits.ManageGuild,
     usage: '!prefix [new_prefix]',
     aliases: ['setprefix', 'changeprefix'],
     execute(message, args, client) {
-        const currentPrefix = client.prefixes.get(message.guild.id) || client.config.prefix;
-        
-        // Jika tidak ada argument, tampilkan prefix saat ini
+        const guildId = message.guild.id;
+        const currentPrefix = client.prefixes.get(guildId) || client.config.prefix;
+
         if (args.length === 0) {
             const embed = new EmbedBuilder()
                 .setColor('#0099ff')
-                .setTitle('⚙️ Prefix Bot')
-                .setDescription(`Prefix saat ini: **\`${currentPrefix}\`**`)
+                .setTitle(t(guildId, 'prefix.title'))
+                .setDescription(t(guildId, 'prefix.current', { prefix: currentPrefix }))
                 .addFields({
-                    name: '💡 Cara Mengubah',
-                    value: `Gunakan \`${currentPrefix}prefix <prefix_baru>\`\nContoh: \`${currentPrefix}prefix ?\``
+                    name: t(guildId, 'prefix.howToChange'),
+                    value: t(guildId, 'prefix.howToChangeValue', { prefix: currentPrefix })
                 })
-                .setFooter({ text: `Server: ${message.guild.name}` })
+                .setFooter({ text: t(guildId, 'prefix.server', { guild: message.guild.name }) })
                 .setTimestamp();
-            
+
             return message.reply({ embeds: [embed] });
         }
-        
-        // Ubah prefix
+
         const newPrefix = args[0];
-        
-        // Validasi prefix
+
         if (newPrefix.length > 5) {
-            return message.reply('❌ Prefix tidak boleh lebih dari 5 karakter!');
+            return message.reply(t(guildId, 'prefix.tooLong'));
         }
-        
+
         if (newPrefix.includes(' ')) {
-            return message.reply('❌ Prefix tidak boleh mengandung spasi!');
+            return message.reply(t(guildId, 'prefix.hasSpace'));
         }
-        
-        // Save prefix baru
-        client.savePrefix(message.guild.id, newPrefix);
-        
+
+        client.savePrefix(guildId, newPrefix);
+
         const embed = new EmbedBuilder()
             .setColor('#00ff00')
-            .setTitle('✅ Prefix Berhasil Diubah!')
-            .setDescription(`Prefix lama: **\`${currentPrefix}\`**\nPrefix baru: **\`${newPrefix}\`**`)
+            .setTitle(t(guildId, 'prefix.changed'))
+            .setDescription(t(guildId, 'prefix.oldPrefix', { old: currentPrefix, new: newPrefix }))
             .addFields({
-                name: '📝 Contoh Penggunaan',
+                name: t(guildId, 'prefix.example'),
                 value: `\`${newPrefix}help\`\n\`${newPrefix}ping\`\n\`${newPrefix}userinfo\``
             })
-            .setFooter({ text: `Diubah oleh ${message.author.tag}` })
+            .setFooter({ text: t(guildId, 'prefix.changedBy', { user: message.author.tag }) })
             .setTimestamp();
-        
+
         message.reply({ embeds: [embed] });
-        
-        console.log(`🔧 Prefix changed in ${message.guild.name} (${message.guild.id}): ${currentPrefix} → ${newPrefix}`);
+        console.log(`🔧 Prefix changed in ${message.guild.name} (${guildId}): ${currentPrefix} → ${newPrefix}`);
     }
 };

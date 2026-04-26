@@ -1,0 +1,119 @@
+{
+    "ping": {
+        "pinging": "🏓 Pinging...",
+        "pong": "🏓 Pong!\n📡 Latensi: {latency}ms\n💓 Latensi API: {apiLatency}ms"
+    },
+    "prefix": {
+        "title": "⚙️ Prefix Bot",
+        "current": "Prefix saat ini: **`{prefix}`**",
+        "howToChange": "Cara Mengubah",
+        "howToChangeValue": "Gunakan `{prefix}prefix <prefix_baru>`\nContoh: `{prefix}prefix ?`",
+        "server": "Server: {guild}",
+        "tooLong": "❌ Prefix tidak boleh lebih dari 5 karakter!",
+        "hasSpace": "❌ Prefix tidak boleh mengandung spasi!",
+        "changed": "✅ Prefix Berhasil Diubah!",
+        "oldPrefix": "Prefix lama: **`{old}`**\nPrefix baru: **`{new}`**",
+        "example": "Contoh Penggunaan",
+        "changedBy": "Diubah oleh {user}"
+    },
+    "userinfo": {
+        "title": "📋 Info User: {tag}",
+        "userId": "User ID",
+        "accountCreated": "Akun Dibuat",
+        "joinedServer": "Bergabung Server",
+        "notInServer": "Tidak ada di server",
+        "roles": "Role",
+        "noRoles": "Tidak ada",
+        "requestedBy": "Diminta oleh {user}"
+    },
+    "kick": {
+        "noMention": "❌ Mention user yang ingin di-kick!",
+        "notKickable": "❌ Saya tidak bisa kick user ini!",
+        "success": "✅ {tag} telah di-kick!\nAlasan: {reason}"
+    },
+    "ban": {
+        "noMention": "❌ Mention user yang ingin di-ban!",
+        "notBannable": "❌ Saya tidak bisa ban user ini! (Role terlalu tinggi atau owner server)",
+        "selfBan": "❌ Kamu tidak bisa ban diri sendiri!",
+        "botBan": "❌ Kamu tidak bisa ban saya! 😢",
+        "title": "🔨 Member Dibanned!",
+        "user": "👤 User",
+        "moderator": "🛡️ Moderator",
+        "deleteMsg": "📅 Hapus Pesan",
+        "days": "{days} hari",
+        "reason": "📝 Alasan",
+        "footer": "Ban oleh {user}",
+        "failed": "❌ Gagal ban user! Cek permission bot."
+    },
+    "unban": {
+        "noId": "❌ Masukkan ID user yang ingin di-unban!\nContoh: `!unban 123456789012345678`",
+        "invalidId": "❌ ID user tidak valid! ID Discord terdiri dari 17-19 digit angka.",
+        "notBanned": "❌ User ini tidak ada dalam daftar ban!",
+        "title": "✅ User Di-unban!",
+        "user": "👤 User",
+        "moderator": "🛡️ Moderator",
+        "reason": "📝 Alasan",
+        "footer": "Unban oleh {user}",
+        "failed": "❌ Gagal unban user! Cek permission bot."
+    },
+    "mute": {
+        "noMention": "❌ Mention user yang ingin di-mute!\nContoh: `!mute @user 10m spam`",
+        "selfMute": "❌ Kamu tidak bisa mute diri sendiri!",
+        "botMute": "❌ Kamu tidak bisa mute saya! 😢",
+        "notModeratable": "❌ Saya tidak bisa mute user ini! (Role terlalu tinggi)",
+        "noDuration": "❌ Tentukan durasi mute!\nContoh: `!mute @user 10m`, `!mute @user 1h`, `!mute @user 2d`",
+        "invalidDuration": "❌ Format durasi tidak valid!\nGunakan: `10s`, `5m`, `2h`, `1d`",
+        "maxDuration": "❌ Durasi maksimal mute adalah **28 hari**!",
+        "title": "🔇 Member Dimute!",
+        "user": "👤 User",
+        "moderator": "🛡️ Moderator",
+        "duration": "⏱️ Durasi",
+        "ends": "🔓 Selesai",
+        "reason": "📝 Alasan",
+        "footer": "Mute oleh {user}",
+        "failed": "❌ Gagal mute user! Cek permission bot."
+    },
+    "unmute": {
+        "noMention": "❌ Mention user yang ingin di-unmute!",
+        "notMuted": "❌ User ini tidak sedang di-mute!",
+        "title": "🔊 Member Di-unmute!",
+        "user": "👤 User",
+        "moderator": "🛡️ Moderator",
+        "reason": "📝 Alasan",
+        "footer": "Unmute oleh {user}",
+        "failed": "❌ Gagal unmute user! Cek permission bot."
+    },
+    "warn": {
+        "noMention": "❌ Mention user yang ingin di-warn!\nContoh: `!warn @user spam`",
+        "selfWarn": "❌ Kamu tidak bisa warn diri sendiri!",
+        "botWarn": "❌ Kamu tidak bisa warn bot!",
+        "title": "⚠️ Member Diwarn!",
+        "user": "👤 User",
+        "moderator": "🛡️ Moderator",
+        "totalWarns": "📊 Total Warn",
+        "warnsCount": "{count} warn",
+        "reason": "📝 Alasan",
+        "footer": "Warn #{count}",
+        "dmTitle": "⚠️ Kamu mendapat peringatan di {guild}",
+        "failed": "❌ Gagal warn user!"
+    },
+    "warnings": {
+        "noWarns": "✅ **{tag}** tidak memiliki warn di server ini!",
+        "title": "⚠️ Daftar Warn: {tag}",
+        "entry": "**#{num}** — {reason}\n> Oleh: {mod} • {time}",
+        "footer": "Total: {count} warn"
+    },
+    "language": {
+        "noPermission": "❌ Kamu tidak memiliki permission untuk mengubah bahasa bot!",
+        "current": "🌐 Bahasa saat ini: **{lang}**",
+        "invalid": "❌ Bahasa tidak didukung!\nTersedia: `en` (English), `id` (Indonesian)",
+        "changed": "✅ Bahasa berhasil diubah ke **{lang}**!",
+        "title": "🌐 Bahasa Bot",
+        "footer": "Diubah oleh {user}"
+    },
+    "common": {
+        "noPermission": "❌ Kamu tidak memiliki permission untuk menggunakan command ini!",
+        "ownerOnly": "❌ Command ini hanya untuk owner bot!",
+        "error": "❌ Terjadi error saat menjalankan command!"
+    }
+}
