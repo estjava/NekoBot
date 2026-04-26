@@ -3,6 +3,8 @@
 ![Discord.js](https://img.shields.io/badge/discord.js-v14-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-active-success)
+
+
 Discord bot dengan fitur music player dan modular commands.
 
 ## 🔧 Dependencies
@@ -12,20 +14,4 @@ Discord bot dengan fitur music player dan modular commands.
 - ytdl-core - YouTube downloader
 - play-dl - Multi-platform music player
 
-## 📦 Installation
-git clone https://github.com/estjava/NekoBot.git
-cd NekoBot
-npm install
-
-## ⚙️ Configuration
-1. Copy `.env.example` ke `.env`
-2. Isi token bot kamu:
-DISCORD_TOKEN=your_token_here
-CLIENT_ID=your_client_id_here
-
-
-## 🚀 Running the Bot
-npm start
-# atau
-node src/index.js
 
