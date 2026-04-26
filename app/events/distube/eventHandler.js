@@ -32,11 +32,10 @@ module.exports = (client) => {
                     }
                 }
 
-                
+                console.log(`✅ ${event.name} event loaded`);
             }
         }
     }
 
     loadEvents(eventsPath);
-    console.log(`✅ Events loaded`);
 };

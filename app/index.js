@@ -39,79 +39,22 @@ client.savePrefix = (guildId, prefix) => {
     fs.writeFileSync('./database/prefixes.json', JSON.stringify(data, null, 2));
 };
 
+
 // DisTube setup
 client.distube = new DisTube(client, {
     ffmpeg: {
-        path: require('ffmpeg-static') // ← pakai ffmpeg-static
+        path: require('ffmpeg-static') // ffmpeg-static
     },
     emitNewSongOnly: true,
     plugins: [
         new SpotifyPlugin(),
-        new SoundCloudPlugin()
+        new SoundCloudPlugin({clientId: process.env.SOUNDCLOUD_CLIENT_ID})
     ]
 });
 
 // DisTube events
 const distube = client.distube;
 
-distube.on('playSong', (queue, song) => {
-    queue.textChannel?.send({
-        embeds: [{
-            color: 0x1db954,
-            title: '🎵 Sedang Memutar',
-            description: `**[${song.name}](${song.url})**`,
-            fields: [
-                { name: '👤 Artis', value: song.uploader?.name || 'Unknown', inline: true },
-                { name: '⏱️ Durasi', value: song.formattedDuration || '?', inline: true },
-                { name: '🔗 Source', value: song.source || 'youtube', inline: true },
-                { name: '📋 Ditambah oleh', value: song.member?.user.tag || 'Unknown', inline: true },
-                { name: '📊 Queue', value: `${queue.songs.length} lagu tersisa`, inline: true }
-            ],
-            thumbnail: { url: song.thumbnail || '' },
-            timestamp: new Date()
-        }]
-    }).catch(() => {});
-});
-
-distube.on('addSong', (queue, song) => {
-    queue.textChannel?.send({
-        embeds: [{
-            color: 0x0099ff,
-            title: '➕ Ditambahkan ke Queue',
-            description: `**[${song.name}](${song.url})**`,
-            fields: [
-                { name: '⏱️ Durasi', value: song.formattedDuration || '?', inline: true },
-                { name: '📊 Posisi', value: `#${queue.songs.length}`, inline: true }
-            ],
-            thumbnail: { url: song.thumbnail || '' },
-            timestamp: new Date()
-        }]
-    }).catch(() => {});
-});
-
-distube.on('addList', (queue, playlist) => {
-    queue.textChannel?.send({
-        embeds: [{
-            color: 0x0099ff,
-            title: '📋 Playlist Ditambahkan!',
-            description: `**${playlist.name}** — ${playlist.songs.length} lagu`,
-            timestamp: new Date()
-        }]
-    }).catch(() => {});
-});
-
-distube.on('finish', queue => {
-    queue.textChannel?.send('✅ Queue sudah habis!').catch(() => {});
-});
-
-distube.on('error', (error, queue) => {
-    console.error('DisTube error:', error);
-    queue?.textChannel?.send(`❌ Error: ${error.message}`).catch(() => {});
-});
-
-distube.on('disconnect', queue => {
-    queue.textChannel?.send('👋 Bot keluar dari voice channel.').catch(() => {});
-});
 
 // Load handlers
 require('./handlers/commandHandler')(client);

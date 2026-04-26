@@ -3,7 +3,6 @@ const { t } = require('../../utils/locale');
 module.exports = {
     name: 'ping',
     description: 'Cek latency bot',
-    aliases: ['p', 'latency'],
     usage: '!ping',
     async execute(message, args, client) {
         const guildId = message.guild.id;

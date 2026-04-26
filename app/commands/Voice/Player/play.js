@@ -5,7 +5,7 @@ module.exports = {
     description: 'Putar lagu dari YouTube, Spotify, atau SoundCloud',
     category: 'Voice',
     usage: '!play <url atau judul lagu>',
-    aliases: ['putar'],
+    aliases: ['play', 'p'],
     examples: [
         '!play Never Gonna Give You Up',
         '!play https://youtube.com/watch?v=...',
