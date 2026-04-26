@@ -145,5 +145,6 @@ vite.config.ts.timestamp-*
 
 # Ignore node modules and environment files
 node_modules
+bin
 .env
-config.json
+

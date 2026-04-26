@@ -1,4 +1,12 @@
 {
+    "common": {
+        "noPermission": "❌ You don't have permission to use this command!",
+        "ownerOnly": "❌ This command is only for the bot owner!",
+        "error": "❌ Invalid command!",
+        "tryAgain": "Please check the command usage and try again.",
+        "Usage": "📖 Command Usage",
+        "examples": "💡 Examples"
+    },
     "ping": {
         "pinging": "🏓 Pinging...",
         "pong": "🏓 Pong!\n📡 Latency: {latency}ms\n💓 API Latency: {apiLatency}ms"
@@ -112,12 +120,20 @@
         "title": "🌐 Bot Language",
         "footer": "Changed by {user}"
     },
-    "common": {
-        "noPermission": "❌ You don't have permission to use this command!",
-        "ownerOnly": "❌ This command is only for the bot owner!",
-        "error": "❌ Invalid command!",
-        "tryAgain": "Please check the command usage and try again.",
-        "Usage": "📖 Command Usage",
-        "examples": "💡 Examples"
+    "player": {
+        "noVoiceChannel": "❌ You need to be in a voice channel to use music commands!",
+        "noResults": "❌ No results found for **{query}**!",
+        "addedQueue": "✅ Added to queue: **{title}**",
+        "nowPlaying": "🎶 Now playing: **{title}**",
+        "queueTitle": "📜 Music Queue",
+        "queueEntry": "**#{num}.** {title} ({duration})",
+        "queueFooter": "Total: {count} songs\nRequested by {user}",
+        "playlistAdded": "✅ Added playlist to queue: **{name}** ({count} songs)",
+        "playlistNowPlaying": "🎶 Now playing playlist: **{name}**\nFirst song: **{first}**",
+        "skipSuccess": "⏭️ Skipped current song!",
+        "stopSuccess": "⏹️ Stopped music and cleared queue!",
+        "playError": "❌ Failed to play the track! Check if the URL is valid and try again.",
+        "noQueue": "❌ There is no music queue to show!",
+        "emptyQueue": "✅ The music queue is currently empty!"
     }
 }
