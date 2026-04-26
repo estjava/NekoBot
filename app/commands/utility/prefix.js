@@ -1,5 +1,5 @@
 const { PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-const { t } = require('../../utils/locale');
+const { t, usageEmbed } = require('../../utils/locale');
 
 module.exports = {
     name: 'prefix',
@@ -8,18 +8,23 @@ module.exports = {
     permissions: PermissionFlagsBits.ManageGuild,
     usage: '!prefix [new_prefix]',
     aliases: ['setprefix', 'changeprefix'],
+    examples: [
+        '!prefix',
+        '!prefix ?',
+        '!prefix neko!'
+    ],
     execute(message, args, client) {
         const guildId = message.guild.id;
-        const currentPrefix = client.prefixes.get(guildId) || client.config.prefix;
+        const prefix = client.prefixes.get(guildId) || client.config.prefix;
 
         if (args.length === 0) {
             const embed = new EmbedBuilder()
                 .setColor('#0099ff')
                 .setTitle(t(guildId, 'prefix.title'))
-                .setDescription(t(guildId, 'prefix.current', { prefix: currentPrefix }))
+                .setDescription(t(guildId, 'prefix.current', { prefix }))
                 .addFields({
                     name: t(guildId, 'prefix.howToChange'),
-                    value: t(guildId, 'prefix.howToChangeValue', { prefix: currentPrefix })
+                    value: t(guildId, 'prefix.howToChangeValue', { prefix })
                 })
                 .setFooter({ text: t(guildId, 'prefix.server', { guild: message.guild.name }) })
                 .setTimestamp();
@@ -30,11 +35,17 @@ module.exports = {
         const newPrefix = args[0];
 
         if (newPrefix.length > 5) {
-            return message.reply(t(guildId, 'prefix.tooLong'));
+            return message.reply({
+                content: t(guildId, 'prefix.tooLong'),
+                embeds: [usageEmbed(guildId, module.exports, prefix)]
+            });
         }
 
         if (newPrefix.includes(' ')) {
-            return message.reply(t(guildId, 'prefix.hasSpace'));
+            return message.reply({
+                content: t(guildId, 'prefix.hasSpace'),
+                embeds: [usageEmbed(guildId, module.exports, prefix)]
+            });
         }
 
         client.savePrefix(guildId, newPrefix);
@@ -42,7 +53,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setColor('#00ff00')
             .setTitle(t(guildId, 'prefix.changed'))
-            .setDescription(t(guildId, 'prefix.oldPrefix', { old: currentPrefix, new: newPrefix }))
+            .setDescription(t(guildId, 'prefix.oldPrefix', { old: prefix, new: newPrefix }))
             .addFields({
                 name: t(guildId, 'prefix.example'),
                 value: `\`${newPrefix}help\`\n\`${newPrefix}ping\`\n\`${newPrefix}userinfo\``
@@ -51,6 +62,5 @@ module.exports = {
             .setTimestamp();
 
         message.reply({ embeds: [embed] });
-        console.log(`🔧 Prefix changed in ${message.guild.name} (${guildId}): ${currentPrefix} → ${newPrefix}`);
     }
 };

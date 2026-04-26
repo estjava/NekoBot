@@ -1,5 +1,5 @@
 const { PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-const { t } = require('../../utils/locale');
+const { t, usageEmbed } = require('../../utils/locale');
 const fs = require('fs');
 const path = require('path');
 
@@ -18,8 +18,12 @@ module.exports = {
     description: 'Lihat daftar warn member',
     category: 'Moderation',
     permissions: PermissionFlagsBits.ModerateMembers,
-    usage: '!warnings @user',
+    usage: '!warnings [@user]',
     aliases: ['warns', 'listwarn'],
+    examples: [
+        '!warnings',
+        '!warnings @user'
+    ],
     async execute(message, args, client) {
         const guildId = message.guild.id;
         const user = message.mentions.users.first() || message.author;

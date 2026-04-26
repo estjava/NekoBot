@@ -17,11 +17,12 @@
         "changedBy": "Changed by {user}"
     },
     "userinfo": {
-        "title": "📋 User Info: {tag}",
+        "title": "📋 {tag}",
         "userId": "User ID",
         "accountCreated": "Account Created",
         "joinedServer": "Joined Server",
-        "notInServer": "Not in server",
+        "noMention": "❌ Mention the user you want to check!",
+        "notInServer": "❌ That user is not a member of this server!",
         "roles": "Roles",
         "noRoles": "None",
         "requestedBy": "Requested by {user}"
@@ -114,6 +115,9 @@
     "common": {
         "noPermission": "❌ You don't have permission to use this command!",
         "ownerOnly": "❌ This command is only for the bot owner!",
-        "error": "❌ An error occurred while running this command!"
+        "error": "❌ Invalid command!",
+        "tryAgain": "Please check the command usage and try again.",
+        "Usage": "📖 Command Usage",
+        "examples": "💡 Examples"
     }
 }

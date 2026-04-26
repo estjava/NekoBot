@@ -1,19 +1,28 @@
 const { PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-const { t } = require('../../utils/locale');
+const { t, usageEmbed } = require('../../utils/locale');
 
 module.exports = {
     name: 'ban',
     description: 'Ban member dari server',
     category: 'Moderation',
     permissions: PermissionFlagsBits.BanMembers,
-    usage: '!ban @user [hari_delete_pesan] [reason]',
+    usage: '!ban @user [days] [reason]',
     aliases: ['banned'],
+    examples: [
+        '!ban @user',
+        '!ban @user spam',
+        '!ban @user 7 spam'
+    ],
     async execute(message, args, client) {
         const guildId = message.guild.id;
+        const prefix = client.prefixes.get(guildId) || client.config.prefix;
         const member = message.mentions.members.first();
 
         if (!member) {
-            return message.reply(t(guildId, 'ban.noMention'));
+            return message.reply({
+                content: t(guildId, 'ban.noMention'),
+                embeds: [usageEmbed(guildId, module.exports, prefix)]
+            });
         }
 
         if (!member.bannable) {
@@ -55,7 +64,6 @@ module.exports = {
                 .setTimestamp();
 
             message.reply({ embeds: [embed] });
-            console.log(`🔨 ${member.user.tag} dibanned dari ${message.guild.name} oleh ${message.author.tag}`);
         } catch (err) {
             console.error(err);
             message.reply(t(guildId, 'ban.failed'));

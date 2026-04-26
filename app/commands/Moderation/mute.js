@@ -1,5 +1,5 @@
 const { PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-const { t } = require('../../utils/locale');
+const { t, usageEmbed } = require('../../utils/locale');
 
 function parseDuration(str) {
     const units = { s: 1000, m: 60000, h: 3600000, d: 86400000 };
@@ -23,12 +23,21 @@ module.exports = {
     permissions: PermissionFlagsBits.ModerateMembers,
     usage: '!mute @user <durasi> [reason]',
     aliases: ['timeout'],
+    examples: [
+        '!mute @user 10m',
+        '!mute @user 2h spam',
+        '!mute @user 1d toxic'
+    ],
     async execute(message, args, client) {
         const guildId = message.guild.id;
+        const prefix = client.prefixes.get(guildId) || client.config.prefix;
         const member = message.mentions.members.first();
 
         if (!member) {
-            return message.reply(t(guildId, 'mute.noMention'));
+            return message.reply({
+                content: t(guildId, 'mute.noMention'),
+                embeds: [usageEmbed(guildId, module.exports, prefix)]
+            });
         }
 
         if (member.id === message.author.id) {
@@ -45,12 +54,18 @@ module.exports = {
 
         const durationStr = args[1];
         if (!durationStr) {
-            return message.reply(t(guildId, 'mute.noDuration'));
+            return message.reply({
+                content: t(guildId, 'mute.noDuration'),
+                embeds: [usageEmbed(guildId, module.exports, prefix)]
+            });
         }
 
         const durationMs = parseDuration(durationStr);
         if (!durationMs) {
-            return message.reply(t(guildId, 'mute.invalidDuration'));
+            return message.reply({
+                content: t(guildId, 'mute.invalidDuration'),
+                embeds: [usageEmbed(guildId, module.exports, prefix)]
+            });
         }
 
         if (durationMs > 28 * 24 * 60 * 60 * 1000) {
@@ -77,7 +92,6 @@ module.exports = {
                 .setTimestamp();
 
             message.reply({ embeds: [embed] });
-            console.log(`🔇 ${member.user.tag} dimute di ${message.guild.name} selama ${formatDuration(durationMs)} oleh ${message.author.tag}`);
         } catch (err) {
             console.error(err);
             message.reply(t(guildId, 'mute.failed'));

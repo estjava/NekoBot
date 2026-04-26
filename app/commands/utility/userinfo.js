@@ -1,20 +1,33 @@
 const { EmbedBuilder } = require('discord.js');
-const { t } = require('../../utils/locale');
+const { t, usageEmbed } = require('../../utils/locale');
 
 module.exports = {
     name: 'userinfo',
     description: 'Informasi tentang user',
     aliases: ['ui'],
-    usage: '!userinfo [@user]',
+    usage: '!userinfo @user',
+    examples: [
+        '!userinfo @user'
+    ],
     async execute(message, args, client) {
         const guildId = message.guild.id;
-        const user = message.mentions.users.first() || message.author;
+        const prefix = client.prefixes.get(guildId) || client.config.prefix;
 
+        // Wajib mention
+        const user = message.mentions.users.first();
+        if (!user) {
+            return message.reply({
+                content: t(guildId, 'userinfo.noMention'),
+                embeds: [usageEmbed(guildId, module.exports, prefix)]
+            });
+        }
+
+        // Fetch member, error jika tidak ada di server
         let member;
         try {
             member = await message.guild.members.fetch(user.id);
         } catch {
-            member = null;
+            return message.reply(t(guildId, 'userinfo.notInServer'));
         }
 
         const embed = new EmbedBuilder()
@@ -24,16 +37,10 @@ module.exports = {
             .addFields(
                 { name: t(guildId, 'userinfo.userId'), value: user.id, inline: true },
                 { name: t(guildId, 'userinfo.accountCreated'), value: `<t:${Math.floor(user.createdTimestamp / 1000)}:R>`, inline: true },
-                {
-                    name: t(guildId, 'userinfo.joinedServer'),
-                    value: member ? `<t:${Math.floor(member.joinedTimestamp / 1000)}:R>` : t(guildId, 'userinfo.notInServer'),
-                    inline: true
-                },
+                { name: t(guildId, 'userinfo.joinedServer'), value: `<t:${Math.floor(member.joinedTimestamp / 1000)}:R>`, inline: true },
                 {
                     name: t(guildId, 'userinfo.roles'),
-                    value: member
-                        ? member.roles.cache.map(r => r).join(', ').replace('@everyone', '') || t(guildId, 'userinfo.noRoles')
-                        : 'N/A',
+                    value: member.roles.cache.map(r => r).join(', ').replace('@everyone', '') || t(guildId, 'userinfo.noRoles'),
                     inline: false
                 }
             )

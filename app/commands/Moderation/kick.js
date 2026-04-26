@@ -1,5 +1,5 @@
 const { PermissionFlagsBits } = require('discord.js');
-const { t } = require('../../utils/locale');
+const { t, usageEmbed } = require('../../utils/locale');
 
 module.exports = {
     name: 'kick',
@@ -7,12 +7,20 @@ module.exports = {
     category: 'Moderation',
     permissions: PermissionFlagsBits.KickMembers,
     usage: '!kick @user [reason]',
+    examples: [
+        '!kick @user',
+        '!kick @user spam'
+    ],
     async execute(message, args, client) {
         const guildId = message.guild.id;
+        const prefix = client.prefixes.get(guildId) || client.config.prefix;
         const member = message.mentions.members.first();
 
         if (!member) {
-            return message.reply(t(guildId, 'kick.noMention'));
+            return message.reply({
+                content: t(guildId, 'kick.noMention'),
+                embeds: [usageEmbed(guildId, module.exports, prefix)]
+            });
         }
 
         if (!member.kickable) {
@@ -24,7 +32,6 @@ module.exports = {
         try {
             await member.kick(reason);
             message.reply(t(guildId, 'kick.success', { tag: member.user.tag, reason }));
-            console.log(`👢 ${member.user.tag} di-kick dari ${message.guild.name} oleh ${message.author.tag}`);
         } catch (err) {
             console.error(err);
             message.reply(t(guildId, 'kick.failed'));

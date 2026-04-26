@@ -1,5 +1,5 @@
 const { PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-const { t } = require('../../utils/locale');
+const { t, usageEmbed } = require('../../utils/locale');
 
 module.exports = {
     name: 'unmute',
@@ -8,12 +8,20 @@ module.exports = {
     permissions: PermissionFlagsBits.ModerateMembers,
     usage: '!unmute @user [reason]',
     aliases: ['untimeout'],
+    examples: [
+        '!unmute @user',
+        '!unmute @user sudah tenang'
+    ],
     async execute(message, args, client) {
         const guildId = message.guild.id;
+        const prefix = client.prefixes.get(guildId) || client.config.prefix;
         const member = message.mentions.members.first();
 
         if (!member) {
-            return message.reply(t(guildId, 'unmute.noMention'));
+            return message.reply({
+                content: t(guildId, 'unmute.noMention'),
+                embeds: [usageEmbed(guildId, module.exports, prefix)]
+            });
         }
 
         if (!member.isCommunicationDisabled()) {
@@ -38,7 +46,6 @@ module.exports = {
                 .setTimestamp();
 
             message.reply({ embeds: [embed] });
-            console.log(`🔊 ${member.user.tag} di-unmute di ${message.guild.name} oleh ${message.author.tag}`);
         } catch (err) {
             console.error(err);
             message.reply(t(guildId, 'unmute.failed'));

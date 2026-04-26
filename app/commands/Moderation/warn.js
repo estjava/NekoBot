@@ -1,5 +1,5 @@
 const { PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-const { t } = require('../../utils/locale');
+const { t, usageEmbed } = require('../../utils/locale');
 const fs = require('fs');
 const path = require('path');
 
@@ -23,12 +23,21 @@ module.exports = {
     category: 'Moderation',
     permissions: PermissionFlagsBits.ModerateMembers,
     usage: '!warn @user [reason]',
+    examples: [
+        '!warn @user',
+        '!warn @user spam',
+        '!warn @user toxic di channel'
+    ],
     async execute(message, args, client) {
         const guildId = message.guild.id;
+        const prefix = client.prefixes.get(guildId) || client.config.prefix;
         const member = message.mentions.members.first();
 
         if (!member) {
-            return message.reply(t(guildId, 'warn.noMention'));
+            return message.reply({
+                content: t(guildId, 'warn.noMention'),
+                embeds: [usageEmbed(guildId, module.exports, prefix)]
+            });
         }
 
         if (member.id === message.author.id) {
@@ -74,7 +83,6 @@ module.exports = {
 
         message.reply({ embeds: [embed] });
 
-        // DM user yang kena warn
         try {
             const dmEmbed = new EmbedBuilder()
                 .setColor('#ffcc00')
@@ -89,7 +97,5 @@ module.exports = {
         } catch {
             // User menonaktifkan DM, abaikan
         }
-
-        console.log(`⚠️ ${member.user.tag} diwarn di ${message.guild.name} oleh ${message.author.tag} | Alasan: ${reason}`);
     }
 };

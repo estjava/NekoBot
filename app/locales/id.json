@@ -21,7 +21,8 @@
         "userId": "User ID",
         "accountCreated": "Akun Dibuat",
         "joinedServer": "Bergabung Server",
-        "notInServer": "Tidak ada di server",
+        "noMention": "❌ Mention user yang ingin dicek!",
+        "notInServer": "❌ Pengguna tersebut tidak menjadi anggota server ini!",
         "roles": "Role",
         "noRoles": "Tidak ada",
         "requestedBy": "Diminta oleh {user}"

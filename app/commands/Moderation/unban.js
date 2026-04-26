@@ -1,5 +1,5 @@
 const { PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-const { t } = require('../../utils/locale');
+const { t, usageEmbed } = require('../../utils/locale');
 
 module.exports = {
     name: 'unban',
@@ -7,16 +7,27 @@ module.exports = {
     category: 'Moderation',
     permissions: PermissionFlagsBits.BanMembers,
     usage: '!unban <userID> [reason]',
+    examples: [
+        '!unban 123456789012345678',
+        '!unban 123456789012345678 sudah tobat'
+    ],
     async execute(message, args, client) {
         const guildId = message.guild.id;
+        const prefix = client.prefixes.get(guildId) || client.config.prefix;
         const userId = args[0];
 
         if (!userId) {
-            return message.reply(t(guildId, 'unban.noId'));
+            return message.reply({
+                content: t(guildId, 'unban.noId'),
+                embeds: [usageEmbed(guildId, module.exports, prefix)]
+            });
         }
 
         if (!/^\d{17,19}$/.test(userId)) {
-            return message.reply(t(guildId, 'unban.invalidId'));
+            return message.reply({
+                content: t(guildId, 'unban.invalidId'),
+                embeds: [usageEmbed(guildId, module.exports, prefix)]
+            });
         }
 
         const reason = args.slice(1).join(' ') || 'No reason provided';
@@ -44,7 +55,6 @@ module.exports = {
                 .setTimestamp();
 
             message.reply({ embeds: [embed] });
-            console.log(`✅ ${banEntry.user.tag} di-unban dari ${message.guild.name} oleh ${message.author.tag}`);
         } catch (err) {
             console.error(err);
             message.reply(t(guildId, 'unban.failed'));

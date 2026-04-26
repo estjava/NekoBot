@@ -1,17 +1,16 @@
 const fs = require('fs');
 const path = require('path');
+const { EmbedBuilder } = require('discord.js');
 
 const locales = {};
 const supportedLangs = ['en', 'id'];
 
-// Load semua locale saat startup
 for (const lang of supportedLangs) {
     locales[lang] = JSON.parse(
         fs.readFileSync(path.join(__dirname, `../locales/${lang}.json`), 'utf8')
     );
 }
 
-// Load language settings
 const langPath = path.join(__dirname, '../database/languages.json');
 
 function loadLangSettings() {
@@ -26,25 +25,21 @@ function saveLangSettings(data) {
     fs.writeFileSync(langPath, JSON.stringify(data, null, 2));
 }
 
-// Ambil bahasa server
 function getLang(guildId) {
     const settings = loadLangSettings();
     return settings[guildId] || 'en';
 }
 
-// Set bahasa server
 function setLang(guildId, lang) {
     const settings = loadLangSettings();
     settings[guildId] = lang;
     saveLangSettings(settings);
 }
 
-// Ambil teks berdasarkan key, replace placeholder
 function t(guildId, key, vars = {}) {
     const lang = getLang(guildId);
     const locale = locales[lang] || locales['en'];
 
-    // key format: "kick.noMention"
     const keys = key.split('.');
     let text = locale;
     for (const k of keys) {
@@ -52,14 +47,32 @@ function t(guildId, key, vars = {}) {
     }
 
     if (!text) {
-        // Fallback ke English
         let fallback = locales['en'];
         for (const k of keys) fallback = fallback?.[k];
         text = fallback || key;
     }
 
-    // Replace placeholder {variable}
     return text.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? `{${k}}`);
 }
 
-module.exports = { t, getLang, setLang, supportedLangs };
+// Helper embed untuk salah penggunaan command
+function usageEmbed(guildId, command, prefix) {
+    const p = prefix || '!';
+    const usage = command.usage?.replace('!', p) || `${p}${command.name}`;
+    const examples = command.examples?.map(e => `\`${e.replace('!', p)}\``).join('\n') || null;
+
+    const embed = new EmbedBuilder()
+        .setColor('#ff0000')
+        .setTitle(t(guildId, 'common.error'))
+        .addFields({ name: t(guildId, 'common.Usage'), value: `\`${usage}\`` });
+
+    if (examples) {
+        embed.addFields({ name: t(guildId, 'common.examples'), value: examples });
+    }
+
+    embed.setFooter({ text: t(guildId, 'common.tryAgain') });
+
+    return embed;
+}
+
+module.exports = { t, getLang, setLang, supportedLangs, usageEmbed };
