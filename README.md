@@ -5,13 +5,9 @@
 ![Status](https://img.shields.io/badge/status-active-success)
 
 
-Discord bot dengan fitur music player dan modular commands.
-
-## 🔧 Dependencies
+## Dependencies
 - discord.js - Discord API wrapper
 - @discordjs/voice - Voice connection
 - @discordjs/opus - Audio encoding
 - ytdl-core - YouTube downloader
 - play-dl - Multi-platform music player
-
-
