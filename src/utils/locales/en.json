@@ -9,7 +9,7 @@
     },
     "ping": {
         "pinging": "🏓 Pinging...",
-        "pong": "🏓 Pong!\n📡 Latency: {latency}ms\n💓 API Latency: {apiLatency}ms"
+        "pong": ":heartpulse: Heartbeat: {latency}ms\n :stopwatch: API: {apiLatency}ms"
     },
     "prefix": {
         "title": "⚙️ Bot Prefix",
