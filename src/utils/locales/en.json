@@ -1,5 +1,5 @@
 {
-    "common": {
+    "com": {
         "noPermission": "❌ You don't have permission to use this command!",
         "ownerOnly": "❌ This command is only for the bot owner!",
         "error": "❌ Invalid command!",

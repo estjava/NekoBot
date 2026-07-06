@@ -43,5 +43,4 @@ export default (client: Client): void => {
     }
 
     loadCommands(commandsPath);
-    console.log(`✅ ${loadedCount} command berhasil dimuat.`);
 };

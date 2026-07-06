@@ -11,6 +11,7 @@ interface Command {
 
 module.exports = {
     name: 'messageCreate',
+    description: 'Handles incoming messages and executes commands.',
     execute(message: Message, client: Client) {
         if (message.author.bot) return;
         if (!message.guild) return;
@@ -34,19 +35,19 @@ module.exports = {
 
         if (command.permissions) {
             if (!message.member?.permissions.has(command.permissions)) {
-                return message.reply(t(guildId, 'common.noPermission'));
+                return message.reply(t(guildId, 'com.noPermission'));
             }
         }
 
         if (command.ownerOnly && message.author.id !== client.config.ownerId) {
-            return message.reply(t(guildId, 'common.ownerOnly'));
+            return message.reply(t(guildId, 'com.ownerOnly'));
         }
 
         try {
             command.execute(message, args, client);
         } catch (error) {
             console.error(error);
-            message.reply(t(guildId, 'common.error'));
+            message.reply(t(guildId, 'com.error'));
         }
     }
 };
