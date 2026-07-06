@@ -1,5 +1,5 @@
 import { Message, Client, EmbedBuilder } from 'discord.js';
-import { t } from './../../utils/locale';
+import { t } from '../../utils/locale';
 
 export default {
     name: 'ping',
@@ -11,20 +11,18 @@ export default {
         if (!message.guild) return;
         const guildId = message.guild.id;
 
-        const msg = await message.reply(t(guildId, 'ping.pinging'));
-
-        const latency = msg.createdTimestamp - message.createdTimestamp;
+        const latency = message.createdTimestamp - message.createdTimestamp;
         const apiLatency = Math.round(client.ws.ping);
 
         const embed = new EmbedBuilder()
-                .setColor(latency < 200 ? 0x57F287 : latency < 500 ? 0xFEE75C : 0xED4245)
-                .setTitle(`${client.user?.tag}`)
-                .addFields(
-                    { name: ':heartpulse: Heartbeat', value: `${latency}ms`, inline: true },
-                    { name: ':stopwatch: API', value: latency !== null ? `${apiLatency}ms` : 'N/A', inline: true }
+            .setColor(latency < 200 ? 0x57F287 : latency < 500 ? 0xFEE75C : 0xED4245)
+            .setTitle(`${client.user?.tag}`)
+            .addFields(
+                { name: ':heartpulse: Heartbeat', value: `${latency}ms`, inline: true },
+                { name: ':stopwatch: API', value: latency !== null ? `${apiLatency}ms` : 'N/A', inline: true }
                 )
-                .setTimestamp();
+            .setTimestamp();
 
-            await msg.edit({ embeds: [embed] });
+        await message.reply({ embeds: [embed] });
     }
 };

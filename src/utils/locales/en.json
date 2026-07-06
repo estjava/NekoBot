@@ -7,23 +7,46 @@
         "Usage": "📖 Command Usage",
         "examples": "💡 Examples"
     },
+
+    "ban": {
+        "BotPermission": "I don't have permission to ban members!",
+        "UserPermission": "You don't have permission to ban members!",
+        "noMention": "Please mention a user or provide a user ID to ban.",
+        "notBannable": "I cannot ban this user! (Role too high)",
+        "banBot":"I can't ban myself.",
+        "noSelfBan": "You cannot ban yourself.",
+        "success": "✅ {tag} has been banned!\nReason: {reason}",
+        "failed": "❌ Failed to ban user! Check bot permissions.",
+        "noReason": "No reason provided"
+    },
+
+    "unban": {
+    "BotPermission": "I don't have permission to unban members!",
+    "UserPermission": "You don't have permission to unban members!",
+    "invalidId": "Please provide a valid user ID to unban.",
+    "notBanned": "That user is not currently banned.",
+    "success": "✅ {tag} has been unbanned!\nReason: {reason}",
+    "failed": "❌ Failed to unban user! Check bot permissions.",
+    "noReason": "No reason provided" 
+    },
+
+
     "ping": {
         "pinging": "🏓 Pinging...",
         "pong": ":heartpulse: Heartbeat: {latency}ms\n :stopwatch: API: {apiLatency}ms"
     },
+
     "prefix": {
-        "title": "⚙️ Bot Prefix",
-        "current": "Current prefix: **`{prefix}`**",
-        "howToChange": "How to Change",
-        "howToChangeValue": "Use `{prefix}prefix <new_prefix>`\nExample: `{prefix}prefix ?`",
-        "server": "Server: {guild}",
-        "tooLong": "❌ Prefix cannot be more than 5 characters!",
-        "hasSpace": "❌ Prefix cannot contain spaces!",
-        "changed": "✅ Prefix Changed!",
-        "oldPrefix": "Old prefix: **`{old}`**\nNew prefix: **`{new}`**",
-        "example": "Example Usage",
-        "changedBy": "Changed by {user}"
+        "UserPermission": "You don't have permission to change the prefix!",
+        "noPrefix": "Please provide a new prefix.",
+        "tooLong": "Prefix must be 5 characters or fewer.",
+        "success": "✅ Prefix changed to `{prefix}`",
+        "failed": "❌ Failed to update the prefix. Please try again."
     },
+
+
+
+
     "userinfo": {
         "title": "📋 {tag}",
         "userId": "User ID",
@@ -41,31 +64,7 @@
         "success": "✅ {tag} has been kicked!\nReason: {reason}",
         "failed": "❌ Failed to kick user! Check bot permissions."
     },
-    "ban": {
-        "noMention": "❌ Mention the user you want to ban!",
-        "notBannable": "❌ I cannot ban this user! (Role too high or server owner)",
-        "selfBan": "❌ You cannot ban yourself!",
-        "botBan": "❌ You cannot ban me! 😢",
-        "title": "🔨 Member Banned!",
-        "user": "👤 User",
-        "moderator": "🛡️ Moderator",
-        "deleteMsg": "📅 Delete Messages",
-        "days": "{days} days",
-        "reason": "📝 Reason",
-        "footer": "Banned by {user}",
-        "failed": "❌ Failed to ban user! Check bot permissions."
-    },
-    "unban": {
-        "noId": "❌ Enter the ID of the user to unban!\nExample: `!unban 123456789012345678`",
-        "invalidId": "❌ Invalid user ID! Discord IDs consist of 17-19 digits.",
-        "notBanned": "❌ This user is not in the ban list!",
-        "title": "✅ User Unbanned!",
-        "user": "👤 User",
-        "moderator": "🛡️ Moderator",
-        "reason": "📝 Reason",
-        "footer": "Unbanned by {user}",
-        "failed": "❌ Failed to unban user! Check bot permissions."
-    },
+
     "mute": {
         "noMention": "❌ Mention the user you want to mute!\nExample: `!mute @user 10m spam`",
         "selfMute": "❌ You cannot mute yourself!",
