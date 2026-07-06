@@ -2,6 +2,7 @@ import { Client, ActivityType } from 'discord.js';
 
 module.exports = {
     name: 'clientReady',
+    description: 'Triggered when the bot is ready and connected to Discord.',
     once: true,
     execute(client: Client) {
         console.log(`🤖 ${client.user?.tag} is online!`);
@@ -9,8 +10,8 @@ module.exports = {
 
         client.user?.setPresence({
             activities: [{
-                name: `!help | ${client.guilds.cache.size} servers`,
-                type: ActivityType.Listening  // type: 0 → ActivityType.Playing
+                name: `Serving ${client.guilds.cache.size} servers`,
+                type: ActivityType.Playing  // type: 0 → ActivityType.Playing
             }],
             status: 'online'
         });
