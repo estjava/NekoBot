@@ -3,7 +3,8 @@ dist/
 bin/
 lib/
 app/
-.env
 
+
+.env
 *.patch
 *.zip
