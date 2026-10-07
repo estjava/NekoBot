@@ -71,15 +71,22 @@ function toTrack(info: any, requestedBy: string): Track | null {
 
 function isPlaylistUrl(q: string): boolean {
     if (!/^https?:\/\//i.test(q)) return false;
+    // "Play mix" links explicitly ask for the whole radio list
+    if (/[?&]start_radio=1/i.test(q) && /[?&]list=/i.test(q)) return true;
     if (/youtu\.be\//i.test(q)) return false;
     return /\/playlist\?/i.test(q) || (/[?&]list=/i.test(q) && !/[?&]v=/i.test(q));
 }
 
 /** Resolve a search query or URL into one track or a playlist. */
-export async function resolve(query: string, requestedBy: string): Promise<Resolved> {
+export async function resolve(
+    query: string,
+    requestedBy: string,
+    forcePlaylist = false
+): Promise<Resolved> {
     const base = ['--dump-single-json', '--flat-playlist', '--no-warnings'];
 
-    if (isPlaylistUrl(query)) {
+    // forcePlaylist: the user passed --playlist, so load the whole list even if the link has v=
+    if ((forcePlaylist && /^https?:\/\//i.test(query) && /[?&]list=/i.test(query)) || isPlaylistUrl(query)) {
         const info = await runJson([...base, '--playlist-end', String(MAX_PLAYLIST), query]);
         const tracks = ((info.entries ?? []) as any[])
             .map((e) => toTrack(e, requestedBy))

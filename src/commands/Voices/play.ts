@@ -7,7 +7,7 @@ import { ensureVoice, getPrefix, say } from '../../music/guards';
 export default {
     name: 'Play',
     description: 'Plays a song (name or URL) or adds it to the queue.',
-    usage: ['!play <song name or URL>'],
+    usage: ['!play <song name or URL> [--playlist]'],
     aliases: ['p'],
     category: 'Voices',
     examples: ['!play never gonna give you up', '!play https://www.youtube.com/watch?v=...'],
@@ -16,7 +16,10 @@ export default {
         if (!message.guild) return;
         const gid = message.guild.id;
 
-        const query = args.join(' ').trim();
+        // `--playlist` (or -pl / --mix) loads the whole list of a link that also points at a single video
+        const FLAGS = ['--playlist', '--mix', '-pl'];
+        const forcePlaylist = args.some((a) => FLAGS.includes(a.toLowerCase()));
+        const query = args.filter((a) => !FLAGS.includes(a.toLowerCase())).join(' ').trim();
         if (!query) return say(message, t(gid, 'player.playUsage', { prefix: getPrefix(client, gid) }), 0xED4245);
 
         const voice = await ensureVoice(message);
@@ -31,7 +34,7 @@ export default {
 
         const status = await message.reply(t(gid, 'player.searching'));
         try {
-            const result = await resolve(query, message.author.tag);
+            const result = await resolve(query, message.author.tag, forcePlaylist);
 
             if (!queue || queue.destroyed || botChannelId !== voice.id) {
                 queue?.destroy();
@@ -41,11 +44,14 @@ export default {
             }
 
             const tracks = result.kind === 'track' ? [result.track] : result.tracks;
-            const { startedNow, position } = await queue.enqueue(tracks);
+            // The reply below already announces the track, so tell the queue not to announce it again.
+            const { startedNow, position } = await queue.enqueue(tracks, false);
 
             let text: string;
             if (result.kind === 'playlist') {
-                text = t(gid, 'player.playlistAdded', { name: result.name, count: tracks.length });
+                text = startedNow
+                    ? t(gid, 'player.playlistNowPlaying', { name: result.name, first: tracks[0].title })
+                    : t(gid, 'player.playlistAdded', { name: result.name, count: tracks.length });
             } else if (startedNow) {
                 text = t(gid, 'player.nowPlaying', { title: result.track.title });
             } else {

@@ -73,12 +73,15 @@ export class GuildQueue {
     }
 
     /** Add tracks; starts playback if nothing is playing. */
-    async enqueue(tracks: Track[]): Promise<{ startedNow: boolean; position: number }> {
+    async enqueue(
+        tracks: Track[],
+        announce = true
+    ): Promise<{ startedNow: boolean; position: number }> {
         this.clearIdleTimer();
         const startedNow = !this.current;
         const position = this.tracks.length + (this.current ? 1 : 0) + 1;
         this.tracks.push(...tracks);
-        if (startedNow) await this.next();
+        if (startedNow) await this.next(announce);
         return { startedNow, position };
     }
 
@@ -153,7 +156,7 @@ export class GuildQueue {
         void this.next();
     }
 
-    private async next() {
+    private async next(announce = true) {
         const track = this.tracks.shift();
         if (!track) {
             this.current = null;
@@ -161,7 +164,7 @@ export class GuildQueue {
             this.startIdleTimer();
             return;
         }
-        await this.start(track, true);
+        await this.start(track, announce);
     }
 
     private async start(track: Track, announce: boolean) {

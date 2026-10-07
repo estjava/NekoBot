@@ -14,27 +14,22 @@ export default {
         
         const embedSuccess = new EmbedBuilder()
             .setColor('#57F287')
-            .setTitle(`${client.user?.tag}`)
-            .setDescription(`Successfully joined the voice channel`)
+            .setDescription(`I have been summoned`)
 
         const embedError = new EmbedBuilder()
             .setColor('#ED4245')
-            .setTitle(`${client.user?.tag}`)
             .setDescription(`There was an error joining the voice channel.`)
 
         const embedNotInChannel = new EmbedBuilder()
             .setColor('#ED4245')
-            .setTitle(`${client.user?.tag}`)
             .setDescription(`You need to be in a voice channel for me to join.`)
 
         const embedBotNoPermission = new EmbedBuilder()
             .setColor('#ED4245')
-            .setTitle(`${client.user?.tag}`)
             .setDescription(`I do not have permission to connect to voice channels.`)
 
         const embedUserNoPermission = new EmbedBuilder()
             .setColor('#ED4245')
-            .setTitle(`${client.user?.tag}`)
             .setDescription(`You do not have permission to connect to voice channels.`)
             
         if (!message.guild) return;

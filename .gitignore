@@ -1,5 +1,8 @@
 node_modules/
 dist/
+bin/
+lib/
 .env
 
-.patch
+*.patch
+*.zip

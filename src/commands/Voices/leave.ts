@@ -16,7 +16,6 @@ export default {
         const embed = (color: string, description: string) =>
             new EmbedBuilder()
                 .setColor(color as `#${string}`)
-                .setTitle(`${client.user?.tag}`)
                 .setDescription(description);
 
         const connection = getVoiceConnection(message.guild.id);
