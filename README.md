@@ -3,6 +3,8 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-development-success)
 
+https://github.com/estjava/NekoBot/blob/main/img/logo.png
+
 A prefix-based Discord bot written in TypeScript (discord.js v14) with music playback, moderation and EN/ID language support.
 
 ## Commands
