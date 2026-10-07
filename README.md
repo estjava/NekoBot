@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-development-success)
 
-[Logo](https://raw.githubusercontent.com/estjava/NekoBot/refs/heads/main/img/logo.png)
+![Logo](img/logo.png)
 
 
 A prefix-based Discord bot written in TypeScript (discord.js v14) with music playback, moderation and EN/ID language support.
@@ -61,3 +61,7 @@ npm start       # run the compiled bot
 ```
 
 The bot leaves the voice channel 3 minutes after the queue ends.
+
+## License
+
+[MIT](https://github.com/estjava/NekoBot#MIT-1-ov-file)
