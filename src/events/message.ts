@@ -6,13 +6,13 @@ interface Command {
     aliases?: string[];
     permissions?: PermissionResolvable;
     ownerOnly?: boolean;
-    execute(message: Message, args: string[], client: Client): void;
+    execute(message: Message, args: string[], client: Client): unknown;
 }
 
 module.exports = {
     name: 'messageCreate',
     description: 'Handles incoming messages and executes commands.',
-    execute(message: Message, client: Client) {
+    async execute(message: Message, client: Client) {
         if (message.author.bot) return;
         if (!message.guild) return;
 
@@ -29,7 +29,9 @@ module.exports = {
 
         const command: Command | undefined =
             client.commands.get(commandName) ||
-            client.commands.find((cmd: Command) => cmd.aliases?.includes(commandName));
+            client.commands.find((cmd: Command) =>
+                cmd.aliases?.some(a => a.toLowerCase() === commandName)
+            );
 
         if (!command) return;
 
@@ -44,7 +46,7 @@ module.exports = {
         }
 
         try {
-            command.execute(message, args, client);
+            await command.execute(message, args, client);
         } catch (error) {
             console.error(error);
             message.reply(t(guildId, 'com.error'));

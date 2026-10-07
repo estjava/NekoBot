@@ -7,6 +7,6 @@
 Commands:
 [+]  Ping
 [+]  Prefix
-[-]
-[-]
-[-]
+[+]  Join
+[+]  Leave
+[-]  

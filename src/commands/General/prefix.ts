@@ -5,7 +5,7 @@ export default {
     name: 'Prefix',
     description: 'Changes the bots prefix.',
     usage: ['!prefix <newPrefix>'],
-    aliases: ['p'],
+    aliases: ['setprefix'],
     category: 'General',
     examples: ['!prefix !', '!prefix ?'],
     permissions: PermissionFlagsBits.ManageGuild,

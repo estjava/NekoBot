@@ -34,7 +34,7 @@ export default (client: Client): void => {
                     continue;
                 }
 
-                client.commands.set(command.name, command);
+                client.commands.set(String(command.name).toLowerCase(), command);
                 loadedCount++;
             } catch (err) {
                 console.error(`❌ Gagal load command ${file}:`, err);
