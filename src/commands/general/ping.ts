@@ -12,7 +12,7 @@ export default {
         const gid = message.guild.id;
 
         // Round-trip: time between the user's message and our reply being sent
-        const sent = await message.reply(t(gid, 'pinging'));
+        const sent = await message.reply(t(gid, 'ping.pinging'));
         const latency = sent.createdTimestamp - message.createdTimestamp;
         const apiLatency = Math.round(client.ws.ping);
         const color = (ms: number) => (ms < 200 ? 0x57F287 : ms < 500 ? 0xFEE75C : 0xED4245);
@@ -28,4 +28,4 @@ export default {
 
         await sent.edit({ content: '', embeds: [embed] });
     }
-};
+};

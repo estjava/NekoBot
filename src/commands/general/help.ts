@@ -5,7 +5,9 @@ interface HelpCommand {
     name: string;
     description?: string;
     category?: string;
-    usage?: string;
+    // Command lain menulis usage sebagai array (['!play <song>']), ping/help sebagai string.
+    usage?: string | string[];
+    examples?: string[];
     aliases?: string[];
     permissions?: PermissionResolvable;
     ownerOnly?: boolean;
@@ -17,11 +19,19 @@ const FIELD_LIMIT = 1024;
 // Urutan kategori di menu. Kategori lain muncul setelahnya (alfabetis).
 const CATEGORY_ORDER = ['General', 'Voices', 'Music', 'Moderation'];
 
+const toList = (v?: string | string[]): string[] =>
+    v === undefined ? [] : Array.isArray(v) ? v : [v];
+
+// Teks usage/example ditulis dengan '!', ganti ke prefix server yang aktif.
+const withPrefix = (text: string, prefix: string): string =>
+    text.startsWith('!') ? prefix + text.slice(1) : text;
+
 export default {
     name: 'Help',
     description: 'Show all commands or details of one command',
     category: 'General',
-    usage: '!help [command]',
+    usage: ['!help [command]'],
+    examples: ['!help', '!help play'],
     aliases: ['h', 'commands'] as string[],
     async execute(message: Message, args: string[], client: Client) {
         if (!message.guild) return;
@@ -34,7 +44,8 @@ export default {
         const visible = commands.filter(cmd => isOwner || !cmd.ownerOnly);
 
         // ---- Detail satu command: !help <command|alias> ----
-        const query = args[0]?.toLowerCase().replace(prefix, '');
+        let query = args[0]?.toLowerCase();
+        if (query?.startsWith(prefix)) query = query.slice(prefix.length);
         if (query) {
             const cmd =
                 visible.get(query) ||
@@ -44,24 +55,32 @@ export default {
                 return message.reply(t(guildId, 'help.notFound', { name: query }));
             }
 
-            // usage di file command ditulis dengan '!', ganti ke prefix server
-            const usage = cmd.usage
-                ? cmd.usage.startsWith('!') ? prefix + cmd.usage.slice(1) : cmd.usage
-                : `${prefix}${cmd.name.toLowerCase()}`;
+            const usage = toList(cmd.usage).map(u => withPrefix(u, prefix));
+            if (!usage.length) usage.push(`${prefix}${cmd.name.toLowerCase()}`);
+            const examples = toList(cmd.examples).map(e => withPrefix(e, prefix));
 
             const embed = new EmbedBuilder()
                 .setColor(EMBED_COLOR)
                 .setTitle(`${prefix}${cmd.name.toLowerCase()}`)
                 .setDescription(cmd.description || t(guildId, 'help.noDescription'))
-                .addFields({ name: t(guildId, 'common.Usage'), value: `\`${usage}\`` });
+                .addFields({
+                    name: t(guildId, 'common.Usage'),
+                    value: usage.map(u => `\`${u}\``).join('\n').slice(0, FIELD_LIMIT)
+                });
 
+            if (examples.length) {
+                embed.addFields({
+                    name: t(guildId, 'common.examples'),
+                    value: examples.map(e => `\`${e}\``).join('\n').slice(0, FIELD_LIMIT)
+                });
+            }
             if (cmd.category) {
                 embed.addFields({ name: t(guildId, 'help.category'), value: cmd.category, inline: true });
             }
             if (cmd.aliases?.length) {
                 embed.addFields({
                     name: t(guildId, 'help.aliases'),
-                    value: cmd.aliases.map(a => `\`${prefix}${a}\``).join(', '),
+                    value: cmd.aliases.map(a => `\`${prefix}${a}\``).join(', ').slice(0, FIELD_LIMIT),
                     inline: true
                 });
             }
@@ -95,9 +114,7 @@ export default {
 
         for (const category of sortedCategories) {
             const cmds = groups.get(category)!.sort((a, b) => a.name.localeCompare(b.name));
-            let value = cmds
-                .map(c => `\`${prefix}${c.name.toLowerCase()}\``)
-                .join(' ');
+            let value = cmds.map(c => `\`${prefix}${c.name.toLowerCase()}\``).join(' ');
             if (value.length > FIELD_LIMIT) value = value.slice(0, FIELD_LIMIT - 1) + '…';
             embed.addFields({ name: category, value });
         }

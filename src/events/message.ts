@@ -49,7 +49,7 @@ module.exports = {
             await command.execute(message, args, client);
         } catch (error) {
             console.error(error);
-            message.reply(t(guildId, 'common.error'));
+            await message.reply(t(guildId, 'common.genericError')).catch(() => {});
         }
     }
-};
+};

@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { EmbedBuilder, Message } from 'discord.js';
 import { getVoiceConnection } from '@discordjs/voice';
 import { t } from '../../utils/locale';
 import { destroyQueue } from '../../music/queue';
@@ -16,6 +16,23 @@ export default {
         if (!message.guild) return;
         const gid = message.guild.id;
 
+        const embedNotinVoice = new EmbedBuilder()
+            .setColor('#ED4245')
+            .setDescription(t(gid, 'player.notInVoice'));
+
+        const embedNotSameChannel = new EmbedBuilder()
+            .setColor('#ED4245')
+            .setDescription(t(gid, 'player.notSameChannel'));
+
+        const embedLeaveSuccess = new EmbedBuilder()
+            .setColor('#57F287')
+            .setDescription(t(gid, 'player.leaveSuccess'));
+
+        const embedLeaveError = new EmbedBuilder()
+            .setColor('#ED4245')
+            .setDescription(t(gid, 'player.leaveError'));
+
+        
         const connection = getVoiceConnection(gid);
         if (!connection) return say(message, t(gid, 'player.notInVoice'), 0xED4245);
 

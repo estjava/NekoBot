@@ -6,6 +6,10 @@ import { say } from '../../music/guards';
 
 const PAGE_SIZE = 10;
 
+// Batas value field embed Discord = 1024 karakter. 10 judul panjang bisa melewatinya.
+const short = (text: string, max: number): string =>
+    text.length > max ? text.slice(0, max - 1) + '…' : text;
+
 export default {
     name: 'Queue',
     description: 'Shows the music queue.',
@@ -29,7 +33,11 @@ export default {
         const upcoming = queue.tracks
             .slice(start, start + PAGE_SIZE)
             .map((tr, i) =>
-                t(gid, 'player.queueEntry', { num: start + i + 1, title: tr.title, duration: formatDuration(tr.duration) })
+                t(gid, 'player.queueEntry', {
+                    num: start + i + 1,
+                    title: short(tr.title, 60),
+                    duration: formatDuration(tr.duration),
+                })
             )
             .join('\n');
 
@@ -37,10 +45,10 @@ export default {
         if (queue.current) {
             embed.addFields({
                 name: t(gid, 'player.nowPlayingTitle'),
-                value: `${queue.current.title} (${formatDuration(queue.current.duration)})`,
+                value: `${short(queue.current.title, 200)} (${formatDuration(queue.current.duration)})`,
             });
         }
-        if (upcoming) embed.addFields({ name: t(gid, 'player.upNext'), value: upcoming });
+        if (upcoming) embed.addFields({ name: t(gid, 'player.upNext'), value: upcoming.slice(0, 1024) });
         embed.setFooter({
             text:
                 t(gid, 'player.queueFooter', { count: queue.tracks.length + (queue.current ? 1 : 0), user: queue.current?.requestedBy ?? '-' }) +

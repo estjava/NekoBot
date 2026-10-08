@@ -49,22 +49,29 @@
         "resumeSuccess": "▶️ Resumed.",
         "nothingPlaying": "Nothing is playing right now!",
         "playUsage": "Usage: `{prefix}play <song name or URL>`",
+        
         "ytdlpMissing": "yt-dlp is not installed on the bot's host. Install it or set `YTDLP_PATH`.",
+
         "searching": "🔎 Searching...",
         "loopOff": "➡️ Loop: **off**",
         "loopTrack": "🔂 Loop: **current track**",
         "loopQueue": "🔁 Loop: **whole queue**",
         "loopUsage": "Usage: `{prefix}loop [off|track|queue]`",
+
         "shuffled": "🔀 Shuffled {count} songs.",
         "needTwoSongs": "Need at least 2 songs in the queue to shuffle.",
+
         "removed": "🗑️ Removed: **{title}**",
         "removeUsage": "Usage: `{prefix}remove <position>` (see `{prefix}queue`)",
+
         "nowPlayingTitle": "🎶 Now Playing",
         "nowPlayingInfo": "**{title}**\nDuration: {duration} • Requested by {user}\n{status}",
+
         "statusPlaying": "▶️ Playing",
         "statusPaused": "⏸️ Paused",
         "queuePage": "Page {page}/{pages}",
         "upNext": "Up next",
+
         "leaveSuccess": "Left the voice channel.",
         "leaveError": "There was an error leaving the voice channel.",
         "joinSuccess": "I have been summoned!",

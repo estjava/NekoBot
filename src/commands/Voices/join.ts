@@ -1,6 +1,7 @@
-import { Message, Client, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
-import {joinVoiceChannel } from '@discordjs/voice';
+import { Message } from 'discord.js';
 import { t } from '../../utils/locale';
+import { createQueue, getQueue } from '../../music/queue';
+import { ensureVoice, say } from '../../music/guards';
 
 export default {
     name: 'Join',
@@ -9,64 +10,36 @@ export default {
     aliases: ['j'],
     category: 'Voices',
     examples: ['!join'],
-    permissions: PermissionFlagsBits.Connect,
 
-    async execute(message: Message, args: string[], client: Client) {
+    async execute(message: Message) {
         if (!message.guild) return;
         const gid = message.guild.id;
 
-        const embedSuccess = new EmbedBuilder()
-            .setColor('#57F287')
-            .setDescription(t(gid, 'player.joinSuccess'))
+        // Cek user ada di voice channel + bot boleh join/speak (izin level channel)
+        const voice = await ensureVoice(message);
+        if (!voice) return;
 
-        const embedError = new EmbedBuilder()
-            .setColor('#ED4245')
-            .setDescription(t(gid, 'player.joinError'))
+        const botChannelId = message.guild.members.me?.voice.channelId;
+        const existing = getQueue(gid);
 
-        const embedNotInChannel = new EmbedBuilder()
-            .setColor('#ED4245')
-            .setDescription(t(gid, 'player.notInVoice'))
-
-        const embedBotNoPermission = new EmbedBuilder()
-            .setColor('#ED4245')
-            .setDescription(t(gid, 'player.botNoPermission'))
-
-        const embedUserNoPermission = new EmbedBuilder()
-            .setColor('#ED4245')
-            .setDescription(t(gid, 'player.userNoPermission'))
-            
-        if (!message.guild) return;
-
-        // Bot's own permissions
-        if (!message.guild.members.me?.permissions.has(PermissionFlagsBits.Connect)) {
-            return message.reply({ embeds: [embedBotNoPermission] });
+        if (botChannelId === voice.id) {
+            return say(message, t(gid, 'player.alreadyInChannel', { channel: voice.id }), 0xED4245);
+        }
+        // Sedang memutar musik di channel lain: jangan dibajak
+        if (existing && (existing.current || existing.tracks.length)) {
+            return say(message, t(gid, 'player.notSameChannel'), 0xED4245);
         }
 
-        // Caller's permissions
-        if (!message.member?.permissions.has(PermissionFlagsBits.Connect)) {
-            return message.reply({ embeds: [embedUserNoPermission] });
-        }
-
-        // Check if the user is in a voice channel
-        const voiceChannel = message.member.voice.channel;
-        if (!voiceChannel) {
-            return message.reply({ embeds: [embedNotInChannel] });
-        }
-
-        // Join the voice channel
-        const guildId = message.guild.id;
         try {
-            joinVoiceChannel({
-                channelId: voiceChannel.id,
-                guildId: guildId,
-                adapterCreator: message.guild.voiceAdapterCreator,
-            });
-
-            return message.reply({ embeds: [embedSuccess] });
-
+            existing?.destroy();
+            // Lewat queue (bukan joinVoiceChannel langsung) supaya !play, !leave, dan
+            // timer idle memakai koneksi yang sama dan menunggu koneksi benar-benar siap.
+            const queue = await createQueue(message.guild, voice, message.channel);
+            queue.stop(); // reset state + mulai timer idle 3 menit kalau tidak ada yang memutar
+            return say(message, t(gid, 'player.joinSuccess'), 0x57F287);
         } catch (error) {
-            return message.reply({ embeds: [embedError] });
+            console.error('[join]', error);
+            return say(message, t(gid, 'player.joinError'), 0xED4245);
         }
-
-    }
+    },
 };

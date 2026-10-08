@@ -15,7 +15,15 @@ export default {
         const gid = message.guild.id;
         const queue = await ensureQueue(message);
         if (!queue) return;
-        const removed = queue.remove(parseInt(args[0]));
+
+        // Number(undefined) / Number('abc') = NaN. parseInt + NaN sebelumnya lolos
+        // pengecekan di queue.remove() dan menghapus lagu pertama, jadi cek di sini.
+        const position = Number(args[0]);
+        if (!Number.isInteger(position)) {
+            return say(message, t(gid, 'player.removeUsage', { prefix: getPrefix(client, gid) }), 0xED4245);
+        }
+
+        const removed = queue.remove(position);
         if (!removed) return say(message, t(gid, 'player.removeUsage', { prefix: getPrefix(client, gid) }), 0xED4245);
         return say(message, t(gid, 'player.removed', { title: removed.title }));
     },
