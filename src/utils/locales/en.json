@@ -31,7 +31,7 @@
         "queueFooter": "Total: {count} songs\nRequested by {user}",
         "playlistAdded": "Added playlist to queue: **{name}** ({count} songs)",
         "playlistNowPlaying": "🎶 Now playing playlist: **{name}**\nFirst song: **{first}**",
-        "skipSuccess": "⏭️ Skipped current song!",
+        "skipSuccess": "⏭️ Skipped: **{title}**",
         "stopSuccess": "⏹️ Stopped music and cleared queue!",
         "playError": "Failed to play the track! Check if the URL is valid and try again.",
         "noQueue": "There is no music queue to show!",

@@ -16,7 +16,13 @@ export default {
         const gid = message.guild.id;
         const queue = await ensureQueue(message);
         if (!queue) return;
-        if (!queue.skip()) return say(message, t(gid, 'player.queueEmpty'), COLORS.error);
-        return say(message, t(gid, 'player.skipSuccess'));
+
+        const current = queue.current;
+        if (!current) return say(message, t(gid, 'player.queueEmpty'), COLORS.error);
+
+        // Balas dulu, baru skip. queue.skip() langsung memicu pengumuman "Now playing"
+        // lagu berikutnya, jadi kalau dibalik urutannya bisa tampil lebih dulu dari "Skipped".
+        await say(message, t(gid, 'player.skipSuccess', { title: current.title }));
+        queue.skip();
     },
 };

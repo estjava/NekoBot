@@ -103,6 +103,31 @@ export async function resolve(
     return { kind: 'track', track };
 }
 
+/**
+ * Search and return one random track from the top `pool` results.
+ * Prefers normal song-length videos (1-10 min) and skips URLs in `exclude`.
+ */
+export async function resolveRandom(
+    query: string,
+    requestedBy: string,
+    pool = 15,
+    exclude: string[] = []
+): Promise<Track> {
+    const info = await runJson([
+        '--dump-single-json', '--flat-playlist', '--no-warnings', '--no-playlist',
+        `ytsearch${pool}:${query}`,
+    ]);
+    const all = ((info.entries ?? []) as any[])
+        .map((e) => toTrack(e, requestedBy))
+        .filter((t): t is Track => t !== null && !exclude.includes(t.url));
+
+    const songs = all.filter((t) => t.duration >= 60 && t.duration <= 600);
+    const candidates = songs.length ? songs : all.filter((t) => t.duration > 0);
+    const list = candidates.length ? candidates : all;
+    if (!list.length) throw new SourceError('NOT_FOUND', 'No results.');
+    return list[Math.floor(Math.random() * list.length)];
+}
+
 /** Start streaming a track's audio. Call `kill()` to stop the download early. */
 export function createStream(url: string): { stream: Readable; kill: () => void } {
     const proc = spawn(

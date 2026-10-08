@@ -131,7 +131,7 @@
         "queueFooter": "Total: {count} lagu\nDiminta oleh {user}",
         "playlistAdded": "✅ Playlist ditambahkan: **{name}** ({count} lagu)",
         "playlistNowPlaying": "🎶 Memutar playlist: **{name}**\nLagu pertama: **{first}**",
-        "skipSuccess": "⏭️ Lagu di-skip!",
+        "skipSuccess": "⏭️ Dilewati: **{title}**",
         "stopSuccess": "⏹️ Musik dihentikan dan antrian dihapus!",
         "playError": "❌ Gagal memutar lagu! Periksa URL dan coba lagi.",
         "noQueue": "❌ Tidak ada antrian musik untuk ditampilkan!",
