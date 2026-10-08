@@ -1,5 +1,6 @@
 import { Message, Client, EmbedBuilder, Collection, PermissionResolvable } from 'discord.js';
 import { t } from '../../utils/locale';
+import { COLORS, say } from '../../utils/embedBuilder';
 
 interface HelpCommand {
     name: string;
@@ -13,7 +14,7 @@ interface HelpCommand {
     ownerOnly?: boolean;
 }
 
-const EMBED_COLOR = 0x5865F2;
+const EMBED_COLOR = COLORS.default;
 const FIELD_LIMIT = 1024;
 
 // Urutan kategori di menu. Kategori lain muncul setelahnya (alfabetis).
@@ -52,7 +53,7 @@ export default {
                 visible.find(c => c.aliases?.some(a => a.toLowerCase() === query));
 
             if (!cmd) {
-                return message.reply(t(guildId, 'help.notFound', { name: query }));
+                return say(message, t(guildId, 'help.notFound', { name: query }), COLORS.error);
             }
 
             const usage = toList(cmd.usage).map(u => withPrefix(u, prefix));

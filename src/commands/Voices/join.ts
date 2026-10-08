@@ -1,7 +1,8 @@
 import { Message } from 'discord.js';
 import { t } from '../../utils/locale';
 import { createQueue, getQueue } from '../../music/queue';
-import { ensureVoice, say } from '../../music/guards';
+import { ensureVoice } from '../../music/guards';
+import { COLORS, say } from '../../utils/embedBuilder';
 
 export default {
     name: 'Join',
@@ -23,11 +24,11 @@ export default {
         const existing = getQueue(gid);
 
         if (botChannelId === voice.id) {
-            return say(message, t(gid, 'player.alreadyInChannel', { channel: voice.id }), 0xED4245);
+            return say(message, t(gid, 'player.alreadyInChannel', { channel: voice.id }), COLORS.error);
         }
         // Sedang memutar musik di channel lain: jangan dibajak
         if (existing && (existing.current || existing.tracks.length)) {
-            return say(message, t(gid, 'player.notSameChannel'), 0xED4245);
+            return say(message, t(gid, 'player.notSameChannel'), COLORS.error);
         }
 
         try {
@@ -36,10 +37,10 @@ export default {
             // timer idle memakai koneksi yang sama dan menunggu koneksi benar-benar siap.
             const queue = await createQueue(message.guild, voice, message.channel);
             queue.stop(); // reset state + mulai timer idle 3 menit kalau tidak ada yang memutar
-            return say(message, t(gid, 'player.joinSuccess'), 0x57F287);
+            return say(message, t(gid, 'player.joinSuccess'), COLORS.success);
         } catch (error) {
             console.error('[join]', error);
-            return say(message, t(gid, 'player.joinError'), 0xED4245);
+            return say(message, t(gid, 'player.joinError'), COLORS.error);
         }
     },
 };

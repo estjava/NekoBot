@@ -1,5 +1,6 @@
 import { Message, Client, PermissionResolvable } from 'discord.js';
 import { t } from '../utils/locale';
+import { COLORS, say } from '../utils/embedBuilder';
 
 interface Command {
     name: string;
@@ -37,19 +38,19 @@ module.exports = {
 
         if (command.permissions) {
             if (!message.member?.permissions.has(command.permissions)) {
-                return message.reply(t(guildId, 'common.noPermission'));
+                return say(message, t(guildId, 'common.noPermission'), COLORS.error);
             }
         }
 
         if (command.ownerOnly && message.author.id !== client.config.ownerId) {
-            return message.reply(t(guildId, 'common.ownerOnly'));
+            return say(message, t(guildId, 'common.ownerOnly'), COLORS.error);
         }
 
         try {
             await command.execute(message, args, client);
         } catch (error) {
             console.error(error);
-            await message.reply(t(guildId, 'common.genericError')).catch(() => {});
+            await say(message, t(guildId, 'common.genericError'), COLORS.error).catch(() => {});
         }
     }
 };

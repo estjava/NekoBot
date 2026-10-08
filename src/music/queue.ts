@@ -13,6 +13,7 @@ import {
 import type { Guild, TextBasedChannel, VoiceBasedChannel } from 'discord.js';
 import { t } from '../utils/locale';
 import { Track, createStream } from './source';
+import { COLORS, descEmbed } from '../utils/embedBuilder';
 
 export type LoopMode = 'off' | 'track' | 'queue';
 
@@ -47,7 +48,7 @@ export class GuildQueue {
         this.player.on('error', (err) => {
             console.error(`[music:${guildId}] player error:`, err.message);
             this.endReason = 'error';
-            this.notify(t(guildId, 'player.playError'));
+            this.notify(t(guildId, 'player.playError'), COLORS.error);
         });
 
         // Reconnect if Discord moves us; clean up if we really got disconnected.
@@ -179,15 +180,15 @@ export class GuildQueue {
             if (announce) this.notify(t(this.guildId, 'player.nowPlaying', { title: track.title }));
         } catch (err) {
             console.error(`[music:${this.guildId}] failed to start track:`, err);
-            this.notify(t(this.guildId, 'player.playError'));
+            this.notify(t(this.guildId, 'player.playError'), COLORS.error);
             this.current = null;
             await this.next();
         }
     }
 
-    private notify(text: string) {
+    private notify(text: string, color: number = COLORS.default) {
         if (this.destroyed || !this.textChannel.isSendable()) return;
-        this.textChannel.send({ content: text }).catch(() => {});
+        this.textChannel.send({ embeds: [descEmbed(text, color)] }).catch(() => {});
     }
 
     private startIdleTimer() {

@@ -1,6 +1,7 @@
 import { Client, Message } from 'discord.js';
 import { t } from '../../utils/locale';
-import { ensureQueue, getPrefix, say } from '../../music/guards';
+import { ensureQueue, getPrefix } from '../../music/guards';
+import { COLORS, say } from '../../utils/embedBuilder';
 
 export default {
     name: 'Remove',
@@ -20,11 +21,11 @@ export default {
         // pengecekan di queue.remove() dan menghapus lagu pertama, jadi cek di sini.
         const position = Number(args[0]);
         if (!Number.isInteger(position)) {
-            return say(message, t(gid, 'player.removeUsage', { prefix: getPrefix(client, gid) }), 0xED4245);
+            return say(message, t(gid, 'player.removeUsage', { prefix: getPrefix(client, gid) }), COLORS.error);
         }
 
         const removed = queue.remove(position);
-        if (!removed) return say(message, t(gid, 'player.removeUsage', { prefix: getPrefix(client, gid) }), 0xED4245);
+        if (!removed) return say(message, t(gid, 'player.removeUsage', { prefix: getPrefix(client, gid) }), COLORS.error);
         return say(message, t(gid, 'player.removed', { title: removed.title }));
     },
 };

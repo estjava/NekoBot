@@ -1,6 +1,7 @@
 import { Message } from 'discord.js';
 import { t } from '../../utils/locale';
-import { ensureQueue, say } from '../../music/guards';
+import { ensureQueue } from '../../music/guards';
+import { COLORS, say } from '../../utils/embedBuilder';
 
 export default {
     name: 'Shuffle',
@@ -15,7 +16,7 @@ export default {
         const gid = message.guild.id;
         const queue = await ensureQueue(message);
         if (!queue) return;
-        if (queue.tracks.length < 2) return say(message, t(gid, 'player.needTwoSongs'), 0xED4245);
+        if (queue.tracks.length < 2) return say(message, t(gid, 'player.needTwoSongs'), COLORS.error);
         queue.shuffle();
         return say(message, t(gid, 'player.shuffled', { count: queue.tracks.length }));
     },

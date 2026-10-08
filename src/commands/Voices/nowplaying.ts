@@ -2,7 +2,7 @@ import { EmbedBuilder, Message } from 'discord.js';
 import { t } from '../../utils/locale';
 import { getQueue } from '../../music/queue';
 import { formatDuration } from '../../music/source';
-import { say } from '../../music/guards';
+import { COLORS, say } from '../../utils/embedBuilder';
 
 export default {
     name: 'NowPlaying',
@@ -16,10 +16,10 @@ export default {
         if (!message.guild) return;
         const gid = message.guild.id;
         const cur = getQueue(gid)?.current;
-        if (!cur) return say(message, t(gid, 'player.nothingPlaying'), 0xED4245);
+        if (!cur) return say(message, t(gid, 'player.nothingPlaying'), COLORS.error);
         const q = getQueue(gid)!;
         const embed = new EmbedBuilder()
-            .setColor(0x5865F2)
+            .setColor(COLORS.default)
             .setTitle(t(gid, 'player.nowPlayingTitle'))
             .setURL(cur.url)
             .setDescription(

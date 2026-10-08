@@ -1,5 +1,6 @@
 import { Message, Client, EmbedBuilder } from 'discord.js';
 import { t } from '../../utils/locale';
+import { COLORS, say } from '../../utils/embedBuilder';
 
 export default {
     name: 'Ping',
@@ -12,10 +13,10 @@ export default {
         const gid = message.guild.id;
 
         // Round-trip: time between the user's message and our reply being sent
-        const sent = await message.reply(t(gid, 'ping.pinging'));
+        const sent = await say(message, t(gid, 'ping.pinging'));
         const latency = sent.createdTimestamp - message.createdTimestamp;
         const apiLatency = Math.round(client.ws.ping);
-        const color = (ms: number) => (ms < 200 ? 0x57F287 : ms < 500 ? 0xFEE75C : 0xED4245);
+        const color = (ms: number) => (ms < 200 ? COLORS.success : ms < 500 ? COLORS.warn : COLORS.error);
 
         const embed = new EmbedBuilder()
             .setColor(color(Math.max(latency, apiLatency)))

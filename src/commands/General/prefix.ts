@@ -1,5 +1,6 @@
 import { Client, Message, PermissionFlagsBits } from 'discord.js';
 import { t } from '../../utils/locale';
+import { COLORS, say } from '../../utils/embedBuilder';
 
 export default {
     name: 'Prefix',
@@ -15,27 +16,27 @@ export default {
         const gid = message.guild.id;
 
         if (!message.member?.permissions.has(PermissionFlagsBits.ManageGuild)) {
-            return message.reply(t(gid, 'prefix.UserPermission'));
+            return say(message, t(gid, 'prefix.UserPermission'), COLORS.error);
         }
 
         const newPrefix = args[0];
 
         if (!newPrefix) {
-            return message.reply(t(gid, 'prefix.noPrefix'));
+            return say(message, t(gid, 'prefix.noPrefix'), COLORS.error);
         }
 
         if (newPrefix.length > 5) {
-            return message.reply(t(gid, 'prefix.tooLong'));
+            return say(message, t(gid, 'prefix.tooLong'), COLORS.error);
         }
 
         try {
             // Simpan ke memori + utils/database/prefixes.json (didefinisikan di index.ts)
             client.savePrefix(gid, newPrefix);
 
-            await message.reply(t(gid, 'prefix.success', { prefix: newPrefix }));
+            await say(message, t(gid, 'prefix.success', { prefix: newPrefix }), COLORS.success);
         } catch (error) {
             console.error(error);
-            await message.reply(t(gid, 'prefix.failed'));
+            await say(message, t(gid, 'prefix.failed'), COLORS.error);
         }
     },
 };

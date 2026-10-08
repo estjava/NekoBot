@@ -1,7 +1,8 @@
 import { Client, Message } from 'discord.js';
 import { t } from '../../utils/locale';
 import { LoopMode } from '../../music/queue';
-import { ensureQueue, getPrefix, say } from '../../music/guards';
+import { ensureQueue, getPrefix } from '../../music/guards';
+import { COLORS, say } from '../../utils/embedBuilder';
 
 const MODES: LoopMode[] = ['off', 'track', 'queue'];
 const KEY: Record<LoopMode, string> = { off: 'player.loopOff', track: 'player.loopTrack', queue: 'player.loopQueue' };
@@ -26,7 +27,7 @@ export default {
         } else {
             const arg = args[0].toLowerCase();
             const found = MODES.find((m) => m === arg);
-            if (!found) return say(message, t(gid, 'player.loopUsage', { prefix: getPrefix(client, gid) }), 0xED4245);
+            if (!found) return say(message, t(gid, 'player.loopUsage', { prefix: getPrefix(client, gid) }), COLORS.error);
             mode = found;
         }
         queue.loop = mode;

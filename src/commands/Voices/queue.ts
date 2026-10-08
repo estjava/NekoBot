@@ -2,7 +2,7 @@ import { EmbedBuilder, Message } from 'discord.js';
 import { t } from '../../utils/locale';
 import { getQueue } from '../../music/queue';
 import { formatDuration } from '../../music/source';
-import { say } from '../../music/guards';
+import { COLORS, say } from '../../utils/embedBuilder';
 
 const PAGE_SIZE = 10;
 
@@ -41,7 +41,7 @@ export default {
             )
             .join('\n');
 
-        const embed = new EmbedBuilder().setColor(0x5865F2).setTitle(t(gid, 'player.queueTitle'));
+        const embed = new EmbedBuilder().setColor(COLORS.default).setTitle(t(gid, 'player.queueTitle'));
         if (queue.current) {
             embed.addFields({
                 name: t(gid, 'player.nowPlayingTitle'),
