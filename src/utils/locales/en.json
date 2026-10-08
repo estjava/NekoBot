@@ -1,35 +1,12 @@
 {
-    "com": {
-        "noPermission": "❌ You don't have permission to use this command!",
-        "ownerOnly": "❌ This command is only for the bot owner!",
-        "error": "❌ Invalid command!",
+    "common": {
+        "noPermission": "You don't have permission to use this command!",
+        "ownerOnly": "This command is only for the bot owner!",
+        "error": "Invalid command!",
         "tryAgain": "Please check the command usage and try again.",
         "Usage": "📖 Command Usage",
         "examples": "💡 Examples"
     },
-
-    "ban": {
-        "BotPermission": "I don't have permission to ban members!",
-        "UserPermission": "You don't have permission to ban members!",
-        "noMention": "Please mention a user or provide a user ID to ban.",
-        "notBannable": "I cannot ban this user! (Role too high)",
-        "banBot":"I can't ban myself.",
-        "noSelfBan": "You cannot ban yourself.",
-        "success": "✅ {tag} has been banned!\nReason: {reason}",
-        "failed": "❌ Failed to ban user! Check bot permissions.",
-        "noReason": "No reason provided"
-    },
-
-    "unban": {
-    "BotPermission": "I don't have permission to unban members!",
-    "UserPermission": "You don't have permission to unban members!",
-    "invalidId": "Please provide a valid user ID to unban.",
-    "notBanned": "That user is not currently banned.",
-    "success": "✅ {tag} has been unbanned!\nReason: {reason}",
-    "failed": "❌ Failed to unban user! Check bot permissions.",
-    "noReason": "No reason provided" 
-    },
-
 
     "ping": {
         "pinging": "🏓 Pinging...",
@@ -40,129 +17,62 @@
         "UserPermission": "You don't have permission to change the prefix!",
         "noPrefix": "Please provide a new prefix.",
         "tooLong": "Prefix must be 5 characters or fewer.",
-        "success": "✅ Prefix changed to `{prefix}`",
-        "failed": "❌ Failed to update the prefix. Please try again."
+        "success": "Prefix changed to `{prefix}`",
+        "failed": "Failed to update the prefix. Please try again."
     },
 
-
-
-
-    "userinfo": {
-        "title": "📋 {tag}",
-        "userId": "User ID",
-        "accountCreated": "Account Created",
-        "joinedServer": "Joined Server",
-        "noMention": "❌ Mention the user you want to check!",
-        "notInServer": "❌ That user is not a member of this server!",
-        "roles": "Roles",
-        "noRoles": "None",
-        "requestedBy": "Requested by {user}"
-    },
-    "kick": {
-        "noMention": "❌ Mention the user you want to kick!",
-        "notKickable": "❌ I cannot kick this user!",
-        "success": "✅ {tag} has been kicked!\nReason: {reason}",
-        "failed": "❌ Failed to kick user! Check bot permissions."
-    },
-
-    "mute": {
-        "noMention": "❌ Mention the user you want to mute!\nExample: `!mute @user 10m spam`",
-        "selfMute": "❌ You cannot mute yourself!",
-        "botMute": "❌ You cannot mute me! 😢",
-        "notModeratable": "❌ I cannot mute this user! (Role too high)",
-        "noDuration": "❌ Specify mute duration!\nExample: `!mute @user 10m`, `!mute @user 1h`, `!mute @user 2d`",
-        "invalidDuration": "❌ Invalid duration format!\nUse: `10s`, `5m`, `2h`, `1d`",
-        "maxDuration": "❌ Maximum mute duration is **28 days**!",
-        "title": "🔇 Member Muted!",
-        "user": "👤 User",
-        "moderator": "🛡️ Moderator",
-        "duration": "⏱️ Duration",
-        "ends": "🔓 Ends",
-        "reason": "📝 Reason",
-        "footer": "Muted by {user}",
-        "failed": "❌ Failed to mute user! Check bot permissions."
-    },
-    "unmute": {
-        "noMention": "❌ Mention the user you want to unmute!",
-        "notMuted": "❌ This user is not muted!",
-        "title": "🔊 Member Unmuted!",
-        "user": "👤 User",
-        "moderator": "🛡️ Moderator",
-        "reason": "📝 Reason",
-        "footer": "Unmuted by {user}",
-        "failed": "❌ Failed to unmute user! Check bot permissions."
-    },
-    "warn": {
-        "noMention": "❌ Mention the user you want to warn!\nExample: `!warn @user spam`",
-        "selfWarn": "❌ You cannot warn yourself!",
-        "botWarn": "❌ You cannot warn a bot!",
-        "title": "⚠️ Member Warned!",
-        "user": "👤 User",
-        "moderator": "🛡️ Moderator",
-        "totalWarns": "📊 Total Warns",
-        "warnsCount": "{count} warns",
-        "reason": "📝 Reason",
-        "footer": "Warn #{count}",
-        "dmTitle": "⚠️ You received a warning in {guild}",
-        "failed": "❌ Failed to warn user!"
-    },
-    "warnings": {
-        "noWarns": "✅ **{tag}** has no warnings in this server!",
-        "title": "⚠️ Warning List: {tag}",
-        "entry": "**#{num}** — {reason}\n> By: {mod} • {time}",
-        "footer": "Total: {count} warns"
-    },
-    "language": {
-        "noPermission": "❌ You don't have permission to change the bot language!",
-        "current": "🌐 Current language: **{lang}**",
-        "invalid": "❌ Language not supported!\nAvailable: `en` (English), `id` (Indonesian)",
-        "changed": "✅ Language changed to **{lang}**!",
-        "title": "🌐 Bot Language",
-        "footer": "Changed by {user}"
-    },
     "player": {
-        "noVoiceChannel": "❌ You need to be in a voice channel to use music commands!",
-        "noResults": "❌ No results found for **{query}**!",
-        "addedQueue": "✅ Added to queue: **{title}**",
+        "noVoiceChannel": "You need to be in a voice channel to use music commands!",
+        "noResults": "No results found for **{query}**!",
+        "addedQueue": "Added to queue: **{title}**",
         "nowPlaying": "🎶 Now playing: **{title}**",
         "queueTitle": "📜 Music Queue",
         "queueEntry": "**#{num}.** {title} ({duration})",
         "queueFooter": "Total: {count} songs\nRequested by {user}",
-        "playlistAdded": "✅ Added playlist to queue: **{name}** ({count} songs)",
+        "playlistAdded": "Added playlist to queue: **{name}** ({count} songs)",
         "playlistNowPlaying": "🎶 Now playing playlist: **{name}**\nFirst song: **{first}**",
         "skipSuccess": "⏭️ Skipped current song!",
         "stopSuccess": "⏹️ Stopped music and cleared queue!",
-        "playError": "❌ Failed to play the track! Check if the URL is valid and try again.",
-        "noQueue": "❌ There is no music queue to show!",
-        "emptyQueue": "✅ The music queue is currently empty!",
-        "noPermission": "❌ I don't have permission to join/speak in that voice channel!",
-        "notSameChannel": "❌ You need to be in the same voice channel as the bot!",
-        "notInVoice": "❌ I am not in a voice channel!",
-        "alreadyInChannel": "❌ I am already in <#{channel}>!",
-        "alreadyPaused": "❌ The song is already paused!",
-        "notPaused": "❌ The song is already playing!",
-        "queueEmpty": "❌ The queue is empty, nothing to skip!",
-        "queueFinished": "✅ Queue finished. I'll leave if nothing is added soon.",
-        "idleLeft": "👋 Left the voice channel due to inactivity.",
+        "playError": "Failed to play the track! Check if the URL is valid and try again.",
+        "noQueue": "There is no music queue to show!",
+        "emptyQueue": "The music queue is currently empty!",
+        "noPermission": "I don't have permission to join/speak in that voice channel!",
+        "notSameChannel": "You need to be in the same voice channel as the bot!",
+        "notInVoice": "I am not in a voice channel!",
+        "alreadyInChannel": "I am already in <#{channel}>!",
+        "alreadyPaused": "The song is already paused!",
+        "notPaused": "The song is already playing!",
+        "queueEmpty": "The queue is empty, nothing to skip!",
+        "queueFinished": "Queue finished. I'll leave if nothing is added soon.",
+        "idleLeft": "Left the voice channel due to inactivity.",
         "pauseSuccess": "⏸️ Paused.",
         "resumeSuccess": "▶️ Resumed.",
-        "nothingPlaying": "❌ Nothing is playing right now!",
-        "playUsage": "❌ Usage: `{prefix}play <song name or URL>`",
-        "ytdlpMissing": "❌ yt-dlp is not installed on the bot's host. Install it or set `YTDLP_PATH`.",
+        "nothingPlaying": "Nothing is playing right now!",
+        "playUsage": "Usage: `{prefix}play <song name or URL>`",
+        "ytdlpMissing": "yt-dlp is not installed on the bot's host. Install it or set `YTDLP_PATH`.",
         "searching": "🔎 Searching...",
         "loopOff": "➡️ Loop: **off**",
         "loopTrack": "🔂 Loop: **current track**",
         "loopQueue": "🔁 Loop: **whole queue**",
-        "loopUsage": "❌ Usage: `{prefix}loop [off|track|queue]`",
+        "loopUsage": "Usage: `{prefix}loop [off|track|queue]`",
         "shuffled": "🔀 Shuffled {count} songs.",
-        "needTwoSongs": "❌ Need at least 2 songs in the queue to shuffle.",
+        "needTwoSongs": "Need at least 2 songs in the queue to shuffle.",
         "removed": "🗑️ Removed: **{title}**",
-        "removeUsage": "❌ Usage: `{prefix}remove <position>` (see `{prefix}queue`)",
+        "removeUsage": "Usage: `{prefix}remove <position>` (see `{prefix}queue`)",
         "nowPlayingTitle": "🎶 Now Playing",
         "nowPlayingInfo": "**{title}**\nDuration: {duration} • Requested by {user}\n{status}",
         "statusPlaying": "▶️ Playing",
         "statusPaused": "⏸️ Paused",
         "queuePage": "Page {page}/{pages}",
-        "upNext": "Up next"
+        "upNext": "Up next",
+        "leaveSuccess": "Left the voice channel.",
+        "leaveError": "There was an error leaving the voice channel.",
+        "joinSuccess": "I have been summoned!",
+        "joinError": "There was an error joining the voice channel."
+    },
+    "help": {
+        "title": "📖 Help Menu",
+        "description": "Use `{prefix}help <command>` for more information on a command.",
+        "footer": "Total Commands: {count}"
     }
 }

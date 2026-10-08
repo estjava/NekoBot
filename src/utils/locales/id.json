@@ -1,4 +1,12 @@
 {
+    "common": {
+        "noPermission": "❌ Kamu tidak memiliki permission untuk menggunakan command ini!",
+        "ownerOnly": "❌ Command ini hanya untuk owner bot!",
+        "error": "❌ Terjadi error saat menjalankan command!",
+        "tryAgain": "Periksa penggunaan command dan coba lagi.",
+        "Usage": "📖 Penggunaan Command",
+        "examples": "💡 Contoh"
+    },
     "ping": {
         "pinging": "🏓 Pinging...",
         "pong": "🏓 Pong!\n📡 Latensi: {latency}ms\n💓 Latensi API: {apiLatency}ms"
@@ -113,11 +121,6 @@
         "title": "🌐 Bahasa Bot",
         "footer": "Diubah oleh {user}"
     },
-    "common": {
-        "noPermission": "❌ Kamu tidak memiliki permission untuk menggunakan command ini!",
-        "ownerOnly": "❌ Command ini hanya untuk owner bot!",
-        "error": "❌ Terjadi error saat menjalankan command!"
-    },
     "player": {
         "noVoiceChannel": "❌ Kamu harus berada di voice channel untuk menggunakan perintah musik!",
         "noResults": "❌ Tidak ada hasil untuk **{query}**!",
@@ -161,6 +164,8 @@
         "statusPlaying": "▶️ Memutar",
         "statusPaused": "⏸️ Pause",
         "queuePage": "Halaman {page}/{pages}",
-        "upNext": "Selanjutnya"
+        "upNext": "Selanjutnya",
+        "leaveSuccess": "👋 Keluar dari voice channel.",
+        "leaveError": "❌ Terjadi kesalahan saat keluar dari voice channel."
     }
 }

@@ -1,5 +1,6 @@
 import { Message, Client, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import {joinVoiceChannel } from '@discordjs/voice';
+import { t } from '../../utils/locale';
 
 export default {
     name: 'Join',
@@ -11,26 +12,28 @@ export default {
     permissions: PermissionFlagsBits.Connect,
 
     async execute(message: Message, args: string[], client: Client) {
-        
+        if (!message.guild) return;
+        const gid = message.guild.id;
+
         const embedSuccess = new EmbedBuilder()
             .setColor('#57F287')
-            .setDescription(`I have been summoned`)
+            .setDescription(t(gid, 'player.joinSuccess'))
 
         const embedError = new EmbedBuilder()
             .setColor('#ED4245')
-            .setDescription(`There was an error joining the voice channel.`)
+            .setDescription(t(gid, 'player.joinError'))
 
         const embedNotInChannel = new EmbedBuilder()
             .setColor('#ED4245')
-            .setDescription(`You need to be in a voice channel for me to join.`)
+            .setDescription(t(gid, 'player.notInVoice'))
 
         const embedBotNoPermission = new EmbedBuilder()
             .setColor('#ED4245')
-            .setDescription(`I do not have permission to connect to voice channels.`)
+            .setDescription(t(gid, 'player.botNoPermission'))
 
         const embedUserNoPermission = new EmbedBuilder()
             .setColor('#ED4245')
-            .setDescription(`You do not have permission to connect to voice channels.`)
+            .setDescription(t(gid, 'player.userNoPermission'))
             
         if (!message.guild) return;
 

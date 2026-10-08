@@ -37,19 +37,19 @@ module.exports = {
 
         if (command.permissions) {
             if (!message.member?.permissions.has(command.permissions)) {
-                return message.reply(t(guildId, 'com.noPermission'));
+                return message.reply(t(guildId, 'common.noPermission'));
             }
         }
 
         if (command.ownerOnly && message.author.id !== client.config.ownerId) {
-            return message.reply(t(guildId, 'com.ownerOnly'));
+            return message.reply(t(guildId, 'common.ownerOnly'));
         }
 
         try {
             await command.execute(message, args, client);
         } catch (error) {
             console.error(error);
-            message.reply(t(guildId, 'com.error'));
+            message.reply(t(guildId, 'common.error'));
         }
     }
 };
