@@ -17,10 +17,6 @@ Default prefix is `!` (change it per server with `!prefix <new>`).
 - [+] `prefix` (`setprefix`): change the server prefix
 - [-] `help`
 
-**Moderation**
-- [+] `ban` / `unban`
-- [-] `kick`, `mute`
-
 **Music**
 - [+] `play` (`p`): song name, video URL or playlist URL
 - [+] `pause`, `resume`, `skip` (`s`), `stop`
@@ -28,11 +24,16 @@ Default prefix is `!` (change it per server with `!prefix <new>`).
 - [+] `loop [off|track|queue]`, `shuffle`, `remove <n>`
 - [+] `join` (`j`), `leave` (`l`)
 
-Playlists and YouTube mixes: `!play <playlist link>` queues up to 50 songs. A link that has both a video and a list (`watch?v=...&list=...`) plays only the video; add `--playlist` to load the whole list. "Play mix" links (`start_radio=1`) are loaded as a list automatically.
+Playlists and YouTube mixes: `!play <playlist link>` queues up to 50 songs. 
+A link that has both a video and a list (`watch?v=...&list=...`) plays only the video; add `--playlist` to load the whole list. 
+"Play mix" links (`start_radio=1`) are loaded as a list automatically.
 
 ## Setup
 
-Requirements: Node.js, and [yt-dlp](https://github.com/yt-dlp/yt-dlp) for music (ffmpeg is bundled through `ffmpeg-static`).
+Requirements: 
+Node.js
+[yt-dlp](https://github.com/yt-dlp/yt-dlp) for music (ffmpeg is bundled through `ffmpeg-static`).
+
 
 ```bash
 npm install
@@ -50,7 +51,8 @@ OWNER_ID=your-user-id
 # MAX_PLAYLIST=50
 ```
 
-If `yt-dlp` is not on your PATH, set `YTDLP_PATH` to the executable. Keep yt-dlp updated (`yt-dlp -U`), since YouTube changes often.
+If `yt-dlp` is not on your PATH, set `YTDLP_PATH` to the executable. 
+Keep yt-dlp updated (`yt-dlp -U`), since YouTube changes often.
 
 ## Run
 
