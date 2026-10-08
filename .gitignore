@@ -8,3 +8,6 @@ app/
 .env
 *.patch
 *.zip
+
+# Runtime data
+src/utils/database/*.json
