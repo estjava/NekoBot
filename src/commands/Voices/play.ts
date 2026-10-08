@@ -59,7 +59,7 @@ export default {
             } else if (startedNow) {
                 text = t(gid, 'player.nowPlaying', { title: result.track.title });
             } else {
-                text = `${t(gid, 'player.addedQueue', { title: result.track.title })} (#${position}, ${formatDuration(result.track.duration)})`;
+                text = t(gid, 'player.addedQueue', {title: result.track.title,duration: formatDuration(result.track.duration),position,});
                 color = COLORS.success;
             }
             await status.edit({ embeds: [descEmbed(text, color)] });

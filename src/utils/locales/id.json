@@ -124,7 +124,7 @@
     "player": {
         "noVoiceChannel": "❌ Kamu harus berada di voice channel untuk menggunakan perintah musik!",
         "noResults": "❌ Tidak ada hasil untuk **{query}**!",
-        "addedQueue": "✅ Ditambahkan ke antrian: **{title}**",
+        "addedQueue": "✅ Ditambahkan ke antrian: **{title}** ({duration})\nPosisi: #{position}",
         "nowPlaying": "🎶 Sedang diputar: **{title}**",
         "queueTitle": "📜 Antrian Musik",
         "queueEntry": "**#{num}.** {title} ({duration})",

@@ -24,7 +24,7 @@
     "player": {
         "noVoiceChannel": "You need to be in a voice channel to use music commands!",
         "noResults": "No results found for **{query}**!",
-        "addedQueue": "Added to queue: **{title}**",
+        "addedQueue": "Added to queue: **{title}** ({duration})\nPosition: #{position}",
         "nowPlaying": "🎶 Now playing: **{title}**",
         "queueTitle": "📜 Music Queue",
         "queueEntry": "**#{num}.** {title} ({duration})",
