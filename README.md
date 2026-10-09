@@ -1,10 +1,10 @@
 # NekoBot
-<p align="center">
 ![Node.js Version](https://img.shields.io/badge/node-v24-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-development-success)
 
 
+<p align="center">
   <img src="img/logo.png" alt="NekoBot logo" width="200">
 </p>
 
