@@ -11,7 +11,7 @@
 </p>
 
 
-A prefix-based Discord bot written in TypeScript (discord.js v14) with music playback and EN/ID locale files. All replies are embeds. Moderation commands are still in progress.
+A prefix-based Discord bot written in TypeScript (discord.js v14) with music playback and multi-language support (English and Indonesian included). All replies are embeds. Moderation commands are still in progress.
 
 ## Commands
 
@@ -36,21 +36,15 @@ Default prefix is `!` (change it per server with `!prefix <new>`).
 
 Playlists and YouTube mixes: `!play <playlist link>` queues up to 50 songs (change with `MAX_PLAYLIST`).
 A link that has both a video and a list (`watch?v=...&list=...`) plays only the video; add `--playlist` to load the whole list. 
-"Play mix" links (`start_radio=1`) are loaded as a list automatically.
+This includes the `&list=RD...&start_radio=1` that YouTube adds to many copied links: they play a single video, and a mix is loaded only with `--playlist`.
 
 `!random` picks a song from a built-in list of keywords (edit `KEYWORDS` in `src/commands/Voices/random.ts`), or from your own search: `!random lofi`, `!random Bondan Prakoso`. 
 It only picks songs between 1 and 10 minutes long and skips songs that are already in the queue.
 
-## Adding a language
-
-Copy `locales/en.json` to `locales/<code>.json` (for example `ja.json`) and translate the values.
-Keep the keys and placeholders such as `{title}` unchanged. Restart the bot and the language
-shows up in `!language`. Missing keys fall back to English.
-
 ## Setup
 
 Requirements: 
-- Node.js (developed on v24)
+- Node.js 22.12 or newer (developed on v24)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) for music (ffmpeg is bundled through `ffmpeg-static`)
 
 ```bash
@@ -70,6 +64,7 @@ PREFIX=!
 OWNER_ID=your-user-id
 
 # Optional
+# IDLE_LEAVE_MINUTES=3
 # YTDLP_PATH=D:\path\to\NekoBot\lib\yt-dlp.exe
 # MAX_PLAYLIST=50
 ```
@@ -91,18 +86,20 @@ Check it with `yt-dlp -v -s <video url>`: the log should show `JS runtimes: deno
 
 ```bash
 npm run dev     # development (tsx, watch mode)
-npm run build   # compile to dist/ and copy locale/database JSON files
+npm run build   # compile to dist/
 npm start       # run the compiled bot (run build first)
 ```
 
 Notes:
-- In watch mode, new command files and edits to the locale JSON files need a manual restart.
-- Per-server settings (prefix, language) are saved as JSON in `utils/database/`. Dev mode uses `src/utils/database/`, `npm start` uses `dist/utils/database/`, so the two do not share data. These files are not tracked by Git, and a rebuild never overwrites existing ones.
+- In watch mode, new command files and edits to the files in `locales/` need a manual restart.
+- Per-server settings (prefix, language) are saved as JSON in `data/`. The folder is created automatically, is ignored by Git, and is shared by dev mode and `npm start`.
 - The bot leaves the voice channel 3 minutes after the queue ends.
 
 ## Project structure
 
 ```
+locales/         # translations: en.json, id.json, ...
+data/            # per-server settings, created at runtime (ignored by Git)
 src/
 ├── commands/    # one file per command, grouped into category folders
 │   ├── General/
@@ -111,7 +108,7 @@ src/
 ├── events/      # Discord event handlers (messageCreate, clientReady)
 ├── handlers/    # loaders for commands and events
 ├── music/       # queue, yt-dlp source, voice checks
-└── utils/       # locale, embed helpers, locales/*.json, database/*.json
+└── utils/       # locale loader, embed helpers, paths
 ```
 
 ## Adding a command
@@ -137,8 +134,23 @@ export default {
 };
 ```
 
-Texts shown to users belong in `src/utils/locales/en.json` and `id.json` (use `t(guildId, 'section.key')`). 
+Texts shown to users belong in `locales/en.json` and `locales/id.json` (use `t(guildId, 'section.key')`). 
+To translate the description shown in `!help`, add an entry to both files:
+
+```json
+"commands": {
+    "hello": { "description": "Says hello." }
+}
+```
+
+If an entry is missing, `!help` falls back to the `description` in the command file. 
 Restart the bot after adding a command.
+
+## Adding a language
+
+Copy `locales/en.json` to `locales/<code>.json` (for example `ja.json`) and translate the values.
+Keep the keys and placeholders such as `{title}` unchanged. Restart the bot and the language
+shows up in `!language`. Missing keys fall back to English.
 
 ## License
 
