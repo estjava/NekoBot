@@ -22,6 +22,14 @@
         "failed": "Failed to update the prefix. Please try again."
     },
 
+    "language": {
+        "noPermission": "You need the Manage Server permission to change the bot language!",
+        "current": "Current language: **{lang}**",
+        "available": "Available: {list}\nChange it with `{prefix}language <code>`",
+        "invalid": "Language not supported!\nAvailable: {list}",
+        "changed": "Language changed to **{lang}**!"
+    },
+
     "player": {
         "noVoiceChannel": "You need to be in a voice channel to use music commands!",
         "noResults": "No results found for **{query}**!",
@@ -86,6 +94,30 @@
         "noDescription": "No description available.",
         "category": "Category",
         "aliases": "Aliases",
-        "other": "Other"
+        "other": "Other",
+        "categories": {
+            "General": "General",
+            "Voices": "Voices",
+            "Moderation": "Moderation"
+        }
+    },
+    "commands": {
+        "help": { "description": "Show all commands or details of one command." },
+        "language": { "description": "Show or change the bot language for this server." },
+        "ping": { "description": "Check the bot latency." },
+        "prefix": { "description": "Change the bot's prefix for this server." },
+        "join": { "description": "Join the voice channel you are currently in." },
+        "leave": { "description": "Leave the voice channel." },
+        "loop": { "description": "Set the loop mode: off, track, or queue (no argument cycles through them)." },
+        "nowplaying": { "description": "Show the song that is currently playing." },
+        "pause": { "description": "Pause the current song." },
+        "play": { "description": "Play a song (name or URL) or add it to the queue." },
+        "queue": { "description": "Show the music queue." },
+        "random": { "description": "Play a random song (optionally from a genre or artist)." },
+        "remove": { "description": "Remove a song from the queue by its position." },
+        "resume": { "description": "Resume the paused song." },
+        "shuffle": { "description": "Shuffle the upcoming songs." },
+        "skip": { "description": "Skip the current song." },
+        "stop": { "description": "Stop playback and clear the queue (the bot stays in the channel)." }
     }
 }

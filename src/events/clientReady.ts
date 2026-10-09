@@ -16,7 +16,7 @@ function buildActivities(client: Client): ActivityOptions[] {
         { type: ActivityType.Watching, name: `${servers} servers` },
         { type: ActivityType.Listening, name: `${prefix}play` },
         { type: ActivityType.Playing, name: `${prefix}help | ${members} members` },
-        { type: ActivityType.Custom, name: 'custom', state: '🐾 Nyaa~ ready to play music!' },
+       // { type: ActivityType.Custom, name: 'custom', state: '🐾 Nyaa~ ready to play music!' },
     ];
 }
 

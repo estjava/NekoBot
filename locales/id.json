@@ -119,12 +119,11 @@
         "footer": "Total: {count} warn"
     },
     "language": {
-        "noPermission": "Kamu tidak memiliki permission untuk mengubah bahasa bot!",
+        "noPermission": "Kamu butuh permission Manage Server untuk mengubah bahasa bot!",
         "current": "Bahasa saat ini: **{lang}**",
-        "invalid": "Bahasa tidak didukung!\nTersedia: `en` (English), `id` (Indonesian)",
-        "changed": "Bahasa berhasil diubah ke **{lang}**!",
-        "title": "Bahasa Bot",
-        "footer": "Diubah oleh {user}"
+        "available": "Tersedia: {list}\nGanti dengan `{prefix}language <kode>`",
+        "invalid": "Bahasa tidak didukung!\nTersedia: {list}",
+        "changed": "Bahasa berhasil diubah ke **{lang}**!"
     },
     "player": {
         "noVoiceChannel": "Kamu harus berada di voice channel untuk menggunakan perintah musik!",
@@ -183,6 +182,30 @@
         "noDescription": "Tidak ada deskripsi.",
         "category": "Kategori",
         "aliases": "Alias",
-        "other": "Lainnya"
+        "other": "Lainnya",
+        "categories": {
+            "General": "Umum",
+            "Voices": "Musik",
+            "Moderation": "Moderasi"
+        }
+    },
+    "commands": {
+        "help": { "description": "Tampilkan semua command atau detail satu command." },
+        "language": { "description": "Tampilkan atau ubah bahasa bot untuk server ini." },
+        "ping": { "description": "Cek latensi bot." },
+        "prefix": { "description": "Ubah prefix bot untuk server ini." },
+        "join": { "description": "Bergabung ke voice channel tempat kamu berada." },
+        "leave": { "description": "Keluar dari voice channel." },
+        "loop": { "description": "Atur mode loop: off, track, atau queue (tanpa argumen akan berganti bergantian)." },
+        "nowplaying": { "description": "Tampilkan lagu yang sedang diputar." },
+        "pause": { "description": "Jeda lagu yang sedang diputar." },
+        "play": { "description": "Putar lagu (judul atau URL) atau tambahkan ke antrian." },
+        "queue": { "description": "Tampilkan antrian musik." },
+        "random": { "description": "Putar lagu acak (bisa berdasarkan genre atau artis)." },
+        "remove": { "description": "Hapus lagu dari antrian berdasarkan posisinya." },
+        "resume": { "description": "Lanjutkan lagu yang dijeda." },
+        "shuffle": { "description": "Acak urutan lagu yang akan datang." },
+        "stop": { "description": "Hentikan pemutaran dan kosongkan antrian (bot tetap di channel)." },
+        "skip": { "description": "Lewati lagu yang sedang diputar." }
     }
 }

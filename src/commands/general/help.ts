@@ -23,6 +23,13 @@ const CATEGORY_ORDER = ['General', 'Voices', 'Music', 'Moderation'];
 const toList = (v?: string | string[]): string[] =>
     v === undefined ? [] : Array.isArray(v) ? v : [v];
 
+// Terjemahan dengan cadangan: kalau kuncinya belum ada di locale, pakai teks bawaan
+// (t() mengembalikan nama kuncinya kalau tidak ditemukan).
+const tr = (guildId: string, key: string, fallback: string): string => {
+    const text = t(guildId, key);
+    return text === key ? fallback : text;
+};
+
 // Teks usage/example ditulis dengan '!', ganti ke prefix server yang aktif.
 const withPrefix = (text: string, prefix: string): string =>
     text.startsWith('!') ? prefix + text.slice(1) : text;
@@ -63,7 +70,13 @@ export default {
             const embed = new EmbedBuilder()
                 .setColor(EMBED_COLOR)
                 .setTitle(`${prefix}${cmd.name.toLowerCase()}`)
-                .setDescription(cmd.description || t(guildId, 'help.noDescription'))
+                .setDescription(
+                    tr(
+                        guildId,
+                        `commands.${cmd.name.toLowerCase()}.description`,
+                        cmd.description || t(guildId, 'help.noDescription')
+                    )
+                )
                 .addFields({
                     name: t(guildId, 'common.Usage'),
                     value: usage.map(u => `\`${u}\``).join('\n').slice(0, FIELD_LIMIT)
@@ -76,7 +89,11 @@ export default {
                 });
             }
             if (cmd.category) {
-                embed.addFields({ name: t(guildId, 'help.category'), value: cmd.category, inline: true });
+                embed.addFields({
+                    name: t(guildId, 'help.category'),
+                    value: tr(guildId, `help.categories.${cmd.category}`, cmd.category),
+                    inline: true
+                });
             }
             if (cmd.aliases?.length) {
                 embed.addFields({
@@ -117,7 +134,7 @@ export default {
             const cmds = groups.get(category)!.sort((a, b) => a.name.localeCompare(b.name));
             let value = cmds.map(c => `\`${prefix}${c.name.toLowerCase()}\``).join(' ');
             if (value.length > FIELD_LIMIT) value = value.slice(0, FIELD_LIMIT - 1) + '…';
-            embed.addFields({ name: category, value });
+            embed.addFields({ name: tr(guildId, `help.categories.${category}`, category), value });
         }
 
         return message.reply({ embeds: [embed] });

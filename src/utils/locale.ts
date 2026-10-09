@@ -13,14 +13,24 @@ interface LocaleVars {
 
 type LangSettings = Record<string, string>;
 
-// Load semua locale file
+// Load semua file bahasa di folder locales/ (en.json, id.json, ja.json, ...).
+// Menambah bahasa cukup menaruh satu file JSON baru; nama file = kode bahasa.
+const DEFAULT_LANG = 'en';
 const locales: Record<string, LocaleData> = {};
-const supportedLangs: string[] = ['en', 'id'];
 
-for (const lang of supportedLangs) {
-    locales[lang] = JSON.parse(
-        fs.readFileSync(path.join(LOCALES_DIR, `${lang}.json`), 'utf8')
-    );
+for (const file of fs.readdirSync(LOCALES_DIR)) {
+    if (!file.endsWith('.json')) continue;
+    const code = file.slice(0, -'.json'.length);
+    try {
+        const raw = fs.readFileSync(path.join(LOCALES_DIR, file), 'utf8').replace(/^\uFEFF/, '');
+        locales[code] = JSON.parse(raw);
+    } catch (err) {
+        console.warn(`[locale] Skipping ${file}: ${(err as Error).message}`);
+    }
+}
+
+if (!locales[DEFAULT_LANG]) {
+    throw new Error(`Missing or invalid ${DEFAULT_LANG}.json in ${LOCALES_DIR} (it is the fallback language).`);
 }
 
 const langPath = path.join(DATA_DIR, 'languages.json');
@@ -45,23 +55,49 @@ function saveLangSettings(data: LangSettings): void {
 }
 
 export function supportedLangsList(): string[] {
-    return supportedLangs;
+    return Object.keys(locales).sort((a, b) => a.localeCompare(b));
+}
+
+/** Display name of a language in that language, e.g. "English", "Indonesia". Falls back to the code. */
+export function languageName(code: string): string {
+    try {
+        const name = new Intl.DisplayNames([code], { type: 'language' }).of(code);
+        if (name && name !== code) return name.charAt(0).toLocaleUpperCase(code) + name.slice(1);
+    } catch {
+        // not a valid language tag: use the code itself
+    }
+    return code;
+}
+
+/** Match user input (code or display name, any case) to a supported language code. */
+export function resolveLang(input: string): string | undefined {
+    const wanted = input.trim().toLowerCase();
+    if (!wanted) return undefined;
+    const codes = supportedLangsList();
+    return (
+        codes.find((c) => c.toLowerCase() === wanted) ??
+        codes.find((c) => languageName(c).toLowerCase() === wanted)
+    );
 }
 
 export function getLang(guildId: string): string {
-    const settings = loadLangSettings();
-    return settings[guildId] || 'en';
+    const saved = loadLangSettings()[guildId];
+    // A saved language whose file was removed falls back to the default.
+    return saved && locales[saved] ? saved : DEFAULT_LANG;
 }
 
-export function setLang(guildId: string, lang: string): void {
+/** Returns false (and saves nothing) if the language is not supported. */
+export function setLang(guildId: string, lang: string): boolean {
+    if (!locales[lang]) return false;
     const settings = loadLangSettings();
     settings[guildId] = lang;
     saveLangSettings(settings);
+    return true;
 }
 
 export function t(guildId: string, key: string, vars: LocaleVars = {}): string {
     const lang = getLang(guildId);
-    const locale = locales[lang] || locales['en'];
+    const locale = locales[lang] || locales[DEFAULT_LANG];
 
     const keys = key.split('.');
     let text: string | LocaleData | undefined = locale;
@@ -70,7 +106,7 @@ export function t(guildId: string, key: string, vars: LocaleVars = {}): string {
     }
 
     if (text === undefined || typeof text !== 'string') {
-        let fallback: string | LocaleData | undefined = locales['en'];
+        let fallback: string | LocaleData | undefined = locales[DEFAULT_LANG];
         for (const k of keys) fallback = (fallback as LocaleData)?.[k];
         text = typeof fallback === 'string' ? fallback : key;
     }
