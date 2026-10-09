@@ -1,8 +1,8 @@
 # NekoBot
-![Node.js](https://img.shields.io/badge/node-%3E%3D22.12-brightgreen)
-![discord.js](https://img.shields.io/github/package-json/dependency-version/estjava/NekoBot/discord.js)
+![Node.js](https://img.shields.io/badge/node-%3E%3D22.12-5FA04E?logo=nodedotjs&logoColor=white)
+![discord.js](https://img.shields.io/github/package-json/dependency-version/estjava/NekoBot/discord.js?logo=discord&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-green?logo=opensourceinitiative&logoColor=white)](LICENSE)
 ![Status](https://img.shields.io/badge/status-development-yellow)
 
 
