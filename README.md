@@ -21,6 +21,7 @@ Default prefix is `!` (change it per server with `!prefix <new>`).
 - [+] `help` (`h`, `commands`): list all commands, or `!help <command>` for details
 - [+] `ping`: bot latency
 - [+] `prefix` (`setprefix`): change the server prefix
+- [+] `language` (`lang`): show or change the bot language (needs Manage Server)
 
 **Music**
 - [+] `play` (`p`): song name, video URL or playlist URL
@@ -39,6 +40,12 @@ A link that has both a video and a list (`watch?v=...&list=...`) plays only the 
 
 `!random` picks a song from a built-in list of keywords (edit `KEYWORDS` in `src/commands/Voices/random.ts`), or from your own search: `!random lofi`, `!random Bondan Prakoso`. 
 It only picks songs between 1 and 10 minutes long and skips songs that are already in the queue.
+
+## Adding a language
+
+Copy `locales/en.json` to `locales/<code>.json` (for example `ja.json`) and translate the values.
+Keep the keys and placeholders such as `{title}` unchanged. Restart the bot and the language
+shows up in `!language`. Missing keys fall back to English.
 
 ## Setup
 
