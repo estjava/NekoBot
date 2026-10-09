@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-development-success)
 
-![Logo](img/logo.png)
+<img src="img/logo.png" alt="NekoBot logo" width="200">
 
 
 A prefix-based Discord bot written in TypeScript (discord.js v14) with music playback and EN/ID locale files. All replies are embeds. Moderation commands are still in progress.
@@ -28,7 +28,7 @@ Default prefix is `!` (change it per server with `!prefix <new>`).
 **Moderation**
 - [-] `kick`, `mute` and more (planned)
 
-Playlists and YouTube mixes: `!play <playlist link>` queues up to 50 songs. 
+Playlists and YouTube mixes: `!play <playlist link>` queues up to 50 songs (change with `MAX_PLAYLIST`).
 A link that has both a video and a list (`watch?v=...&list=...`) plays only the video; add `--playlist` to load the whole list. 
 "Play mix" links (`start_radio=1`) are loaded as a list automatically.
 
