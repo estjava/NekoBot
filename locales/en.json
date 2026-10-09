@@ -3,14 +3,15 @@
         "noPermission": "You don't have permission to use this command!",
         "ownerOnly": "This command is only for the bot owner!",
         "error": "Invalid command!",
+        "genericError": "Something went wrong. Please try again.",
         "tryAgain": "Please check the command usage and try again.",
-        "Usage": "📖 Command Usage",
-        "examples": "💡 Examples"
+        "Usage": "Command Usage",
+        "examples": "Examples"
     },
 
     "ping": {
-        "pinging": "🏓 Pinging...",
-        "pong": ":heartpulse: Heartbeat: {latency}ms\n :stopwatch: API: {apiLatency}ms"
+        "pinging": "Pinging...",
+        "pong": "Heartbeat: {latency}ms\nAPI: {apiLatency}ms"
     },
 
     "prefix": {
@@ -25,14 +26,14 @@
         "noVoiceChannel": "You need to be in a voice channel to use music commands!",
         "noResults": "No results found for **{query}**!",
         "addedQueue": "Added to queue: **{title}** ({duration})\nPosition: #{position}",
-        "nowPlaying": "🎶 Now playing: **{title}**",
-        "queueTitle": "📜 Music Queue",
+        "nowPlaying": "Now playing: **{title}**",
+        "queueTitle": "Music Queue",
         "queueEntry": "**#{num}.** {title} ({duration})",
         "queueFooter": "Total: {count} songs\nRequested by {user}",
         "playlistAdded": "Added playlist to queue: **{name}** ({count} songs)",
-        "playlistNowPlaying": "🎶 Now playing playlist: **{name}**\nFirst song: **{first}**",
-        "skipSuccess": "⏭️ Skipped: **{title}**",
-        "stopSuccess": "⏹️ Stopped music and cleared queue!",
+        "playlistNowPlaying": "Now playing playlist: **{name}**\nFirst song: **{first}**",
+        "skipSuccess": "Skipped: **{title}**",
+        "stopSuccess": "Stopped music and cleared queue!",
         "playError": "Failed to play the track! Check if the URL is valid and try again.",
         "noQueue": "There is no music queue to show!",
         "emptyQueue": "The music queue is currently empty!",
@@ -45,30 +46,30 @@
         "queueEmpty": "The queue is empty, nothing to skip!",
         "queueFinished": "Queue finished. I'll leave if nothing is added soon.",
         "idleLeft": "Left the voice channel due to inactivity.",
-        "pauseSuccess": "⏸️ Paused.",
-        "resumeSuccess": "▶️ Resumed.",
+        "pauseSuccess": "Paused.",
+        "resumeSuccess": "Resumed.",
         "nothingPlaying": "Nothing is playing right now!",
         "playUsage": "Usage: `{prefix}play <song name or URL>`",
         
         "ytdlpMissing": "yt-dlp is not installed on the bot's host. Install it or set `YTDLP_PATH`.",
 
-        "searching": "🔎 Searching...",
-        "loopOff": "➡️ Loop: **off**",
-        "loopTrack": "🔂 Loop: **current track**",
-        "loopQueue": "🔁 Loop: **whole queue**",
+        "searching": "Searching...",
+        "loopOff": "Loop: **off**",
+        "loopTrack": "Loop: **current track**",
+        "loopQueue": "Loop: **whole queue**",
         "loopUsage": "Usage: `{prefix}loop [off|track|queue]`",
 
-        "shuffled": "🔀 Shuffled {count} songs.",
+        "shuffled": "Shuffled {count} songs.",
         "needTwoSongs": "Need at least 2 songs in the queue to shuffle.",
 
-        "removed": "🗑️ Removed: **{title}**",
+        "removed": "Removed: **{title}**",
         "removeUsage": "Usage: `{prefix}remove <position>` (see `{prefix}queue`)",
 
-        "nowPlayingTitle": "🎶 Now Playing",
+        "nowPlayingTitle": "Now Playing",
         "nowPlayingInfo": "**{title}**\nDuration: {duration} • Requested by {user}\n{status}",
 
-        "statusPlaying": "▶️ Playing",
-        "statusPaused": "⏸️ Paused",
+        "statusPlaying": "Playing",
+        "statusPaused": "Paused",
         "queuePage": "Page {page}/{pages}",
         "upNext": "Up next",
 
@@ -78,8 +79,13 @@
         "joinError": "There was an error joining the voice channel."
     },
     "help": {
-        "title": "📖 Help Menu",
+        "title": "Help Menu",
         "description": "Use `{prefix}help <command>` for more information on a command.",
-        "footer": "Total Commands: {count}"
+        "footer": "Total Commands: {count}",
+        "notFound": "Command `{name}` was not found.",
+        "noDescription": "No description available.",
+        "category": "Category",
+        "aliases": "Aliases",
+        "other": "Other"
     }
 }

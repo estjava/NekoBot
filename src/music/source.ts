@@ -1,4 +1,4 @@
-import { spawn } from 'node:child_process';
+import { spawn, type ChildProcess } from 'node:child_process';
 import { Transform, type Readable } from 'node:stream';
 
 // yt-dlp must be installed and on PATH (or set YTDLP_PATH in .env)
@@ -24,12 +24,26 @@ export class SourceError extends Error {
     }
 }
 
+/**
+ * Force-stop a yt-dlp process. On Windows the official yt-dlp.exe is a launcher plus a child
+ * Python process, and proc.kill() only ends the launcher, so kill the whole tree there.
+ * Last resort only: a force-killed launcher cannot clean up its temp folder (_MEI...).
+ */
+function killTree(proc: ChildProcess): void {
+    if (proc.exitCode !== null || proc.signalCode !== null) return; // already gone
+    if (process.platform === 'win32' && proc.pid) {
+        spawn('taskkill', ['/pid', String(proc.pid), '/T', '/F'], { windowsHide: true, stdio: 'ignore' });
+    } else {
+        proc.kill();
+    }
+}
+
 function runJson(args: string[]): Promise<any> {
     return new Promise((resolve, reject) => {
         const proc = spawn(YTDLP, args, { windowsHide: true });
         let out = '';
         let err = '';
-        const timer = setTimeout(() => proc.kill(), RESOLVE_TIMEOUT_MS);
+        const timer = setTimeout(() => killTree(proc), RESOLVE_TIMEOUT_MS);
 
         proc.stdout.on('data', (d) => (out += d));
         proc.stderr.on('data', (d) => (err += d));
@@ -179,7 +193,16 @@ export function createStream(
         stream: out,
         kill: () => {
             killedByUs = true;
-            proc.kill();
+            // Close our end of the pipe instead of killing the process: yt-dlp then exits by
+            // itself on its next write (and removes its temp folder). Ending `out` keeps the
+            // downstream stream from hanging.
+            proc.stdout.unpipe(out);
+            proc.stdout.destroy();
+            out.end();
+            // Safety net in case it is stuck (e.g. waiting on the network).
+            const t = setTimeout(() => killTree(proc), 5000);
+            t.unref();
+            proc.once('close', () => clearTimeout(t));
         },
     };
 }

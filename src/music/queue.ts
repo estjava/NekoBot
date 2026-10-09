@@ -17,7 +17,7 @@ import { COLORS, descEmbed } from '../utils/embedBuilder';
 
 export type LoopMode = 'off' | 'track' | 'queue';
 
-const IDLE_LEAVE_MS = 3 * 60 * 1000;
+const IDLE_LEAVE_MS = (Number(process.env.IDLE_LEAVE_MINUTES) || 3) * 60 * 1000;
 
 export class GuildQueue {
     /** Upcoming tracks (does not include the current one). */

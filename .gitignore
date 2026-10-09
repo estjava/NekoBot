@@ -10,4 +10,4 @@ app/
 *.zip
 
 # Runtime data
-src/utils/database/*.json
+data/

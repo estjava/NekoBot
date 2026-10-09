@@ -2,6 +2,7 @@ import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';
 import { Client, Collection, Events, GatewayIntentBits } from 'discord.js';
+import { DATA_DIR } from './utils/paths';
 
 
 
@@ -33,14 +34,17 @@ client.config = {
     ownerId: process.env.OWNER_ID
 };
 
-const prefixPath = path.join(__dirname, 'utils/database/prefixes.json');
+const prefixPath = path.join(DATA_DIR, 'prefixes.json');
 
 client.prefixes = new Map();
 let prefixData: Record<string, string> = {};
 try {
     prefixData = JSON.parse(fs.readFileSync(prefixPath, 'utf8'));
-} catch {
-    console.log('⚠️  Error reading prefixes.json.');
+} catch (err) {
+    // First run: the file does not exist yet, which is fine.
+    if ((err as NodeJS.ErrnoException).code !== 'ENOENT') {
+        console.log('⚠️  Error reading prefixes.json.');
+    }
 }
 Object.keys(prefixData).forEach(key => {
     client.prefixes.set(key, prefixData[key]);
@@ -49,6 +53,7 @@ Object.keys(prefixData).forEach(key => {
 client.savePrefix = (guildId: string, prefix: string): void => {
     client.prefixes.set(guildId, prefix);
     const data = Object.fromEntries(client.prefixes);
+    fs.mkdirSync(DATA_DIR, { recursive: true });
     fs.writeFileSync(prefixPath, JSON.stringify(data, null, 2));
 };
 

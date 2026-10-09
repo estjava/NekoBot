@@ -30,7 +30,7 @@ export default {
         }
 
         try {
-            // Simpan ke memori + utils/database/prefixes.json (didefinisikan di index.ts)
+            // Simpan ke memori + data/prefixes.json (didefinisikan di index.ts)
             client.savePrefix(gid, newPrefix);
 
             await say(message, t(gid, 'prefix.success', { prefix: newPrefix }), COLORS.success);

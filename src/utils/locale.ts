@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { DATA_DIR, LOCALES_DIR } from './paths';
 
 // Types
 interface LocaleData {
@@ -18,11 +19,11 @@ const supportedLangs: string[] = ['en', 'id'];
 
 for (const lang of supportedLangs) {
     locales[lang] = JSON.parse(
-        fs.readFileSync(path.join(__dirname, `./locales/${lang}.json`), 'utf8')
+        fs.readFileSync(path.join(LOCALES_DIR, `${lang}.json`), 'utf8')
     );
 }
 
-const langPath = path.join(__dirname, './database/languages.json');
+const langPath = path.join(DATA_DIR, 'languages.json');
 
 // Cache in-memory biar tidak baca file tiap kali t() dipanggil
 let langSettingsCache: LangSettings;
@@ -39,6 +40,7 @@ function loadLangSettings(): LangSettings {
 
 function saveLangSettings(data: LangSettings): void {
     langSettingsCache = data;
+    fs.mkdirSync(DATA_DIR, { recursive: true });
     fs.writeFileSync(langPath, JSON.stringify(data, null, 2));
 }
 
