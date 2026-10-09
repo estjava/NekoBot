@@ -64,8 +64,16 @@ OWNER_ID=your-user-id
 
 **3. yt-dlp**
 
-Put `yt-dlp.exe` in the `lib/` folder (it is ignored by Git) and set `YTDLP_PATH` to it, or make sure `yt-dlp` is on your PATH. 
+Put `yt-dlp.exe` in the `lib/` folder (it is ignored by Git) and set `YTDLP_PATH` to it, or make sure `yt-dlp` is on your PATH.
 Keep yt-dlp updated (`yt-dlp -U`), since YouTube changes often.
+
+YouTube also needs a JavaScript runtime. Download `deno.exe` from the
+[Deno releases](https://github.com/denoland/deno/releases) into `lib/` and create
+`lib/yt-dlp.conf` containing:
+
+    --js-runtimes deno:D:/path/to/NekoBot/lib/deno.exe
+
+Check it with `yt-dlp -v -s <video url>`: the log should show `JS runtimes: deno-x.y.z`.
 
 ## Run
 

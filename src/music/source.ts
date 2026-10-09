@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import type { Readable } from 'node:stream';
+import { Transform, type Readable } from 'node:stream';
 
 // yt-dlp must be installed and on PATH (or set YTDLP_PATH in .env)
 const YTDLP = process.env.YTDLP_PATH || 'yt-dlp';
@@ -128,16 +128,60 @@ export async function resolveRandom(
     return list[Math.floor(Math.random() * list.length)];
 }
 
-/** Start streaming a track's audio. Call `kill()` to stop the download early. */
-export function createStream(url: string): { stream: Readable; kill: () => void } {
+/**
+ * Start streaming a track's audio. Call `kill()` to stop the download early.
+ *
+ * `onFail` is called when yt-dlp exits with an error before producing any real audio
+ * (YouTube 403 / bot check, outdated yt-dlp, missing JS runtime, unavailable video, ...).
+ * Without it such a failure is silent: ffmpeg just receives an empty stream and the
+ * track "ends" immediately.
+ */
+export function createStream(
+    url: string,
+    onFail?: (reason: string) => void
+): { stream: Readable; kill: () => void } {
     const proc = spawn(
         YTDLP,
-        ['-f', 'bestaudio/best', '-o', '-', '-q', '--no-warnings', '--no-playlist', url],
+        ['-f', 'bestaudio/best', '-o', '-', '-q', '--no-playlist', url],
         { stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true }
     );
-    proc.stderr.resume(); // drain so the process never blocks
-    proc.on('error', (e) => proc.stdout.destroy(e));
-    return { stream: proc.stdout, kill: () => proc.kill() };
+
+    let stderr = '';
+    let bytes = 0;
+    let killedByUs = false;
+
+    // Count bytes in a pass-through instead of listening to 'data' on stdout, which
+    // would start the flow before the audio resource is attached and drop audio.
+    const out = new Transform({
+        transform(chunk, _enc, cb) {
+            bytes += chunk.length;
+            cb(null, chunk);
+        },
+    });
+    proc.stdout.pipe(out);
+
+    proc.stderr.on('data', (d) => {
+        stderr = (stderr + d).slice(-4000); // keep only the tail; also drains the pipe
+    });
+    proc.on('error', (e) => out.destroy(e));
+    proc.on('close', (code) => {
+        if (killedByUs || code === 0 || code === null) return;
+        if (bytes > 256 * 1024) return; // played for a while: not a startup failure
+        const lines = stderr.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+        const reason =
+            [...lines].reverse().find((l) => l.startsWith('ERROR')) ??
+            lines[lines.length - 1] ??
+            `yt-dlp exited with code ${code}`;
+        onFail?.(reason);
+    });
+
+    return {
+        stream: out,
+        kill: () => {
+            killedByUs = true;
+            proc.kill();
+        },
+    };
 }
 
 export function formatDuration(seconds: number): string {

@@ -173,7 +173,11 @@ export class GuildQueue {
         this.current = track;
         try {
             this.killStream?.();
-            const { stream, kill } = createStream(track.url);
+            const { stream, kill } = createStream(track.url, (reason) => {
+                // Real cause goes to the console; the channel gets the generic error.
+                console.error(`[music:${this.guildId}] yt-dlp failed for "${track.title}" (${track.url}): ${reason}`);
+                this.notify(t(this.guildId, 'player.playError'), COLORS.error);
+            });
             this.killStream = kill;
             const resource = createAudioResource(stream, { inputType: StreamType.Arbitrary });
             this.player.play(resource);
