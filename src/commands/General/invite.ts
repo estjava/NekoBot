@@ -15,7 +15,7 @@ export default {
         const gid = message.guild.id;
 
         try {
-            // Only what the bot needs: read/answer messages with embeds, and join + speak in voice.
+            // Only what the bot needs: answer messages with embeds, voice, and moderation.
             const url = client.generateInvite({
                 scopes: [OAuth2Scopes.Bot],
                 permissions: [
@@ -25,6 +25,10 @@ export default {
                     PermissionFlagsBits.ReadMessageHistory,
                     PermissionFlagsBits.Connect,
                     PermissionFlagsBits.Speak,
+                    // For the Moderation commands (kick, ban, mute).
+                    PermissionFlagsBits.KickMembers,
+                    PermissionFlagsBits.BanMembers,
+                    PermissionFlagsBits.ModerateMembers,
                 ],
             });
             return say(message, t(gid, 'invite.text', { url }));

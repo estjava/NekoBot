@@ -116,7 +116,16 @@
         "settings": { "description": "Show all bot settings for this server." },
         "botinfo": { "description": "Show statistics about the bot." },
         "invite": { "description": "Get a link to add the bot to another server." },
-        "serverinfo": { "description": "Show information about this server." }
+        "serverinfo": { "description": "Show information about this server." },
+        "kick": { "description": "Kick a member from the server." },
+        "ban": { "description": "Ban a member (or a user ID) from the server." },
+        "unban": { "description": "Remove the ban of a user." },
+        "mute": { "description": "Mute a member (Discord timeout) for a set time." },
+        "unmute": { "description": "Remove the mute (timeout) of a member." },
+        "warn": { "description": "Give a member a warning." },
+        "warnings": { "description": "Show the warnings of a member." },
+        "unwarn": { "description": "Remove one warning (by number) or all warnings of a member." },
+        "clear": { "description": "Delete the latest messages in this channel." }
     },
     "stay": {
         "statusOn": "24/7 mode is **on**. I stay in the voice channel even when nothing is playing.\nTurn it off with `{prefix}247 off`.",
@@ -165,5 +174,71 @@
         "roles": "Roles",
         "boosts": "Boosts",
         "boostsValue": "Level {tier} • {count} boosts"
+    },
+    "mod": {
+        "noTarget": "Mention a member or give their ID.\nUsage: `{usage}`",
+        "notFound": "I couldn't find that member in this server.",
+        "self": "You can't do that to yourself!",
+        "bot": "I can't do that to myself!",
+        "owner": "You can't do that to the server owner!",
+        "hierarchy": "That member's highest role is the same as or higher than yours!",
+        "cannotAct": "I can't do that to this member. My role must be above theirs and I need the right permission.",
+        "botMissing": "I'm missing the permission to do that.",
+        "failed": "Something went wrong. Check my permissions and try again.",
+        "noReason": "No reason given",
+        "dm": "You were **{action}** in **{guild}**.\nReason: {reason}",
+        "actions": {
+            "kicked": "kicked",
+            "banned": "banned",
+            "muted": "muted for {duration}",
+            "warned": "warned"
+        }
+    },
+    "kick": {
+        "success": "Kicked **{user}**.\nReason: {reason}"
+    },
+    "ban": {
+        "success": "Banned **{user}**.\nReason: {reason}",
+        "already": "That user is already banned.",
+        "userNotFound": "I couldn't find a user with that ID."
+    },
+    "unban": {
+        "noId": "Give the ID of the user to unban.\nUsage: `{usage}`",
+        "notBanned": "That user is not banned.",
+        "success": "Unbanned **{user}**.\nReason: {reason}"
+    },
+    "mute": {
+        "success": "Muted **{user}** for **{duration}**.\nReason: {reason}",
+        "invalidDuration": "Invalid duration. Use a number and a unit: `30s`, `10m`, `2h`, `1d`, `1w`.",
+        "tooLong": "The maximum mute length is **28 days**."
+    },
+    "unmute": {
+        "success": "Unmuted **{user}**.",
+        "notMuted": "That member is not muted."
+    },
+    "warn": {
+        "success": "Warned **{user}** (warning #{count}).\nReason: {reason}"
+    },
+    "warnings": {
+        "title": "Warnings for {user}",
+        "none": "{user} has no warnings.",
+        "entry": "**#{num}** • <t:{time}:d> • <@{mod}>\n{reason}",
+        "more": "...and {count} older warning(s).",
+        "footer": "Total: {count}"
+    },
+    "unwarn": {
+        "usage": "Give the warning number (see `{prefix}warnings`) or `all`.",
+        "notFound": "{user} has no warning #{number}.",
+        "removed": "Removed warning #{number} from {user}.",
+        "cleared": "Removed all {count} warning(s) from {user}."
+    },
+    "clear": {
+        "usage": "Give how many messages to delete (1-{max}).\nUsage: `{usage}`",
+        "invalidUser": "That isn't a valid user. Mention them or give their ID.",
+        "botMissing": "I need the View Channel, Read Message History and Manage Messages permissions in this channel.",
+        "nothing": "There was nothing to delete. Pinned messages and messages older than 14 days are skipped.",
+        "success": "Deleted **{count}** message(s).",
+        "successUser": "Deleted **{count}** message(s) from {user}.",
+        "tooOld": "{count} message(s) were older than 14 days and could not be deleted."
     }
 }

@@ -42,82 +42,36 @@
         "requestedBy": "Diminta oleh {user}"
     },
     "kick": {
-        "noMention": "Mention user yang ingin di-kick!",
-        "notKickable": "Saya tidak bisa kick user ini!",
-        "success": "{tag} telah di-kick!\nAlasan: {reason}",
-        "failed": "Gagal kick user! Cek permission bot."
+        "success": "**{user}** telah di-kick.\nAlasan: {reason}"
     },
     "ban": {
-        "noMention": "Mention user yang ingin di-ban!",
-        "notBannable": "Saya tidak bisa ban user ini! (Role terlalu tinggi atau owner server)",
-        "selfBan": "Kamu tidak bisa ban diri sendiri!",
-        "botBan": "Kamu tidak bisa ban saya!",
-        "title": "Member Dibanned!",
-        "user": "User",
-        "moderator": "Moderator",
-        "deleteMsg": "Hapus Pesan",
-        "days": "{days} hari",
-        "reason": "Alasan",
-        "footer": "Ban oleh {user}",
-        "failed": "Gagal ban user! Cek permission bot."
+        "success": "**{user}** telah di-ban.\nAlasan: {reason}",
+        "already": "User itu sudah di-ban.",
+        "userNotFound": "User dengan ID itu tidak ditemukan."
     },
     "unban": {
-        "noId": "Masukkan ID user yang ingin di-unban!\nContoh: `!unban 123456789012345678`",
-        "invalidId": "ID user tidak valid! ID Discord terdiri dari 17-19 digit angka.",
-        "notBanned": "User ini tidak ada dalam daftar ban!",
-        "title": "User Di-unban!",
-        "user": "User",
-        "moderator": "Moderator",
-        "reason": "Alasan",
-        "footer": "Unban oleh {user}",
-        "failed": "Gagal unban user! Cek permission bot."
+        "noId": "Masukkan ID user yang ingin di-unban.\nPenggunaan: `{usage}`",
+        "notBanned": "User itu tidak sedang di-ban.",
+        "success": "**{user}** telah di-unban.\nAlasan: {reason}"
     },
     "mute": {
-        "noMention": "Mention user yang ingin di-mute!\nContoh: `!mute @user 10m spam`",
-        "selfMute": "Kamu tidak bisa mute diri sendiri!",
-        "botMute": "Kamu tidak bisa mute saya!",
-        "notModeratable": "Saya tidak bisa mute user ini! (Role terlalu tinggi)",
-        "noDuration": "Tentukan durasi mute!\nContoh: `!mute @user 10m`, `!mute @user 1h`, `!mute @user 2d`",
-        "invalidDuration": "Format durasi tidak valid!\nGunakan: `10s`, `5m`, `2h`, `1d`",
-        "maxDuration": "Durasi maksimal mute adalah **28 hari**!",
-        "title": "Member Dimute!",
-        "user": "User",
-        "moderator": "Moderator",
-        "duration": "Durasi",
-        "ends": "Selesai",
-        "reason": "Alasan",
-        "footer": "Mute oleh {user}",
-        "failed": "Gagal mute user! Cek permission bot."
+        "success": "**{user}** di-mute selama **{duration}**.\nAlasan: {reason}",
+        "invalidDuration": "Durasi tidak valid. Pakai angka dan satuan: `30s`, `10m`, `2h`, `1d`, `1w`.",
+        "tooLong": "Durasi mute maksimal adalah **28 hari**."
     },
     "unmute": {
-        "noMention": "Mention user yang ingin di-unmute!",
-        "notMuted": "User ini tidak sedang di-mute!",
-        "title": "Member Di-unmute!",
-        "user": "User",
-        "moderator": "Moderator",
-        "reason": "Alasan",
-        "footer": "Unmute oleh {user}",
-        "failed": "Gagal unmute user! Cek permission bot."
+        "success": "**{user}** telah di-unmute.",
+        "notMuted": "Member itu tidak sedang di-mute."
     },
     "warn": {
-        "noMention": "Mention user yang ingin di-warn!\nContoh: `!warn @user spam`",
-        "selfWarn": "Kamu tidak bisa warn diri sendiri!",
-        "botWarn": "Kamu tidak bisa warn bot!",
-        "title": "Member Diwarn!",
-        "user": "User",
-        "moderator": "Moderator",
-        "totalWarns": "Total Warn",
-        "warnsCount": "{count} warn",
-        "reason": "Alasan",
-        "footer": "Warn #{count}",
-        "dmTitle": "Kamu mendapat peringatan di {guild}",
-        "failed": "Gagal warn user!"
+        "success": "**{user}** diberi peringatan (peringatan #{count}).\nAlasan: {reason}"
     },
     "warnings": {
-        "noWarns": "**{tag}** tidak memiliki warn di server ini!",
-        "title": "Daftar Warn: {tag}",
-        "entry": "**#{num}** — {reason}\n> Oleh: {mod} • {time}",
-        "footer": "Total: {count} warn"
+        "title": "Peringatan untuk {user}",
+        "none": "{user} tidak punya peringatan.",
+        "entry": "**#{num}** • <t:{time}:d> • <@{mod}>\n{reason}",
+        "more": "...dan {count} peringatan yang lebih lama.",
+        "footer": "Total: {count}"
     },
     "language": {
         "noPermission": "Kamu butuh permission Manage Server untuk mengubah bahasa bot!",
@@ -215,7 +169,16 @@
         "settings": { "description": "Tampilkan semua pengaturan bot untuk server ini." },
         "botinfo": { "description": "Tampilkan statistik bot." },
         "invite": { "description": "Dapatkan link untuk menambahkan bot ke server lain." },
-        "serverinfo": { "description": "Tampilkan informasi server ini." }
+        "serverinfo": { "description": "Tampilkan informasi server ini." },
+        "kick": { "description": "Kick member dari server." },
+        "ban": { "description": "Ban member (atau ID user) dari server." },
+        "unban": { "description": "Hapus ban seorang user." },
+        "mute": { "description": "Mute member (timeout Discord) selama waktu tertentu." },
+        "unmute": { "description": "Hapus mute (timeout) seorang member." },
+        "warn": { "description": "Beri peringatan ke member." },
+        "warnings": { "description": "Tampilkan peringatan seorang member." },
+        "unwarn": { "description": "Hapus satu peringatan (berdasarkan nomor) atau semua peringatan member." },
+        "clear": { "description": "Hapus pesan terbaru di channel ini." }
     },
     "stay": {
         "statusOn": "Mode 24/7 **aktif**. Bot tetap di voice channel walaupun tidak ada lagu yang diputar.\nMatikan dengan `{prefix}247 off`.",
@@ -244,12 +207,12 @@
         "minutes": "{minutes} menit"
     },
     "botinfo": {
-    "version": "Versi",
-    "servers": "Server",
-    "commands": "Command",
-    "uptime": "Uptime",
-    "library": "Library",
-    "engine": "Engine"
+        "version": "Versi",
+        "servers": "Server",
+        "commands": "Command",
+        "uptime": "Uptime",
+        "library": "Library",
+        "engine": "Engine"
     },
     "invite": {
         "text": "Mau bot ini ada di servermu? [Klik di sini untuk mengundang]({url})",
@@ -264,5 +227,39 @@
         "roles": "Role",
         "boosts": "Boost",
         "boostsValue": "Level {tier} • {count} boost"
+    },
+    "mod": {
+        "noTarget": "Mention member atau masukkan ID-nya.\nPenggunaan: `{usage}`",
+        "notFound": "Member itu tidak ditemukan di server ini.",
+        "self": "Kamu tidak bisa melakukannya ke diri sendiri!",
+        "bot": "Aku tidak bisa melakukannya ke diriku sendiri!",
+        "owner": "Kamu tidak bisa melakukannya ke owner server!",
+        "hierarchy": "Role tertinggi member itu sama atau lebih tinggi dari rolemu!",
+        "cannotAct": "Bot tidak bisa melakukannya ke member ini. Role bot harus di atas role mereka dan bot butuh permission yang sesuai.",
+        "botMissing": "Bot tidak punya permission untuk melakukannya.",
+        "failed": "Terjadi kesalahan. Periksa permission bot lalu coba lagi.",
+        "noReason": "Tidak ada alasan",
+        "dm": "Kamu **{action}** di **{guild}**.\nAlasan: {reason}",
+        "actions": {
+            "kicked": "di-kick",
+            "banned": "di-ban",
+            "muted": "di-mute selama {duration}",
+            "warned": "diberi peringatan"
+        }
+    },
+    "unwarn": {
+        "usage": "Masukkan nomor peringatan (lihat `{prefix}warnings`) atau `all`.",
+        "notFound": "{user} tidak punya peringatan #{number}.",
+        "removed": "Peringatan #{number} milik {user} dihapus.",
+        "cleared": "Semua {count} peringatan milik {user} dihapus."
+    },
+    "clear": {
+        "usage": "Masukkan jumlah pesan yang ingin dihapus (1-{max}).\nPenggunaan: `{usage}`",
+        "invalidUser": "User itu tidak valid. Mention user-nya atau masukkan ID-nya.",
+        "botMissing": "Bot butuh permission View Channel, Read Message History, dan Manage Messages di channel ini.",
+        "nothing": "Tidak ada pesan yang bisa dihapus. Pesan yang di-pin dan pesan lebih dari 14 hari dilewati.",
+        "success": "**{count}** pesan dihapus.",
+        "successUser": "**{count}** pesan dari {user} dihapus.",
+        "tooOld": "{count} pesan lebih lama dari 14 hari dan tidak bisa dihapus."
     }
 }
