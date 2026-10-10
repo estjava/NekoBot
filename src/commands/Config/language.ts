@@ -13,7 +13,7 @@ export default {
     description: 'Shows or changes the bot language for this server.',
     usage: ['!language [code]'],
     aliases: ['lang'],
-    category: 'General',
+    category: 'Config',
     examples: ['!language', '!language id'],
 
     async execute(message: Message, args: string[], client: Client) {

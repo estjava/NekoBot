@@ -18,7 +18,7 @@ const EMBED_COLOR = COLORS.default;
 const FIELD_LIMIT = 1024;
 
 // Urutan kategori di menu. Kategori lain muncul setelahnya (alfabetis).
-const CATEGORY_ORDER = ['General', 'Voices', 'Music', 'Moderation'];
+const CATEGORY_ORDER = ['General', 'Voices', 'Config', 'Moderation'];
 
 const toList = (v?: string | string[]): string[] =>
     v === undefined ? [] : Array.isArray(v) ? v : [v];

@@ -14,10 +14,9 @@ import type { Guild, TextBasedChannel, VoiceBasedChannel } from 'discord.js';
 import { t } from '../utils/locale';
 import { Track, createStream } from './source';
 import { COLORS, descEmbed } from '../utils/embedBuilder';
+import { getSettings, idleMinutes } from '../utils/settings';
 
 export type LoopMode = 'off' | 'track' | 'queue';
-
-const IDLE_LEAVE_MS = (Number(process.env.IDLE_LEAVE_MINUTES) || 3) * 60 * 1000;
 
 export class GuildQueue {
     /** Upcoming tracks (does not include the current one). */
@@ -139,6 +138,12 @@ export class GuildQueue {
         this.onDestroy(this.guildId);
     }
 
+    /** Re-evaluate the idle timer after !247 or !idletime changed. */
+    refreshIdleTimer() {
+        if (this.destroyed || this.current) return;
+        this.startIdleTimer();
+    }
+
     // ---- internals ----
 
     private onTrackEnd() {
@@ -161,7 +166,8 @@ export class GuildQueue {
         const track = this.tracks.shift();
         if (!track) {
             this.current = null;
-            this.notify(t(this.guildId, 'player.queueFinished'));
+            const stay = getSettings(this.guildId).stay247;
+            this.notify(t(this.guildId, stay ? 'player.queueFinishedStay' : 'player.queueFinished'));
             this.startIdleTimer();
             return;
         }
@@ -197,10 +203,14 @@ export class GuildQueue {
 
     private startIdleTimer() {
         this.clearIdleTimer();
+        // 24/7 mode: never leave because of inactivity (!leave still works).
+        if (getSettings(this.guildId).stay247) return;
+        // Read per call, so !idletime applies without restarting the bot.
+        const ms = idleMinutes(this.guildId) * 60 * 1000;
         this.idleTimer = setTimeout(() => {
             this.notify(t(this.guildId, 'player.idleLeft'));
             this.destroy();
-        }, IDLE_LEAVE_MS);
+        }, ms);
     }
     private clearIdleTimer() {
         if (this.idleTimer) clearTimeout(this.idleTimer);

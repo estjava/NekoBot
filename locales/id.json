@@ -6,7 +6,8 @@
         "genericError": "Terjadi kesalahan. Coba lagi nanti.",
         "tryAgain": "Periksa penggunaan command dan coba lagi.",
         "Usage": "Penggunaan Command",
-        "examples": "Contoh"
+        "examples": "Contoh",
+        "manageServer": "Kamu butuh permission Manage Server untuk mengubah pengaturan ini!"
     },
     "ping": {
         "pinging": "Pinging...",
@@ -172,7 +173,8 @@
         "leaveSuccess": "Keluar dari voice channel.",
         "leaveError": "Terjadi kesalahan saat keluar dari voice channel.",
         "joinSuccess": "Bot sudah bergabung ke voice channel.",
-        "joinError": "Terjadi kesalahan saat bergabung ke voice channel."
+        "joinError": "Terjadi kesalahan saat bergabung ke voice channel.",
+        "queueFinishedStay": "Antrian selesai. Bot tetap berada di voice channel (mode 24/7)."
     },
     "help": {
         "title": "Menu Bantuan",
@@ -186,7 +188,8 @@
         "categories": {
             "General": "Umum",
             "Voices": "Musik",
-            "Moderation": "Moderasi"
+            "Moderation": "Moderasi",
+            "Config": "Pengaturan"
         }
     },
     "commands": {
@@ -206,6 +209,60 @@
         "resume": { "description": "Lanjutkan lagu yang dijeda." },
         "shuffle": { "description": "Acak urutan lagu yang akan datang." },
         "stop": { "description": "Hentikan pemutaran dan kosongkan antrian (bot tetap di channel)." },
-        "skip": { "description": "Lewati lagu yang sedang diputar." }
+        "skip": { "description": "Lewati lagu yang sedang diputar." },
+        "247": { "description": "Tetap berada di voice channel walaupun tidak ada lagu yang diputar." },
+        "idletime": { "description": "Tampilkan atau atur berapa lama bot menunggu sebelum keluar dari voice channel yang sepi." },
+        "settings": { "description": "Tampilkan semua pengaturan bot untuk server ini." },
+        "botinfo": { "description": "Tampilkan statistik bot." },
+        "invite": { "description": "Dapatkan link untuk menambahkan bot ke server lain." },
+        "serverinfo": { "description": "Tampilkan informasi server ini." }
+    },
+    "stay": {
+        "statusOn": "Mode 24/7 **aktif**. Bot tetap di voice channel walaupun tidak ada lagu yang diputar.\nMatikan dengan `{prefix}247 off`.",
+        "statusOff": "Mode 24/7 **nonaktif**. Bot keluar setelah **{minutes}** menit tidak aktif.\nAktifkan dengan `{prefix}247 on`.",
+        "enabled": "Mode 24/7 **diaktifkan**. Bot tidak akan keluar dari voice channel karena tidak aktif (`leave` tetap berfungsi).",
+        "disabled": "Mode 24/7 **dinonaktifkan**. Bot akan keluar setelah **{minutes}** menit tidak aktif.",
+        "invalid": "Gunakan `{prefix}247 on` atau `{prefix}247 off`."
+    },
+    "idletime": {
+        "current": "Bot keluar dari voice channel yang sepi setelah **{minutes}** menit.\nUbah dengan `{prefix}idletime <menit>`.",
+        "currentDefault": "Bot keluar dari voice channel yang sepi setelah **{minutes}** menit (bawaan).\nUbah dengan `{prefix}idletime <menit>`.",
+        "changed": "Waktu tunggu diatur ke **{minutes}** menit.",
+        "reset": "Waktu tunggu dikembalikan ke bawaan (**{minutes}** menit).",
+        "invalid": "Masukkan bilangan bulat menit dari {min} sampai {max}, misalnya `{prefix}idletime 5`. Pakai `{prefix}idletime reset` untuk nilai bawaan.",
+        "stayNote": "Catatan: mode 24/7 sedang aktif, jadi pengaturan ini baru berlaku setelah `{prefix}247 off`."
+    },
+    "settings": {
+        "title": "Pengaturan {guild}",
+        "changeWith": "Ubah dengan: {commands}",
+        "prefix": "Prefix",
+        "language": "Bahasa",
+        "stay": "Mode 24/7",
+        "idle": "Waktu tunggu",
+        "on": "Aktif",
+        "off": "Nonaktif",
+        "minutes": "{minutes} menit"
+    },
+    "botinfo": {
+    "version": "Versi",
+    "servers": "Server",
+    "commands": "Command",
+    "uptime": "Uptime",
+    "library": "Library",
+    "engine": "Engine"
+    },
+    "invite": {
+        "text": "Mau bot ini ada di servermu? [Klik di sini untuk mengundang]({url})",
+        "error": "Gagal membuat link undangan. Coba lagi sebentar lagi."
+    },
+    "serverinfo": {
+        "owner": "Owner",
+        "created": "Dibuat",
+        "members": "Member",
+        "channels": "Channel",
+        "channelsValue": "{text} teks • {voice} voice",
+        "roles": "Role",
+        "boosts": "Boost",
+        "boostsValue": "Level {tier} • {count} boost"
     }
 }

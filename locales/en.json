@@ -6,14 +6,13 @@
         "genericError": "Something went wrong. Please try again.",
         "tryAgain": "Please check the command usage and try again.",
         "Usage": "Command Usage",
-        "examples": "Examples"
+        "examples": "Examples",
+        "manageServer": "You need the Manage Server permission to change this setting!"
     },
-
     "ping": {
         "pinging": "Pinging...",
         "pong": "Heartbeat: {latency}ms\nAPI: {apiLatency}ms"
     },
-
     "prefix": {
         "UserPermission": "You don't have permission to change the prefix!",
         "noPrefix": "Please provide a new prefix.",
@@ -21,7 +20,6 @@
         "success": "Prefix changed to `{prefix}`",
         "failed": "Failed to update the prefix. Please try again."
     },
-
     "language": {
         "noPermission": "You need the Manage Server permission to change the bot language!",
         "current": "Current language: **{lang}**",
@@ -29,7 +27,6 @@
         "invalid": "Language not supported!\nAvailable: {list}",
         "changed": "Language changed to **{lang}**!"
     },
-
     "player": {
         "noVoiceChannel": "You need to be in a voice channel to use music commands!",
         "noResults": "No results found for **{query}**!",
@@ -58,33 +55,27 @@
         "resumeSuccess": "Resumed.",
         "nothingPlaying": "Nothing is playing right now!",
         "playUsage": "Usage: `{prefix}play <song name or URL>`",
-        
         "ytdlpMissing": "yt-dlp is not installed on the bot's host. Install it or set `YTDLP_PATH`.",
-
         "searching": "Searching...",
         "loopOff": "Loop: **off**",
         "loopTrack": "Loop: **current track**",
         "loopQueue": "Loop: **whole queue**",
         "loopUsage": "Usage: `{prefix}loop [off|track|queue]`",
-
         "shuffled": "Shuffled {count} songs.",
         "needTwoSongs": "Need at least 2 songs in the queue to shuffle.",
-
         "removed": "Removed: **{title}**",
         "removeUsage": "Usage: `{prefix}remove <position>` (see `{prefix}queue`)",
-
         "nowPlayingTitle": "Now Playing",
         "nowPlayingInfo": "**{title}**\nDuration: {duration} • Requested by {user}\n{status}",
-
         "statusPlaying": "Playing",
         "statusPaused": "Paused",
         "queuePage": "Page {page}/{pages}",
         "upNext": "Up next",
-
         "leaveSuccess": "Left the voice channel.",
         "leaveError": "There was an error leaving the voice channel.",
         "joinSuccess": "I have been summoned!",
-        "joinError": "There was an error joining the voice channel."
+        "joinError": "There was an error joining the voice channel.",
+        "queueFinishedStay": "Queue finished. I'll stay in the voice channel (24/7 mode)."
     },
     "help": {
         "title": "Help Menu",
@@ -98,7 +89,8 @@
         "categories": {
             "General": "General",
             "Voices": "Voices",
-            "Moderation": "Moderation"
+            "Moderation": "Moderation",
+            "Config": "Config"
         }
     },
     "commands": {
@@ -118,6 +110,60 @@
         "resume": { "description": "Resume the paused song." },
         "shuffle": { "description": "Shuffle the upcoming songs." },
         "skip": { "description": "Skip the current song." },
-        "stop": { "description": "Stop playback and clear the queue (the bot stays in the channel)." }
+        "stop": { "description": "Stop playback and clear the queue (the bot stays in the channel)." },
+        "247": { "description": "Keep the bot in the voice channel even when nothing is playing." },
+        "idletime": { "description": "Show or set how long the bot waits before leaving an idle voice channel." },
+        "settings": { "description": "Show all bot settings for this server." },
+        "botinfo": { "description": "Show statistics about the bot." },
+        "invite": { "description": "Get a link to add the bot to another server." },
+        "serverinfo": { "description": "Show information about this server." }
+    },
+    "stay": {
+        "statusOn": "24/7 mode is **on**. I stay in the voice channel even when nothing is playing.\nTurn it off with `{prefix}247 off`.",
+        "statusOff": "24/7 mode is **off**. I leave after **{minutes}** minute(s) of inactivity.\nTurn it on with `{prefix}247 on`.",
+        "enabled": "24/7 mode **enabled**. I won't leave the voice channel because of inactivity (`leave` still works).",
+        "disabled": "24/7 mode **disabled**. I'll leave after **{minutes}** minute(s) of inactivity.",
+        "invalid": "Use `{prefix}247 on` or `{prefix}247 off`."
+    },
+    "idletime": {
+        "current": "I leave an idle voice channel after **{minutes}** minute(s).\nChange it with `{prefix}idletime <minutes>`.",
+        "currentDefault": "I leave an idle voice channel after **{minutes}** minute(s) (default).\nChange it with `{prefix}idletime <minutes>`.",
+        "changed": "Idle time set to **{minutes}** minute(s).",
+        "reset": "Idle time reset to the default (**{minutes}** minute(s)).",
+        "invalid": "Enter a whole number of minutes from {min} to {max}, e.g. `{prefix}idletime 5`. Use `{prefix}idletime reset` for the default.",
+        "stayNote": "Note: 24/7 mode is on, so this has no effect until you run `{prefix}247 off`."
+    },
+    "settings": {
+        "title": "Settings for {guild}",
+        "changeWith": "Change these with: {commands}",
+        "prefix": "Prefix",
+        "language": "Language",
+        "stay": "24/7 mode",
+        "idle": "Idle time",
+        "on": "On",
+        "off": "Off",
+        "minutes": "{minutes} min"
+    },
+    "botinfo": {
+        "version": "Version",
+        "servers": "Servers",
+        "commands": "Commands",
+        "uptime": "Uptime",
+        "library": "Library",
+        "engine": "Engine"
+    },
+    "invite": {
+        "text": "Want me in your server? [Click here to invite me]({url})",
+        "error": "Couldn't create the invite link. Please try again in a moment."
+    },
+    "serverinfo": {
+        "owner": "Owner",
+        "created": "Created",
+        "members": "Members",
+        "channels": "Channels",
+        "channelsValue": "{text} text • {voice} voice",
+        "roles": "Roles",
+        "boosts": "Boosts",
+        "boostsValue": "Level {tier} • {count} boosts"
     }
 }
