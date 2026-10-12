@@ -1,6 +1,8 @@
+import { log } from './logger';
 import fs from 'fs';
 import path from 'path';
 import { DATA_DIR, LOCALES_DIR } from './paths';
+import { readJsonObject, writeJsonAtomic } from './jsonFile';
 
 // Types
 interface LocaleData {
@@ -25,7 +27,7 @@ for (const file of fs.readdirSync(LOCALES_DIR)) {
         const raw = fs.readFileSync(path.join(LOCALES_DIR, file), 'utf8').replace(/^\uFEFF/, '');
         locales[code] = JSON.parse(raw);
     } catch (err) {
-        console.warn(`[locale] Skipping ${file}: ${(err as Error).message}`);
+        log.warn(`[locale] Skipping ${file}: ${(err as Error).message}`);
     }
 }
 
@@ -40,18 +42,18 @@ let langSettingsCache: LangSettings;
 
 function loadLangSettings(): LangSettings {
     if (langSettingsCache) return langSettingsCache;
-    try {
-        langSettingsCache = JSON.parse(fs.readFileSync(langPath, 'utf8'));
-    } catch {
-        langSettingsCache = {};
+    // A damaged file is backed up instead of being silently replaced (see utils/jsonFile.ts)
+    const raw = readJsonObject<Record<string, unknown>>(langPath);
+    langSettingsCache = {};
+    for (const [guildId, lang] of Object.entries(raw)) {
+        if (typeof lang === 'string') langSettingsCache[guildId] = lang;
     }
     return langSettingsCache;
 }
 
 function saveLangSettings(data: LangSettings): void {
     langSettingsCache = data;
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-    fs.writeFileSync(langPath, JSON.stringify(data, null, 2));
+    writeJsonAtomic(langPath, data);
 }
 
 export function supportedLangsList(): string[] {

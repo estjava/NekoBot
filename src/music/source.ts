@@ -45,6 +45,10 @@ function runJson(args: string[]): Promise<any> {
         let err = '';
         const timer = setTimeout(() => killTree(proc), RESOLVE_TIMEOUT_MS);
 
+        // Decode as a stream: `out += buffer` splits multi-byte characters (emoji, Japanese, ...)
+        // that straddle two chunks and turns them into "�".
+        proc.stdout.setEncoding('utf8');
+        proc.stderr.setEncoding('utf8');
         proc.stdout.on('data', (d) => (out += d));
         proc.stderr.on('data', (d) => (err += d));
         proc.on('error', (e: NodeJS.ErrnoException) => {

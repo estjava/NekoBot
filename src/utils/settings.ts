@@ -1,6 +1,6 @@
-import fs from 'node:fs';
 import path from 'node:path';
 import { DATA_DIR } from './paths';
+import { readJsonObject, writeJsonAtomic } from './jsonFile';
 
 /** Per-server settings stored in data/settings.json. Every field is optional = "not set". */
 export interface GuildSettings {
@@ -19,23 +19,11 @@ const settingsPath = path.join(DATA_DIR, 'settings.json');
 let cache: Record<string, GuildSettings> | undefined;
 
 function load(): Record<string, GuildSettings> {
-    if (cache) return cache;
-    try {
-        const parsed = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
-        cache = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
-    } catch (err) {
-        // First run: the file does not exist yet, which is fine.
-        if ((err as NodeJS.ErrnoException).code !== 'ENOENT') {
-            console.warn('[settings] Could not read settings.json, starting empty:', (err as Error).message);
-        }
-        cache = {};
-    }
-    return cache!;
+    return (cache ??= readJsonObject<Record<string, GuildSettings>>(settingsPath));
 }
 
 function save(): void {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-    fs.writeFileSync(settingsPath, JSON.stringify(load(), null, 2));
+    writeJsonAtomic(settingsPath, load());
 }
 
 /**

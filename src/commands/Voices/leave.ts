@@ -1,3 +1,4 @@
+import { log } from '../../utils/logger';
 import { Message } from 'discord.js';
 import { getVoiceConnection } from '@discordjs/voice';
 import { t } from '../../utils/locale';
@@ -30,7 +31,7 @@ export default {
             if (!destroyQueue(gid)) connection.destroy();
             return say(message, t(gid, 'player.leaveSuccess'), COLORS.success);
         } catch (error) {
-            console.error(error);
+            log.error('[leave]', error);
             return say(message, t(gid, 'player.leaveError'), COLORS.error);
         }
     },

@@ -1,3 +1,4 @@
+import { log } from '../../utils/logger';
 import { Client, Message, OAuth2Scopes, PermissionFlagsBits } from 'discord.js';
 import { t } from '../../utils/locale';
 import { COLORS, say } from '../../utils/embedBuilder';
@@ -25,16 +26,17 @@ export default {
                     PermissionFlagsBits.ReadMessageHistory,
                     PermissionFlagsBits.Connect,
                     PermissionFlagsBits.Speak,
-                    // For the Moderation commands (kick, ban, mute).
+                    // For the Moderation commands (kick, ban, mute, clear).
                     PermissionFlagsBits.KickMembers,
                     PermissionFlagsBits.BanMembers,
                     PermissionFlagsBits.ModerateMembers,
+                    PermissionFlagsBits.ManageMessages,
                 ],
             });
             return say(message, t(gid, 'invite.text', { url }));
         } catch (error) {
             // generateInvite throws if the application info is not loaded yet
-            console.error('[invite]', error);
+            log.error('[invite]', error);
             return say(message, t(gid, 'invite.error'), COLORS.error);
         }
     },

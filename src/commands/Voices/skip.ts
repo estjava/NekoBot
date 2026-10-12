@@ -23,6 +23,7 @@ export default {
         // Balas dulu, baru skip. queue.skip() langsung memicu pengumuman "Now playing"
         // lagu berikutnya, jadi kalau dibalik urutannya bisa tampil lebih dulu dari "Skipped".
         await say(message, t(gid, 'player.skipSuccess', { title: current.title }));
-        queue.skip();
+        // The song may have ended by itself while the reply was being sent; do not skip the next one then.
+        if (queue.current === current) queue.skip();
     },
 };

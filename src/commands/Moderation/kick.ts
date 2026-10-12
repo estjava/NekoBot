@@ -1,3 +1,4 @@
+import { log } from '../../utils/logger';
 import { Client, Message, PermissionFlagsBits } from 'discord.js';
 import { t } from '../../utils/locale';
 import { COLORS, say } from '../../utils/embedBuilder';
@@ -28,11 +29,12 @@ export default {
         const reason = cleanReason(args.slice(1).join(' ')) || t(gid, 'mod.noReason');
 
         // DM first: once the member is gone, the bot may no longer share a server with them.
-        await tryDm(target.user, t(gid, 'mod.dm', { action: t(gid, 'mod.actions.kicked'), guild: message.guild.name, reason }));
+        const dm = await tryDm(target.user, t(gid, 'mod.dm', { action: t(gid, 'mod.actions.kicked'), guild: message.guild.name, reason }));
         try {
             await target.kick(auditReason(message, reason));
         } catch (err) {
-            console.error('[kick]', err);
+            log.error('[kick]', err);
+            await dm?.delete().catch(() => {}); // do not leave a "you were kicked" notice for a kick that did not happen
             return say(message, t(gid, 'mod.failed'), COLORS.error);
         }
         return say(message, t(gid, 'kick.success', { user: target.user.tag, reason }), COLORS.success);

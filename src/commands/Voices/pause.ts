@@ -18,7 +18,8 @@ export default {
         if (!queue) return;
         if (!queue.current) return say(message, t(gid, 'player.nothingPlaying'), COLORS.error);
         if (queue.isPaused) return say(message, t(gid, 'player.alreadyPaused'), COLORS.error);
-        queue.pause();
+        // pause() only works while audio is actually playing, not while the song is still loading.
+        if (!queue.pause()) return say(message, t(gid, 'player.notReady'), COLORS.error);
         return say(message, t(gid, 'player.pauseSuccess'));
     },
 };

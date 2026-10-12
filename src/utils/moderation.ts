@@ -1,4 +1,4 @@
-import { Client, GuildMember, Message, User } from 'discord.js';
+import { Client, Guild, GuildBan, GuildMember, Message, PermissionFlagsBits, RESTJSONErrorCodes, User } from 'discord.js';
 import { descEmbed } from './embedBuilder';
 
 /** "<@123>", "<@!123>" or a plain ID -> the ID, otherwise null. */
@@ -13,7 +13,29 @@ export function parseUserId(arg?: string): string | null {
 export async function resolveMember(message: Message, arg?: string): Promise<GuildMember | null> {
     const id = parseUserId(arg);
     if (!id || !message.guild) return null;
-    return message.guild.members.fetch(id).catch(() => null);
+    try {
+        return await message.guild.members.fetch(id);
+    } catch (err) {
+        // "Unknown Member/User" = really not in this server. Any other error (network, rate limit, ...)
+        // is a failure to look them up, not proof that they are gone, so let it surface instead of
+        // letting callers (like !ban by ID) skip the role checks.
+        const code = (err as { code?: number }).code;
+        if (code === RESTJSONErrorCodes.UnknownMember || code === RESTJSONErrorCodes.UnknownUser) return null;
+        throw err;
+    }
+}
+
+/**
+ * The ban entry of a user, or null if they are not banned. Always asks Discord (force): without the
+ * GuildModeration intent discord.js never hears about unbans, so its cache keeps reporting old bans.
+ */
+export async function fetchBan(guild: Guild, userId: string): Promise<GuildBan | null> {
+    try {
+        return await guild.bans.fetch({ user: userId, force: true });
+    } catch (err) {
+        if ((err as { code?: number }).code === RESTJSONErrorCodes.UnknownBan) return null;
+        throw err;
+    }
 }
 
 export const prefixOf = (client: Client, guildId: string): string =>
@@ -35,6 +57,8 @@ export function checkTarget(message: Message, target: GuildMember, action: ModAc
     // The bot itself must also be able to do it (role order + permission).
     if (action === 'kick' && !target.kickable) return 'mod.cannotAct';
     if (action === 'ban' && !target.bannable) return 'mod.cannotAct';
+    // Discord does not allow timing out administrators at all, whatever the role order is.
+    if (action === 'mute' && target.permissions.has(PermissionFlagsBits.Administrator)) return 'mod.cannotMuteAdmin';
     if (action === 'mute' && !target.moderatable) return 'mod.cannotAct';
     return null;
 }
@@ -74,7 +98,7 @@ export function auditReason(message: Message, reason: string): string {
     return `${message.author.tag}: ${reason}`.slice(0, 512);
 }
 
-/** Best-effort private message. Users with closed DMs are simply skipped. */
-export async function tryDm(user: User, text: string): Promise<void> {
-    await user.send({ embeds: [descEmbed(text)] }).catch(() => {});
+/** Best-effort private message. Returns the sent message, or null if the user has DMs closed. */
+export async function tryDm(user: User, text: string): Promise<Message | null> {
+    return user.send({ embeds: [descEmbed(text)] }).catch(() => null);
 }

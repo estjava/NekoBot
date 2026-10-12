@@ -15,10 +15,11 @@
     },
     "prefix": {
         "UserPermission": "You don't have permission to change the prefix!",
-        "noPrefix": "Please provide a new prefix.",
+        "noPrefix": "Please provide a new prefix.\nUsage: `{prefix}prefix set <new prefix>`",
         "tooLong": "Prefix must be 5 characters or fewer.",
         "success": "Prefix changed to `{prefix}`",
-        "failed": "Failed to update the prefix. Please try again."
+        "failed": "Failed to update the prefix. Please try again.",
+        "current": "The prefix for this server is `{prefix}`\nChange it with `{prefix}prefix set <new prefix>`."
     },
     "language": {
         "noPermission": "You need the Manage Server permission to change the bot language!",
@@ -75,7 +76,8 @@
         "leaveError": "There was an error leaving the voice channel.",
         "joinSuccess": "I have been summoned!",
         "joinError": "There was an error joining the voice channel.",
-        "queueFinishedStay": "Queue finished. I'll stay in the voice channel (24/7 mode)."
+        "queueFinishedStay": "Queue finished. I'll stay in the voice channel (24/7 mode).",
+        "notReady": "I can't do that yet. The song is still loading or the connection isn't ready. Try again in a moment."
     },
     "help": {
         "title": "Help Menu",
@@ -97,7 +99,7 @@
         "help": { "description": "Show all commands or details of one command." },
         "language": { "description": "Show or change the bot language for this server." },
         "ping": { "description": "Check the bot latency." },
-        "prefix": { "description": "Change the bot's prefix for this server." },
+        "prefix": { "description": "Show or change the bot's prefix for this server." },
         "join": { "description": "Join the voice channel you are currently in." },
         "leave": { "description": "Leave the voice channel." },
         "loop": { "description": "Set the loop mode: off, track, or queue (no argument cycles through them)." },
@@ -192,7 +194,8 @@
             "banned": "banned",
             "muted": "muted for {duration}",
             "warned": "warned"
-        }
+        },
+        "cannotMuteAdmin": "Discord doesn't allow muting (timing out) members who have the Administrator permission."
     },
     "kick": {
         "success": "Kicked **{user}**.\nReason: {reason}"
@@ -240,5 +243,14 @@
         "success": "Deleted **{count}** message(s).",
         "successUser": "Deleted **{count}** message(s) from {user}.",
         "tooOld": "{count} message(s) were older than 14 days and could not be deleted."
+    },
+    "welcome": {
+        "title": "Thanks for adding {name}!",
+        "description": "Here is how to get started. Use `{prefix}help` to see every command.",
+        "commandsTitle": "Basic commands",
+        "settingsTitle": "Settings",
+        "settings": "Change the prefix: `{prefix}prefix set <new prefix>`\nChange the language: `{prefix}language` ({languages})\nSee all settings: `{prefix}settings`",
+        "moderationTitle": "Moderation",
+        "moderation": "To use `{prefix}kick`, `{prefix}ban` and `{prefix}mute`, move my role above the members you want to moderate (Server Settings → Roles)."
     }
 }

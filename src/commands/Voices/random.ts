@@ -1,6 +1,7 @@
+import { log } from '../../utils/logger';
 import { Message } from 'discord.js';
 import { t } from '../../utils/locale';
-import { createQueue, getQueue } from '../../music/queue';
+import { BusyElsewhereError, getOrCreateQueue, getQueue } from '../../music/queue';
 import { SourceError, formatDuration, resolveRandom } from '../../music/source';
 import { ensureVoice } from '../../music/guards';
 import { COLORS, descEmbed, say } from '../../utils/embedBuilder';
@@ -53,12 +54,9 @@ export default {
                 : [];
             const track = await resolveRandom(query, message.author.tag, 15, exclude);
 
-            if (!queue || queue.destroyed || botChannelId !== voice.id) {
-                queue?.destroy();
-                queue = await createQueue(message.guild, voice, message.channel);
-            } else {
-                queue.textChannel = message.channel;
-            }
+            // Looked up again after the search: things may have changed while yt-dlp was working,
+            // and two quick commands must end up in the same queue.
+            queue = await getOrCreateQueue(message.guild, voice, message.channel);
 
             const { startedNow, position } = await queue.enqueue([track], false);
 
@@ -71,11 +69,13 @@ export default {
                   });
             await status.edit({ embeds: [descEmbed(text, startedNow ? COLORS.default : COLORS.success)] });
         } catch (err) {
-            if (err instanceof SourceError) {
+            if (err instanceof BusyElsewhereError) {
+                await status.edit({ embeds: [descEmbed(t(gid, 'player.notSameChannel'), COLORS.error)] });
+            } else if (err instanceof SourceError) {
                 const key = err.code === 'MISSING' ? 'player.ytdlpMissing' : err.code === 'NOT_FOUND' ? 'player.noResults' : 'player.playError';
                 await status.edit({ embeds: [descEmbed(t(gid, key, { query }), COLORS.error)] });
             } else {
-                console.error('[random]', err);
+                log.error('[random]', err);
                 await status.edit({ embeds: [descEmbed(t(gid, 'player.playError'), COLORS.error)] });
             }
         }

@@ -1,3 +1,4 @@
+import { log } from '../utils/logger';
 import {
     AudioPlayer,
     AudioPlayerStatus,
@@ -18,6 +19,9 @@ import { getSettings, idleMinutes } from '../utils/settings';
 
 export type LoopMode = 'off' | 'track' | 'queue';
 
+// A track that ends sooner than this did not really play (yt-dlp failed, ffmpeg got an empty stream).
+const MIN_PLAY_MS = 1500;
+
 export class GuildQueue {
     /** Upcoming tracks (does not include the current one). */
     tracks: Track[] = [];
@@ -29,12 +33,14 @@ export class GuildQueue {
     private endReason: 'skip' | 'error' | null = null;
     private idleTimer: NodeJS.Timeout | null = null;
     private killStream: (() => void) | null = null;
+    private streamToken: symbol | null = null;
+    private startedAt = 0;
 
     constructor(
         readonly guildId: string,
         readonly connection: VoiceConnection,
         public textChannel: TextBasedChannel,
-        private onDestroy: (guildId: string) => void
+        private onDestroy: (queue: GuildQueue) => void
     ) {
         this.player = createAudioPlayer({ behaviors: { noSubscriber: NoSubscriberBehavior.Pause } });
         connection.subscribe(this.player);
@@ -45,7 +51,7 @@ export class GuildQueue {
             }
         });
         this.player.on('error', (err) => {
-            console.error(`[music:${guildId}] player error:`, err.message);
+            log.error(`[music:${guildId}] player error:`, err.message);
             this.endReason = 'error';
             this.notify(t(guildId, 'player.playError'), COLORS.error);
         });
@@ -135,7 +141,7 @@ export class GuildQueue {
         if (this.connection.state.status !== VoiceConnectionStatus.Destroyed) {
             this.connection.destroy();
         }
-        this.onDestroy(this.guildId);
+        this.onDestroy(this);
     }
 
     /** Re-evaluate the idle timer after !247 or !idletime changed. */
@@ -149,8 +155,12 @@ export class GuildQueue {
     private onTrackEnd() {
         if (this.destroyed || !this.current) return;
         const finished = this.current;
-        const reason = this.endReason;
+        let reason = this.endReason;
         this.endReason = null;
+
+        // Ended almost at once = it never really played. Count it as an error, otherwise the loop
+        // modes would retry a broken track forever (and hammer YouTube while doing so).
+        if (reason === null && Date.now() - this.startedAt < MIN_PLAY_MS) reason = 'error';
 
         if (this.loop === 'track' && reason === null) {
             void this.start(finished, false);
@@ -179,9 +189,14 @@ export class GuildQueue {
         this.current = track;
         try {
             this.killStream?.();
+            const token = Symbol('stream');
+            this.streamToken = token;
+            this.startedAt = Date.now();
             const { stream, kill } = createStream(track.url, (reason) => {
-                // Real cause goes to the console; the channel gets the generic error.
-                console.error(`[music:${this.guildId}] yt-dlp failed for "${track.title}" (${track.url}): ${reason}`);
+                // The real cause goes to the log; the channel only gets the generic error.
+                log.error(`[music:${this.guildId}] yt-dlp failed for "${track.title}" (${track.url}): ${reason}`);
+                // The empty stream is about to "end" the track normally; flag it as failed so loop modes skip it.
+                if (this.streamToken === token) this.endReason = 'error';
                 this.notify(t(this.guildId, 'player.playError'), COLORS.error);
             });
             this.killStream = kill;
@@ -189,7 +204,7 @@ export class GuildQueue {
             this.player.play(resource);
             if (announce) this.notify(t(this.guildId, 'player.nowPlaying', { title: track.title }));
         } catch (err) {
-            console.error(`[music:${this.guildId}] failed to start track:`, err);
+            log.error(`[music:${this.guildId}] failed to start track:`, err);
             this.notify(t(this.guildId, 'player.playError'), COLORS.error);
             this.current = null;
             await this.next();
@@ -243,9 +258,61 @@ export async function createQueue(
         connection.destroy();
         throw err;
     }
-    const queue = new GuildQueue(guild.id, connection, textChannel, (id) => queues.delete(id));
+    // Only remove our own entry: a late destroy of an old queue must not unregister a newer one.
+    const queue = new GuildQueue(guild.id, connection, textChannel, (q) => {
+        if (queues.get(q.guildId) === q) queues.delete(q.guildId);
+    });
     queues.set(guild.id, queue);
     return queue;
+}
+
+/** Thrown when the bot is playing for someone in another voice channel and must not be taken over. */
+export class BusyElsewhereError extends Error {
+    constructor() {
+        super('The bot is busy in another voice channel.');
+    }
+}
+
+const locks = new Map<string, Promise<unknown>>();
+
+/** Runs `task` after every earlier task for the same server has finished (one at a time per server). */
+export async function withGuildLock<T>(guildId: string, task: () => Promise<T>): Promise<T> {
+    const previous = locks.get(guildId) ?? Promise.resolve();
+    const run = previous.catch(() => {}).then(task);
+    const tail = run.catch(() => {});
+    locks.set(guildId, tail);
+    try {
+        return await run;
+    } finally {
+        if (locks.get(guildId) === tail) locks.delete(guildId);
+    }
+}
+
+/**
+ * The queue for this server, joined to `channel`. Reuses the running queue, or creates one.
+ * Serialized per server: two quick !play commands used to each create their own queue on the same
+ * voice connection, which silenced the first song and left a ghost queue that later killed the
+ * connection of the real one.
+ */
+export function getOrCreateQueue(
+    guild: Guild,
+    channel: VoiceBasedChannel,
+    textChannel: TextBasedChannel
+): Promise<GuildQueue> {
+    return withGuildLock(guild.id, async () => {
+        const existing = queues.get(guild.id);
+        if (existing && !existing.destroyed) {
+            const botChannelId = guild.members.me?.voice.channelId;
+            if (botChannelId === channel.id) {
+                existing.textChannel = textChannel;
+                return existing;
+            }
+            // Playing for others somewhere else: do not hijack the bot.
+            if (botChannelId && (existing.current || existing.tracks.length)) throw new BusyElsewhereError();
+            existing.destroy();
+        }
+        return createQueue(guild, channel, textChannel);
+    });
 }
 
 export function destroyQueue(guildId: string): boolean {

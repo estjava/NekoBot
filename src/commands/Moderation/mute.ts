@@ -1,3 +1,4 @@
+import { log } from '../../utils/logger';
 import { Client, Message, PermissionFlagsBits } from 'discord.js';
 import { t } from '../../utils/locale';
 import { COLORS, say } from '../../utils/embedBuilder';
@@ -50,11 +51,14 @@ export default {
         if (problem) return say(message, t(gid, problem), COLORS.error);
 
         const reason = cleanReason(args.slice(reasonFrom).join(' ')) || t(gid, 'mod.noReason');
-        const length = formatDuration(duration);
+        // Discord rejects timeouts past 28 days. Stay one minute under, so a bot machine whose clock runs
+        // a little fast cannot push an "exactly 28d" mute over the limit.
+        const applied = Math.min(duration, MAX_TIMEOUT_MS - 60_000);
+        const length = formatDuration(applied);
         try {
-            await target.timeout(duration, auditReason(message, reason));
+            await target.timeout(applied, auditReason(message, reason));
         } catch (err) {
-            console.error('[mute]', err);
+            log.error('[mute]', err);
             return say(message, t(gid, 'mod.failed'), COLORS.error);
         }
         await tryDm(target.user, t(gid, 'mod.dm', { action: t(gid, 'mod.actions.muted', { duration: length }), guild: message.guild.name, reason }));

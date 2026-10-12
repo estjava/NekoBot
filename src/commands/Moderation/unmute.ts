@@ -1,3 +1,4 @@
+import { log } from '../../utils/logger';
 import { Client, Message, PermissionFlagsBits } from 'discord.js';
 import { t } from '../../utils/locale';
 import { COLORS, say } from '../../utils/embedBuilder';
@@ -31,7 +32,7 @@ export default {
         try {
             await target.timeout(null, auditReason(message, reason));
         } catch (err) {
-            console.error('[unmute]', err);
+            log.error('[unmute]', err);
             return say(message, t(gid, 'mod.failed'), COLORS.error);
         }
         return say(message, t(gid, 'unmute.success', { user: target.user.tag }), COLORS.success);

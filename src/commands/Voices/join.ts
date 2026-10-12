@@ -1,6 +1,7 @@
+import { log } from '../../utils/logger';
 import { Message } from 'discord.js';
 import { t } from '../../utils/locale';
-import { createQueue, getQueue } from '../../music/queue';
+import { BusyElsewhereError, getOrCreateQueue, getQueue } from '../../music/queue';
 import { ensureVoice } from '../../music/guards';
 import { COLORS, say } from '../../utils/embedBuilder';
 
@@ -32,14 +33,16 @@ export default {
         }
 
         try {
-            existing?.destroy();
             // Lewat queue (bukan joinVoiceChannel langsung) supaya !play, !leave, dan
             // timer idle memakai koneksi yang sama dan menunggu koneksi benar-benar siap.
-            const queue = await createQueue(message.guild, voice, message.channel);
+            const queue = await getOrCreateQueue(message.guild, voice, message.channel);
             queue.stop(); // reset state + mulai timer idle 3 menit kalau tidak ada yang memutar
             return say(message, t(gid, 'player.joinSuccess'), COLORS.success);
         } catch (error) {
-            console.error('[join]', error);
+            if (error instanceof BusyElsewhereError) {
+                return say(message, t(gid, 'player.notSameChannel'), COLORS.error);
+            }
+            log.error('[join]', error);
             return say(message, t(gid, 'player.joinError'), COLORS.error);
         }
     },

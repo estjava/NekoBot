@@ -1,3 +1,4 @@
+import { log } from '../utils/logger';
 import { Message, Client, PermissionResolvable } from 'discord.js';
 import { t } from '../utils/locale';
 import { COLORS, say } from '../utils/embedBuilder';
@@ -23,7 +24,7 @@ module.exports = {
 
         if (!message.content.startsWith(prefix)) return;
 
-        const args = message.content.slice(prefix.length).trim().split(/ +/);
+        const args = message.content.slice(prefix.length).trim().split(/\s+/);
         const commandName = args.shift()?.toLowerCase();
 
         if (!commandName) return;
@@ -38,6 +39,7 @@ module.exports = {
 
         if (command.permissions) {
             if (!message.member?.permissions.has(command.permissions)) {
+                log.debug(`[cmd] ${prefix}${commandName} denied (missing permission): ${message.author.tag} in "${message.guild.name}"`);
                 return say(message, t(guildId, 'common.noPermission'), COLORS.error);
             }
         }
@@ -46,10 +48,12 @@ module.exports = {
             return say(message, t(guildId, 'common.ownerOnly'), COLORS.error);
         }
 
+        log.debug(`[cmd] ${prefix}${commandName} by ${message.author.tag} in "${message.guild.name}" (${guildId})`);
+
         try {
             await command.execute(message, args, client);
         } catch (error) {
-            console.error(error);
+            log.error(`[cmd] ${prefix}${commandName} failed in "${message.guild.name}" (${guildId}):`, error);
             await say(message, t(guildId, 'common.genericError'), COLORS.error).catch(() => {});
         }
     }

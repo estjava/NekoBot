@@ -15,7 +15,7 @@
     },
     "prefix": {
         "title": "Prefix Bot",
-        "current": "Prefix saat ini: **`{prefix}`**",
+        "current": "Prefix server ini adalah `{prefix}`\nUbah dengan `{prefix}prefix set <prefix baru>`.",
         "howToChange": "Cara Mengubah",
         "howToChangeValue": "Gunakan `{prefix}prefix <prefix_baru>`\nContoh: `{prefix}prefix ?`",
         "server": "Server: {guild}",
@@ -26,7 +26,7 @@
         "example": "Contoh Penggunaan",
         "changedBy": "Diubah oleh {user}",
         "UserPermission": "Kamu tidak memiliki permission untuk mengubah prefix!",
-        "noPrefix": "Masukkan prefix baru.",
+        "noPrefix": "Masukkan prefix baru.\nPenggunaan: `{prefix}prefix set <prefix baru>`",
         "success": "Prefix diubah menjadi `{prefix}`",
         "failed": "Gagal memperbarui prefix. Coba lagi."
     },
@@ -128,7 +128,8 @@
         "leaveError": "Terjadi kesalahan saat keluar dari voice channel.",
         "joinSuccess": "Bot sudah bergabung ke voice channel.",
         "joinError": "Terjadi kesalahan saat bergabung ke voice channel.",
-        "queueFinishedStay": "Antrian selesai. Bot tetap berada di voice channel (mode 24/7)."
+        "queueFinishedStay": "Antrian selesai. Bot tetap berada di voice channel (mode 24/7).",
+        "notReady": "Belum bisa dilakukan sekarang. Lagu masih dimuat atau koneksi belum siap. Coba lagi sebentar lagi."
     },
     "help": {
         "title": "Menu Bantuan",
@@ -150,7 +151,7 @@
         "help": { "description": "Tampilkan semua command atau detail satu command." },
         "language": { "description": "Tampilkan atau ubah bahasa bot untuk server ini." },
         "ping": { "description": "Cek latensi bot." },
-        "prefix": { "description": "Ubah prefix bot untuk server ini." },
+        "prefix": { "description": "Tampilkan atau ubah prefix bot untuk server ini." },
         "join": { "description": "Bergabung ke voice channel tempat kamu berada." },
         "leave": { "description": "Keluar dari voice channel." },
         "loop": { "description": "Atur mode loop: off, track, atau queue (tanpa argumen akan berganti bergantian)." },
@@ -245,7 +246,8 @@
             "banned": "di-ban",
             "muted": "di-mute selama {duration}",
             "warned": "diberi peringatan"
-        }
+        },
+        "cannotMuteAdmin": "Discord tidak mengizinkan mute (timeout) pada member yang punya permission Administrator."
     },
     "unwarn": {
         "usage": "Masukkan nomor peringatan (lihat `{prefix}warnings`) atau `all`.",
@@ -261,5 +263,14 @@
         "success": "**{count}** pesan dihapus.",
         "successUser": "**{count}** pesan dari {user} dihapus.",
         "tooOld": "{count} pesan lebih lama dari 14 hari dan tidak bisa dihapus."
+    },
+    "welcome": {
+        "title": "Terima kasih sudah menambahkan {name}!",
+        "description": "Berikut cara memulainya. Ketik `{prefix}help` untuk melihat semua command.",
+        "commandsTitle": "Command dasar",
+        "settingsTitle": "Pengaturan",
+        "settings": "Ubah prefix: `{prefix}prefix set <prefix baru>`\nUbah bahasa: `{prefix}language` ({languages})\nLihat semua pengaturan: `{prefix}settings`",
+        "moderationTitle": "Moderasi",
+        "moderation": "Agar `{prefix}kick`, `{prefix}ban`, dan `{prefix}mute` bisa dipakai, pindahkan role bot ke atas role member yang ingin dimoderasi (Server Settings → Roles)."
     }
 }

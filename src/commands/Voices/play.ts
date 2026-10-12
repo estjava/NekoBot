@@ -1,6 +1,7 @@
+import { log } from '../../utils/logger';
 import { Message, Client } from 'discord.js';
 import { t } from '../../utils/locale';
-import { createQueue, getQueue } from '../../music/queue';
+import { BusyElsewhereError, getOrCreateQueue, getQueue } from '../../music/queue';
 import { SourceError, formatDuration, resolve } from '../../music/source';
 import { ensureVoice, getPrefix } from '../../music/guards';
 import { COLORS, descEmbed, say } from '../../utils/embedBuilder';
@@ -37,12 +38,9 @@ export default {
         try {
             const result = await resolve(query, message.author.tag, forcePlaylist);
 
-            if (!queue || queue.destroyed || botChannelId !== voice.id) {
-                queue?.destroy();
-                queue = await createQueue(message.guild, voice, message.channel);
-            } else {
-                queue.textChannel = message.channel;
-            }
+            // Looked up again after the search: things may have changed while yt-dlp was working,
+            // and two quick commands must end up in the same queue.
+            queue = await getOrCreateQueue(message.guild, voice, message.channel);
 
             const tracks = result.kind === 'track' ? [result.track] : result.tracks;
             // The reply below already announces the track, so tell the queue not to announce it again.
@@ -64,11 +62,13 @@ export default {
             }
             await status.edit({ embeds: [descEmbed(text, color)] });
         } catch (err) {
-            if (err instanceof SourceError) {
+            if (err instanceof BusyElsewhereError) {
+                await status.edit({ embeds: [descEmbed(t(gid, 'player.notSameChannel'), COLORS.error)] });
+            } else if (err instanceof SourceError) {
                 const key = err.code === 'MISSING' ? 'player.ytdlpMissing' : err.code === 'NOT_FOUND' ? 'player.noResults' : 'player.playError';
                 await status.edit({ embeds: [descEmbed(t(gid, key, { query }), COLORS.error)] });
             } else {
-                console.error('[play]', err);
+                log.error('[play]', err);
                 await status.edit({ embeds: [descEmbed(t(gid, 'player.playError'), COLORS.error)] });
             }
         }

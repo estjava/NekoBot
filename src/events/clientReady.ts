@@ -1,3 +1,4 @@
+import { log } from '../utils/logger';
 import { Client, ActivityType, ActivityOptions, PresenceStatusData } from 'discord.js';
 
 // Status dibuat ulang tiap giliran, jadi angka server/member selalu terbaru
@@ -25,8 +26,8 @@ module.exports = {
     description: 'Triggered when the bot is ready and connected to Discord.',
     once: true,
     execute(client: Client) {
-        console.log(`🤖 ${client.user?.tag} is online!`);
-        console.log(`📊 Serving ${client.guilds.cache.size} servers, ${client.commands.size} commands loaded`);
+        log.info(`🤖 ${client.user?.tag} is online!`);
+        log.info(`📊 Serving ${client.guilds.cache.size} servers, ${client.commands.size} commands loaded`);
 
         let i = 0;
         const update = () => {

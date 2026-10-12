@@ -1,7 +1,8 @@
+import { log } from '../../utils/logger';
 import { Client, Message, PermissionFlagsBits } from 'discord.js';
 import { t } from '../../utils/locale';
 import { COLORS, say } from '../../utils/embedBuilder';
-import { auditReason, cleanReason, parseUserId, prefixOf } from '../../utils/moderation';
+import { auditReason, cleanReason, fetchBan, parseUserId, prefixOf } from '../../utils/moderation';
 
 export default {
     name: 'Unban',
@@ -27,14 +28,14 @@ export default {
             return say(message, t(gid, 'mod.botMissing'), COLORS.error);
         }
 
-        const ban = await guild.bans.fetch(id).catch(() => null);
+        const ban = await fetchBan(guild, id);
         if (!ban) return say(message, t(gid, 'unban.notBanned'), COLORS.error);
 
         const reason = cleanReason(args.slice(1).join(' ')) || t(gid, 'mod.noReason');
         try {
             await guild.members.unban(id, auditReason(message, reason));
         } catch (err) {
-            console.error('[unban]', err);
+            log.error('[unban]', err);
             return say(message, t(gid, 'mod.failed'), COLORS.error);
         }
         return say(message, t(gid, 'unban.success', { user: ban.user.tag, reason }), COLORS.success);

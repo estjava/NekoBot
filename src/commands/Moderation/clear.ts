@@ -1,10 +1,13 @@
+import { log } from '../../utils/logger';
 import { Client, Message, PermissionFlagsBits } from 'discord.js';
 import { t } from '../../utils/locale';
 import { COLORS, descEmbed, say } from '../../utils/embedBuilder';
 import { parseUserId, prefixOf } from '../../utils/moderation';
 
 const MAX_AMOUNT = 100; // Discord fetches/deletes at most 100 messages at once
-const TWO_WEEKS_MS = 14 * 24 * 60 * 60 * 1000; // Discord cannot bulk delete older messages
+// Discord cannot bulk delete messages older than 14 days; stop 5 minutes early so a message right at the
+// edge (or a slightly off clock) cannot make the whole batch fail.
+const TWO_WEEKS_MS = 14 * 24 * 60 * 60 * 1000 - 5 * 60 * 1000;
 const NOTICE_SECONDS = 5; // how long the "Deleted ..." notice stays
 
 export default {
@@ -74,7 +77,7 @@ export default {
             const notice = await channel.send({ embeds: [descEmbed(text, COLORS.success)] });
             setTimeout(() => notice.delete().catch(() => {}), NOTICE_SECONDS * 1000);
         } catch (err) {
-            console.error('[clear]', err);
+            log.error('[clear]', err);
             return say(message, t(gid, 'mod.failed'), COLORS.error);
         }
     },

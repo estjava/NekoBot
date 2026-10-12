@@ -1,6 +1,6 @@
-import fs from 'node:fs';
 import path from 'node:path';
 import { DATA_DIR } from './paths';
+import { readJsonObject, writeJsonAtomic } from './jsonFile';
 
 export interface Warning {
     reason: string;
@@ -18,23 +18,11 @@ const warningsPath = path.join(DATA_DIR, 'warnings.json');
 let cache: Store | undefined;
 
 function load(): Store {
-    if (cache) return cache;
-    try {
-        const parsed = JSON.parse(fs.readFileSync(warningsPath, 'utf8'));
-        cache = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
-    } catch (err) {
-        // First run: the file does not exist yet, which is fine.
-        if ((err as NodeJS.ErrnoException).code !== 'ENOENT') {
-            console.warn('[warnings] Could not read warnings.json, starting empty:', (err as Error).message);
-        }
-        cache = {};
-    }
-    return cache!;
+    return (cache ??= readJsonObject<Store>(warningsPath));
 }
 
 function save(): void {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-    fs.writeFileSync(warningsPath, JSON.stringify(load(), null, 2));
+    writeJsonAtomic(warningsPath, load());
 }
 
 /** All warnings of a user in a server, oldest first. */

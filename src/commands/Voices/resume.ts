@@ -18,7 +18,7 @@ export default {
         if (!queue) return;
         if (!queue.current) return say(message, t(gid, 'player.nothingPlaying'), COLORS.error);
         if (!queue.isPaused) return say(message, t(gid, 'player.notPaused'), COLORS.error);
-        queue.resume();
+        if (!queue.resume()) return say(message, t(gid, 'player.notReady'), COLORS.error);
         return say(message, t(gid, 'player.resumeSuccess'));
     },
 };

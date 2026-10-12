@@ -1,3 +1,4 @@
+import { log } from '../utils/logger';
 import fs from 'fs';
 import path from 'path';
 import { Client } from 'discord.js';
@@ -24,14 +25,24 @@ export default (client: Client): void => {
                 const event: EventModule = require(filePath);
 
                 if (!event.name) {
-                    console.log(`⚠️  Event di ${filePath} tidak memiliki property 'name'`);
+                    log.warn(`[events] ${file} has no 'name' property.`);
                     continue;
                 }
 
+                // An error inside a listener (e.g. the bot may not send messages in that channel) must be
+                // caught here; otherwise it ends up as an unhandled 'error' event and stops the whole bot.
+                const run = (...args: any[]): void => {
+                    Promise.resolve()
+                        .then(() => event.execute(...args, client))
+                        .catch((err) => log.error(`[event:${event.name}]`, err));
+                };
+
+                log.debug(`[events] loaded ${event.name}${event.once ? ' (once)' : ''}`);
+
                 if (event.once) {
-                    client.once(event.name, (...args) => event.execute(...args, client));
+                    client.once(event.name, run);
                 } else {
-                    client.on(event.name, (...args) => event.execute(...args, client));
+                    client.on(event.name, run);
                 }
             }
         }
