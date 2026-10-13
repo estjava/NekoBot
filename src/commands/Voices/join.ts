@@ -3,7 +3,7 @@ import { Message } from 'discord.js';
 import { t } from '../../utils/locale';
 import { BusyElsewhereError, getOrCreateQueue, getQueue } from '../../music/queue';
 import { ensureVoice } from '../../music/guards';
-import { COLORS, say } from '../../utils/embedBuilder';
+import { COLORS, descEmbed, say } from '../../utils/embedBuilder';
 
 export default {
     name: 'Join',
@@ -32,18 +32,24 @@ export default {
             return say(message, t(gid, 'player.notSameChannel'), COLORS.error);
         }
 
+        // Lewat queue (bukan joinVoiceChannel langsung) supaya !play, !leave, dan
+        // timer idle memakai koneksi yang sama.
+        // Joining starts right away (the bot shows up in the channel at once), but the connection only
+        // becomes ready 1-3 seconds later. Waiting for that before replying made the answer lag behind
+        // the bot, so the reply is sent now and turned into an error message if joining fails.
+        const joining = getOrCreateQueue(message.guild, voice, message.channel);
+        joining.catch(() => {}); // handled below; avoids an "unhandled rejection" while the reply is being sent
+
+        const reply = await say(message, t(gid, 'player.joinSuccess'), COLORS.success);
+
         try {
-            // Lewat queue (bukan joinVoiceChannel langsung) supaya !play, !leave, dan
-            // timer idle memakai koneksi yang sama dan menunggu koneksi benar-benar siap.
-            const queue = await getOrCreateQueue(message.guild, voice, message.channel);
+            const queue = await joining;
             queue.stop(); // reset state + mulai timer idle 3 menit kalau tidak ada yang memutar
-            return say(message, t(gid, 'player.joinSuccess'), COLORS.success);
         } catch (error) {
-            if (error instanceof BusyElsewhereError) {
-                return say(message, t(gid, 'player.notSameChannel'), COLORS.error);
-            }
-            log.error('[join]', error);
-            return say(message, t(gid, 'player.joinError'), COLORS.error);
+            let key = 'player.joinError';
+            if (error instanceof BusyElsewhereError) key = 'player.notSameChannel';
+            else log.error('[join]', error);
+            await reply.edit({ embeds: [descEmbed(t(gid, key), COLORS.error)] }).catch(() => {});
         }
     },
 };
