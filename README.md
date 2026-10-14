@@ -26,14 +26,14 @@ Default prefix is `!` (change it per server with `!prefix set <new>`).
 
 **Config**
 
-Anyone can look at a setting; changing it needs Manage Server.
+Anyone can look at a setting, but changing it needs Manage Server.
 - [+] `settings` (`config`, `cfg`): all settings of this server at a glance
 - [+] `prefix`: show the prefix, or `!prefix set <new>` to change it (up to 5 characters)
 - [+] `language` (`lang`): show or change the bot language
 - [+] `247` (`stay`, `24/7`) `[on|off]`: stay in the voice channel even when nothing is playing
 - [+] `idletime` (`idle`) `[minutes|reset]`: how long the bot waits before leaving an idle voice channel (1 to 60 minutes)
 
-**Music**
+**Music/Voice**
 - [+] `play` (`p`): song name, video URL or playlist URL
 - [+] `random` (`rand`, `rnd`) `[genre or artist]`: play a random song
 - [+] `pause`, `resume` (`unpause`), `skip` (`s`, `next`), `stop`
