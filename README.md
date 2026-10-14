@@ -174,6 +174,11 @@ Copy `locales/en.json` to `locales/<code>.json` (for example `ja.json`) and tran
 Keep the keys and placeholders such as `{title}` unchanged. Restart the bot and the language
 shows up in `!language`. Missing keys fall back to English.
 
+## Privacy and terms
+
+- [Privacy Policy](PRIVACY.md)
+- [Terms of Service](TERMS.md)
+
 ## License
 
 [MIT](LICENSE)
